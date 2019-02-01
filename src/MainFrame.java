@@ -1,11 +1,11 @@
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.*;
 
+//Frame for the game, so far only has a command panel
 public class MainFrame extends JFrame{
     private static final int FRAME_WIDTH = 800;
     private static final int FRAME_HEIGHT = 600;
+    JPanel commandPanel = new CommandPanel();
 
     public MainFrame() throws HeadlessException {
         setSize(FRAME_WIDTH, FRAME_HEIGHT);
@@ -14,7 +14,6 @@ public class MainFrame extends JFrame{
         setResizable(false);
         setVisible(true);
         setLayout(new BorderLayout());
-        JPanel commandPanel = new CommandPanel();
         add(commandPanel, BorderLayout.LINE_START);
     }
 }
