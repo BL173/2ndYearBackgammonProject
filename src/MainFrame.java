@@ -8,12 +8,13 @@ public class MainFrame extends JFrame{
     JPanel commandPanel = new CommandPanel();
 
     public MainFrame() throws HeadlessException {
-        setSize(FRAME_WIDTH, FRAME_HEIGHT);
+        //setSize(FRAME_WIDTH, FRAME_HEIGHT);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setTitle("Backgammon");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setVisible(true);
         setLayout(new BorderLayout());
-        add(commandPanel, BorderLayout.LINE_START);
+        add(commandPanel, BorderLayout.PAGE_END);
     }
 }
