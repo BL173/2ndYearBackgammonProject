@@ -16,32 +16,44 @@ public class CommandPanel extends JPanel{
     private class Listener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
             userInput = commandInputField.getText();
+            commandInputField.setText("");
            resultArea.append(userInput + "\n");
-           if (userInput.equals("exit") ||userInput.equals("Exit")||userInput.equals("EXIT")){
+           if (userInput.equals("quit") ||userInput.equals("Quit")||userInput.equals("QUIT")){
                System.exit(0);
            }
         }
     }
 
 
-    private void createButton()
+
+
+    /*private void createSubmitButton()
     {
         submitButton = new JButton ("Submit");
         ActionListener inputListener = new Listener();
         submitButton.addActionListener(inputListener);
-    }
+    }*/
 
 
 
     public CommandPanel() {
         setVisible(true);
         setLayout(new BorderLayout());
+
+        //createSubmitButton();
+        submitButton = new JButton ("Submit");
+        ActionListener inputListener = new Listener();
+        submitButton.addActionListener(inputListener);
+
+        commandInputField.addActionListener(inputListener);
+        resultArea = new JTextArea(10, 30);
+        //scrollpane is temporary until info panel is finished
+        JScrollPane scrollPane = new JScrollPane(resultArea);
+
         add(commandLabel, BorderLayout.LINE_START);
         add(commandInputField, BorderLayout.CENTER);
-        createButton();
         add(submitButton, BorderLayout.LINE_END);
-        resultArea = new JTextArea(10, 30);
-        JScrollPane scrollPane = new JScrollPane(resultArea);
+
         add(scrollPane, BorderLayout.PAGE_END);
 
     }
