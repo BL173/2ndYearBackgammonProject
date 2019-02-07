@@ -7,6 +7,7 @@ public class MainFrame extends JFrame{
     private static final int FRAME_HEIGHT = 600;
     JPanel commandPanel = new CommandPanel();
 
+
     public MainFrame() throws HeadlessException {
         //setSize(FRAME_WIDTH, FRAME_HEIGHT);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
