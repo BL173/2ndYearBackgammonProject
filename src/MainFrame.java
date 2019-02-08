@@ -18,7 +18,7 @@ public class MainFrame extends JFrame{
         setVisible(true);
         setLayout(new BorderLayout());
         add(commandPanel, BorderLayout.PAGE_END);
-        add(gameBoardPanel, BorderLayout.LINE_END);
+        add(gameBoardPanel, BorderLayout.CENTER);
         add(infoPanel, BorderLayout.LINE_START);
     }
 }
