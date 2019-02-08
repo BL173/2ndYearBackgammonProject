@@ -13,6 +13,7 @@ public class MainFrame extends JFrame{
     JPanel gameBoardPanel = new GameBoardPanel();
     JPanel infoPanel = new InfoPanel(userInputModel);
 
+
     public MainFrame() throws HeadlessException {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setTitle("Backgammon");
@@ -21,7 +22,7 @@ public class MainFrame extends JFrame{
         setVisible(true);
         setLayout(new BorderLayout());
         add(commandPanel, BorderLayout.PAGE_END);
-        add(gameBoardPanel, BorderLayout.LINE_END);
+        add(gameBoardPanel, BorderLayout.CENTER);
         add(infoPanel, BorderLayout.LINE_START);
     }
 
