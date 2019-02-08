@@ -1,13 +1,17 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 
 
 public class MainFrame extends JFrame{
     private static final int FRAME_WIDTH = 800;
     private static final int FRAME_HEIGHT = 600;
-    JPanel commandPanel = new CommandPanel();
+    private String userInput;
+    DefaultUserInputModel userInputModel = new DefaultUserInputModel();
+    JPanel commandPanel = new CommandPanel(userInputModel);
     JPanel gameBoardPanel = new GameBoardPanel();
-    JPanel infoPanel = new InfoPanel();
+    JPanel infoPanel = new InfoPanel(userInputModel);
 
     public MainFrame() throws HeadlessException {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -20,4 +24,6 @@ public class MainFrame extends JFrame{
         add(gameBoardPanel, BorderLayout.LINE_END);
         add(infoPanel, BorderLayout.LINE_START);
     }
+
+
 }
