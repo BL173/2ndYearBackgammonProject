@@ -7,6 +7,7 @@ public class MainFrame extends JFrame{
     private static final int FRAME_HEIGHT = 600;
     JPanel commandPanel = new CommandPanel();
     JPanel gameBoardPanel = new GameBoardPanel();
+    JPanel infoPanel = new InfoPanel();
 
 
     public MainFrame() throws HeadlessException {
@@ -18,5 +19,6 @@ public class MainFrame extends JFrame{
         setLayout(new BorderLayout());
         add(commandPanel, BorderLayout.PAGE_END);
         add(gameBoardPanel, BorderLayout.LINE_END);
+        add(infoPanel, BorderLayout.LINE_START);
     }
 }
