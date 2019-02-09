@@ -11,11 +11,11 @@ public class InfoPanel extends JPanel{
     private static final int INPUT_FIELD_WIDTH = 10;
 
     private JLabel possibleLabel = new JLabel("Possible Turns");
-    JTextArea possibleTurns = new JTextArea(15, 25);
+    JTextArea possibleTurns = new JTextArea(10, 25);
     JScrollPane p = new JScrollPane(possibleTurns);
     private String userInput;
     private JLabel infoLabel = new JLabel("Previous Inputs \n");
-    JTextArea previousInputs = new JTextArea(15, 25);
+    JTextArea previousInputs = new JTextArea(10, 25);
     JScrollPane previousTurns = new JScrollPane(previousInputs);
     private DefaultUserInputModel userInputModel;
 

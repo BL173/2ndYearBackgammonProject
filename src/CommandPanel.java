@@ -55,7 +55,7 @@ public class CommandPanel extends JPanel{
         //scrollpane is temporary until info panel is finished
         JScrollPane scrollPane = new JScrollPane(resultArea);
         resultArea.append("Current Commands:\n\n");
-        resultArea.append("Quit -- exit program");
+        resultArea.append("quit -- exit program");
 
         add(commandLabel, BorderLayout.LINE_START);
         add(commandInputField, BorderLayout.CENTER);
