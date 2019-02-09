@@ -24,11 +24,11 @@ public class CommandPanel extends JPanel{
         public void actionPerformed(ActionEvent event) {
             userInput = commandInputField.getText();
             commandInputField.setText("");
-            resultArea.append(userInput + "\n");
-            userInputModel.setUserInput(userInput);
+            //resultArea.append(userInput + "\n");
             if (userInput.equals("quit") ||userInput.equals("Quit")||userInput.equals("QUIT")){
                 System.exit(0);
             }
+            userInputModel.setUserInput(userInput);
         }
     }
 
@@ -54,6 +54,8 @@ public class CommandPanel extends JPanel{
         resultArea = new JTextArea(10, 30);
         //scrollpane is temporary until info panel is finished
         JScrollPane scrollPane = new JScrollPane(resultArea);
+        resultArea.append("Current Commands:\n\n");
+        resultArea.append("Quit -- exit program");
 
         add(commandLabel, BorderLayout.LINE_START);
         add(commandInputField, BorderLayout.CENTER);
