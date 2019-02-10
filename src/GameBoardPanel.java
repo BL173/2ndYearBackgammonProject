@@ -35,12 +35,12 @@ public class GameBoardPanel extends JPanel {
         g2.draw(topBox);
 
         //top left quadrant of the board
-        g2.drawString("1", 37, 25);
-        g2.drawString("2", 111, 25);
-        g2.drawString("3", 185, 25);
-        g2.drawString("4", 259, 25);
-        g2.drawString("5", 333, 25);
-        g2.drawString("6", 407, 25);
+        g2.drawString("12", 37, 25);
+        g2.drawString("11", 111, 25);
+        g2.drawString("10", 185, 25);
+        g2.drawString("9", 259, 25);
+        g2.drawString("8", 333, 25);
+        g2.drawString("7", 407, 25);
 
         Line2D.Double segment1 = new Line2D.Double(0, 50, 37, 275);
         g2.draw(segment1);
@@ -69,12 +69,12 @@ public class GameBoardPanel extends JPanel {
         g2.draw(segment6_2);
 
         //top right quadrant of the board
-        g2.drawString("7", 555, 25);
-        g2.drawString("8", 629, 25);
-        g2.drawString("9", 703, 25);
-        g2.drawString("10", 768, 25);
-        g2.drawString("11", 842, 25);
-        g2.drawString("12", 916, 25);
+        g2.drawString("6", 555, 25);
+        g2.drawString("5", 629, 25);
+        g2.drawString("4", 703, 25);
+        g2.drawString("3", 768, 25);
+        g2.drawString("2", 842, 25);
+        g2.drawString("1", 916, 25);
 
         Line2D.Double segment7 = new Line2D.Double(518, 50, 555, 275);
         g2.draw(segment7);
@@ -178,14 +178,21 @@ public class GameBoardPanel extends JPanel {
         Rectangle innerSideBar = new Rectangle(962, 50, 100, 527);
         g2.draw(innerSideBar);
 
-        Rectangle gamePieceFinishArea1 = new Rectangle(972, 60, 80, 200);
+        Rectangle gamePieceFinishArea1 = new Rectangle(972, 60, 80, 190);
         g2.draw(gamePieceFinishArea1);
 
-        Rectangle gamePieceFinishArea2 = new Rectangle(972, 367, 80, 200);
+        Rectangle gamePieceFinishArea2 = new Rectangle(972, 377, 80, 190);
         g2.draw(gamePieceFinishArea2);
 
-        Rectangle doublingCubeArea = new Rectangle(972, 273, 80, 81);
+        Rectangle doublingCubeArea = new Rectangle(972, 258, 80, 81);
         g2.draw(doublingCubeArea);
+
+        Rectangle gameScore = new Rectangle(972, 345, 80, 25);
+        g2.draw(gameScore);
+
+
+
+
         //draw Game Pieces
         if(testMoveCounter<24){
             try{
@@ -199,6 +206,7 @@ public class GameBoardPanel extends JPanel {
             redPlayerGamePieces[i].drawRedPiece(g);
             bluePlayerGamePieces[i].drawBluePiece(g);
         }
+
 
     }
 
