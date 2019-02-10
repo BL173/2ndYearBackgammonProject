@@ -19,14 +19,6 @@ public class InfoPanel extends JPanel{
     JScrollPane previousTurns = new JScrollPane(previousInputs);
     private DefaultUserInputModel userInputModel;
 
-    private class Listener implements ActionListener {
-        public void actionPerformed(ActionEvent event) {
-            userInput = previousInputs.getText();
-            previousInputs.setText("");
-            //previousTurns.append(userInput + "\n");
-        }
-    }
-
     public InfoPanel(DefaultUserInputModel userInputModel) {
         GridLayout infoLayout = new GridLayout(2, 2);
         this.userInputModel =userInputModel;
