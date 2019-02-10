@@ -34,12 +34,12 @@ public class GameBoardPanel extends JPanel {
         g2.draw(topBox);
 
         //top left quadrant of the board
-        g2.drawString("1", 37, 25);
-        g2.drawString("2", 111, 25);
-        g2.drawString("3", 185, 25);
-        g2.drawString("4", 259, 25);
-        g2.drawString("5", 333, 25);
-        g2.drawString("6", 407, 25);
+        g2.drawString("12", 37, 25);
+        g2.drawString("11", 111, 25);
+        g2.drawString("10", 185, 25);
+        g2.drawString("9", 259, 25);
+        g2.drawString("8", 333, 25);
+        g2.drawString("7", 407, 25);
 
         Line2D.Double segment1 = new Line2D.Double(0, 50, 37, 275);
         g2.draw(segment1);
@@ -68,12 +68,12 @@ public class GameBoardPanel extends JPanel {
         g2.draw(segment6_2);
 
         //top right quadrant of the board
-        g2.drawString("7", 555, 25);
-        g2.drawString("8", 629, 25);
-        g2.drawString("9", 703, 25);
-        g2.drawString("10", 768, 25);
-        g2.drawString("11", 842, 25);
-        g2.drawString("12", 916, 25);
+        g2.drawString("6", 555, 25);
+        g2.drawString("5", 629, 25);
+        g2.drawString("4", 703, 25);
+        g2.drawString("3", 768, 25);
+        g2.drawString("2", 842, 25);
+        g2.drawString("1", 916, 25);
 
         Line2D.Double segment7 = new Line2D.Double(518, 50, 555, 275);
         g2.draw(segment7);
@@ -104,12 +104,12 @@ public class GameBoardPanel extends JPanel {
         Rectangle bottomBox = new Rectangle(0, 577, 962, 50);
         g2.draw(bottomBox);
 
-        g2.drawString("24", 31, 602);
-        g2.drawString("23", 105, 602);
-        g2.drawString("22", 179, 602);
-        g2.drawString("21", 253, 602);
-        g2.drawString("20", 327, 602);
-        g2.drawString("19", 401, 602);
+        g2.drawString("13", 31, 602);
+        g2.drawString("14", 105, 602);
+        g2.drawString("15", 179, 602);
+        g2.drawString("16", 253, 602);
+        g2.drawString("17", 327, 602);
+        g2.drawString("18", 401, 602);
 
         Line2D.Double segment13 = new Line2D.Double(0, 577, 37, 352);
         g2.draw(segment13);
@@ -138,12 +138,12 @@ public class GameBoardPanel extends JPanel {
         Line2D.Double segment18_2 = new Line2D.Double(444, 577, 407, 352);
         g2.draw(segment18_2);
 
-        g2.drawString("18", 549, 602);
-        g2.drawString("17", 623, 602);
-        g2.drawString("16", 697, 602);
-        g2.drawString("15", 771, 602);
-        g2.drawString("14", 845, 602);
-        g2.drawString("13", 919, 602);
+        g2.drawString("19", 549, 602);
+        g2.drawString("20", 623, 602);
+        g2.drawString("21", 697, 602);
+        g2.drawString("22", 771, 602);
+        g2.drawString("23", 845, 602);
+        g2.drawString("24", 919, 602);
 
         Line2D.Double segment19 = new Line2D.Double(518, 577, 555, 352);
         g2.draw(segment19);
