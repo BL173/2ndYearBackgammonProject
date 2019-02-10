@@ -1,6 +1,7 @@
 import java.awt.*;
 //import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
+import java.util.concurrent.TimeUnit;
 //import java.awt.image.BufferedImage;
 import javax.swing.*;
 //import java.io.IOException;
@@ -15,12 +16,18 @@ public class GameBoardPanel extends JPanel {
     private int numberOfRedPiecesOnPoint[]=new int[24];
     private int numberOfBluePiecesOnPoint[]=new int[24];
     private final int PIECE_DIAMETER=35;
+    private boolean newGame =true;
+    private int testMoveCounter=0;
 
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         Rectangle middleBox = new Rectangle(444, 0, 74, 627);
         g2.draw(middleBox);
-        initialiseGameBoard(g, redPlayerGamePieces,bluePlayerGamePieces);
+
+        if(newGame==true){
+            initialiseGameBoard(g, redPlayerGamePieces,bluePlayerGamePieces);
+            newGame = false;
+        }
 
 
         Rectangle topBox = new Rectangle(0, 0, 962, 50);
@@ -179,11 +186,18 @@ public class GameBoardPanel extends JPanel {
         Rectangle doublingCubeArea = new Rectangle(972, 273, 80, 81);
         g2.draw(doublingCubeArea);
         //draw Game Pieces
+        if(testMoveCounter<24){
+            try{
+                removeAll();
+                testMove();
+            }catch(Exception InterruptedException){}
+        }
         for(int i=0;i<15;i++){
             //redPlayerGamePieces[i] = new GamePiece(g);
             redPlayerGamePieces[i].drawRedPiece(g);
             bluePlayerGamePieces[i].drawBluePiece(g);
         }
+
     }
 
     public void initialiseGameBoard(Graphics g,GamePiece[] redPlayerGamePieces, GamePiece[] bluePlayerGamePieces){
@@ -252,6 +266,16 @@ public class GameBoardPanel extends JPanel {
             pointLocationOrderedCounterClockwise[5][1]+=PIECE_DIAMETER;
         }
 
+    }
+
+    public void testMove() throws InterruptedException {
+        this.redPlayerGamePieces[0].setXYCoordinate(pointLocationOrderedCounterClockwise[testMoveCounter][0],pointLocationOrderedCounterClockwise[testMoveCounter][1]);
+        this.bluePlayerGamePieces[0].setXYCoordinate(pointLocationOrderedCounterClockwise[23-testMoveCounter][0],pointLocationOrderedCounterClockwise[23-testMoveCounter][1]);
+        testMoveCounter++;
+
+        revalidate();
+        repaint();
+        TimeUnit.SECONDS.sleep(1);
     }
 
 
