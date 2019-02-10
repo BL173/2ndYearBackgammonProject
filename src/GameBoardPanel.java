@@ -20,6 +20,7 @@ public class GameBoardPanel extends JPanel {
     private int testMoveCounter=0;
 
     public void paintComponent(Graphics g) {
+        super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         Rectangle middleBox = new Rectangle(444, 0, 74, 627);
         g2.draw(middleBox);
@@ -188,8 +189,9 @@ public class GameBoardPanel extends JPanel {
         //draw Game Pieces
         if(testMoveCounter<24){
             try{
-                removeAll();
+                //removeAll();
                 testMove();
+                //GameBoardPanel.repaint();
             }catch(Exception InterruptedException){}
         }
         for(int i=0;i<15;i++){
@@ -272,9 +274,8 @@ public class GameBoardPanel extends JPanel {
         this.redPlayerGamePieces[0].setXYCoordinate(pointLocationOrderedCounterClockwise[testMoveCounter][0],pointLocationOrderedCounterClockwise[testMoveCounter][1]);
         this.bluePlayerGamePieces[0].setXYCoordinate(pointLocationOrderedCounterClockwise[23-testMoveCounter][0],pointLocationOrderedCounterClockwise[23-testMoveCounter][1]);
         testMoveCounter++;
-
-        revalidate();
         repaint();
+        //validate();
         TimeUnit.SECONDS.sleep(1);
     }
 

@@ -1,2 +1,2 @@
 At the moment, the only necessary commands are listed in the command panel at the bottom of the screen.
-on startup, program will automatically movew 1 red and 1 blue piece from start to finish, simultaneously
+On startup, program will automatically move 1 red and 1 blue piece from start to finish, simultaneously
