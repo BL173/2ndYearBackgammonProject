@@ -18,7 +18,7 @@ public class DefaultUserInputModel implements UserInputModel{
         String oldUserInput = userInput;
         userInput = newUserInput;
         propertyChangeSupport.firePropertyChange("userInput", oldUserInput, userInput);
-        userInput = null;
+        userInput = "";
         propertyChangeSupport.firePropertyChange("userInput", oldUserInput, userInput);
     }
 

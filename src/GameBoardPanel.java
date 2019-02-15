@@ -1,6 +1,8 @@
 import java.awt.*;
 //import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.concurrent.TimeUnit;
 //import java.awt.image.BufferedImage;
 import javax.swing.*;
@@ -12,12 +14,13 @@ public class GameBoardPanel extends JPanel {
 
     private GamePiece redPlayerGamePieces[]= new GamePiece[15];
     private GamePiece bluePlayerGamePieces[]= new GamePiece[15];
-    private int pointLocationOrderedCounterClockwise[][]=new int[24][2];
-    private int numberOfRedPiecesOnPoint[]=new int[24];
-    private int numberOfBluePiecesOnPoint[]=new int[24];
+    private int pointLocationOrderedCounterClockwise[][]=new int[26][2];
+    private int numberOfRedPiecesOnPoint[]=new int[26];
+    private int numberOfBluePiecesOnPoint[]=new int[26];
     private final int PIECE_DIAMETER=35;
     private boolean newGame =true;
     private int testMoveCounter=0;
+    private DefaultUserInputModel userInputModel;
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -194,13 +197,13 @@ public class GameBoardPanel extends JPanel {
 
 
         //draw Game Pieces
-        if(testMoveCounter<24){
+        /*if(testMoveCounter<24){
             try{
                 //removeAll();
                 testMove();
                 //GameBoardPanel.repaint();
             }catch(Exception InterruptedException){}
-        }
+        }*/
         for(int i=0;i<15;i++){
             //redPlayerGamePieces[i] = new GamePiece(g);
             redPlayerGamePieces[i].drawRedPiece(g);
@@ -211,26 +214,35 @@ public class GameBoardPanel extends JPanel {
     }
 
     public void initialiseGameBoard(Graphics g,GamePiece[] redPlayerGamePieces, GamePiece[] bluePlayerGamePieces){
-        for (int i=0;i<24;i++){
+        numberOfRedPiecesOnPoint[0]=0;
+        numberOfBluePiecesOnPoint[0]=0;
+        numberOfRedPiecesOnPoint[25]=0;
+        numberOfBluePiecesOnPoint[25]=0;
+        pointLocationOrderedCounterClockwise[0][1]=60;
+        pointLocationOrderedCounterClockwise[0][0]=995;
+        pointLocationOrderedCounterClockwise[25][1]=532;
+        pointLocationOrderedCounterClockwise[25][0]=995;
+
+        for (int i=1;i<25;i++){
             numberOfRedPiecesOnPoint[i]=0;
             numberOfBluePiecesOnPoint[i]=0;
 
-            if(i<12){
+            if(i<13){
                 pointLocationOrderedCounterClockwise[i][1]=50;
-                if(i<6){
+                if(i<7){
                     //top right corner
-                    pointLocationOrderedCounterClockwise[i][0]=908-74*i;
+                    pointLocationOrderedCounterClockwise[i][0]=908-74*(i-1);
                 }else{
                     //top left corner
-                    pointLocationOrderedCounterClockwise[i][0]=390-74*(i-6);
+                    pointLocationOrderedCounterClockwise[i][0]=390-74*(i-7);
                 }
-            }else{
+            }else if(i<26){
                 pointLocationOrderedCounterClockwise[i][1]=542;
-                if(i<18){
+                if(i<19){
                     //bottom left corner
-                    pointLocationOrderedCounterClockwise[i][0]=20+74*(i-12);
+                    pointLocationOrderedCounterClockwise[i][0]=20+74*(i-13);
                 }else{
-                    pointLocationOrderedCounterClockwise[i][0]=538+74*(i-18);
+                    pointLocationOrderedCounterClockwise[i][0]=538+74*(i-19);
                 }
             }
 
@@ -238,54 +250,99 @@ public class GameBoardPanel extends JPanel {
         for (int i=0;i<2;i++){
             redPlayerGamePieces[i] = new GamePiece(g);
             bluePlayerGamePieces[i] = new GamePiece(g);
-            redPlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[0][0],pointLocationOrderedCounterClockwise[0][1]);
-            numberOfRedPiecesOnPoint[0]++;
-            pointLocationOrderedCounterClockwise[0][1]+=PIECE_DIAMETER;
-            bluePlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[23][0],pointLocationOrderedCounterClockwise[23][1]);
-            numberOfBluePiecesOnPoint[23]++;
-            pointLocationOrderedCounterClockwise[23][1]-=PIECE_DIAMETER;
+            redPlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[1][0],pointLocationOrderedCounterClockwise[1][1]);
+            numberOfRedPiecesOnPoint[1]++;
+            redPlayerGamePieces[i].setPipLocation(1);
+            pointLocationOrderedCounterClockwise[1][1]+=PIECE_DIAMETER;
+            bluePlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[24][0],pointLocationOrderedCounterClockwise[24][1]);
+            numberOfBluePiecesOnPoint[24]++;
+            bluePlayerGamePieces[i].setPipLocation(24);
+            pointLocationOrderedCounterClockwise[24][1]-=PIECE_DIAMETER;
         }
         for(int i=2;i<7;i++){
             redPlayerGamePieces[i] = new GamePiece(g);
             bluePlayerGamePieces[i] = new GamePiece(g);
-            redPlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[11][0],pointLocationOrderedCounterClockwise[11][1]);
-            numberOfRedPiecesOnPoint[11]++;
-            pointLocationOrderedCounterClockwise[11][1]+=PIECE_DIAMETER;
-            bluePlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[12][0],pointLocationOrderedCounterClockwise[12][1]);
-            numberOfBluePiecesOnPoint[12]++;
-            pointLocationOrderedCounterClockwise[12][1]-=PIECE_DIAMETER;
+            redPlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[12][0],pointLocationOrderedCounterClockwise[12][1]);
+            numberOfRedPiecesOnPoint[12]++;
+            redPlayerGamePieces[i].setPipLocation(12);
+            pointLocationOrderedCounterClockwise[12][1]+=PIECE_DIAMETER;
+            bluePlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[13][0],pointLocationOrderedCounterClockwise[13][1]);
+            numberOfBluePiecesOnPoint[13]++;
+            bluePlayerGamePieces[i].setPipLocation(13);
+            pointLocationOrderedCounterClockwise[13][1]-=PIECE_DIAMETER;
         }
         for(int i=7;i<10;i++){
             redPlayerGamePieces[i] = new GamePiece(g);
             bluePlayerGamePieces[i] = new GamePiece(g);
-            redPlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[16][0],pointLocationOrderedCounterClockwise[16][1]);
-            numberOfRedPiecesOnPoint[16]++;
-            pointLocationOrderedCounterClockwise[16][1]-=PIECE_DIAMETER;
-            bluePlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[7][0],pointLocationOrderedCounterClockwise[7][1]);
-            numberOfBluePiecesOnPoint[7]++;
-            pointLocationOrderedCounterClockwise[7][1]+=PIECE_DIAMETER;
+            redPlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[17][0],pointLocationOrderedCounterClockwise[17][1]);
+            numberOfRedPiecesOnPoint[17]++;
+            redPlayerGamePieces[i].setPipLocation(17);
+            pointLocationOrderedCounterClockwise[17][1]-=PIECE_DIAMETER;
+            bluePlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[8][0],pointLocationOrderedCounterClockwise[8][1]);
+            numberOfBluePiecesOnPoint[8]++;
+            bluePlayerGamePieces[i].setPipLocation(8);
+            pointLocationOrderedCounterClockwise[8][1]+=PIECE_DIAMETER;
         }
         for(int i=10;i<15;i++){
             redPlayerGamePieces[i] = new GamePiece(g);
             bluePlayerGamePieces[i] = new GamePiece(g);
-            redPlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[18][0],pointLocationOrderedCounterClockwise[18][1]);
-            numberOfRedPiecesOnPoint[18]++;
-            pointLocationOrderedCounterClockwise[18][1]-=PIECE_DIAMETER;
-            bluePlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[5][0],pointLocationOrderedCounterClockwise[5][1]);
-            numberOfBluePiecesOnPoint[5]++;
-            pointLocationOrderedCounterClockwise[5][1]+=PIECE_DIAMETER;
+            redPlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[19][0],pointLocationOrderedCounterClockwise[19][1]);
+            numberOfRedPiecesOnPoint[19]++;
+            redPlayerGamePieces[i].setPipLocation(19);
+            pointLocationOrderedCounterClockwise[19][1]-=PIECE_DIAMETER;
+            bluePlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[6][0],pointLocationOrderedCounterClockwise[6][1]);
+            numberOfBluePiecesOnPoint[6]++;
+            bluePlayerGamePieces[i].setPipLocation(6);
+            pointLocationOrderedCounterClockwise[6][1]+=PIECE_DIAMETER;
         }
 
     }
 
+    public GameBoardPanel(DefaultUserInputModel userInputModel){
+        this.userInputModel = userInputModel;
+        this.userInputModel.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                if("userInput".equals(evt.getPropertyName()) && !userInputModel.getUserInput().equals("")){
+                    String inputValues[] =userInputModel.getUserInput().split("\\s+");
+                    moveRedPiece(Integer.parseInt(inputValues[0]),Integer.parseInt(inputValues[1]));
+                }
+            }
+        });
+    }
+
     public void testMove() throws InterruptedException {
         this.redPlayerGamePieces[0].setXYCoordinate(pointLocationOrderedCounterClockwise[testMoveCounter][0],pointLocationOrderedCounterClockwise[testMoveCounter][1]);
-        this.bluePlayerGamePieces[0].setXYCoordinate(pointLocationOrderedCounterClockwise[23-testMoveCounter][0],pointLocationOrderedCounterClockwise[23-testMoveCounter][1]);
+        this.bluePlayerGamePieces[0].setXYCoordinate(pointLocationOrderedCounterClockwise[25-testMoveCounter][0],pointLocationOrderedCounterClockwise[25-testMoveCounter][1]);
         testMoveCounter++;
         repaint();
         //validate();
         TimeUnit.SECONDS.sleep(1);
     }
 
+    public void moveRedPiece(int from, int to){
+        for(int i=0;i<15;i++){
+            if(redPlayerGamePieces[i].getPipLocation()==from){
+                redPlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[to][0],pointLocationOrderedCounterClockwise[to][1]);
+                redPlayerGamePieces[i].setPipLocation(to);
+                numberOfRedPiecesOnPoint[from]--;
+                numberOfRedPiecesOnPoint[to]++;
+                if (from<13){
+                    pointLocationOrderedCounterClockwise[from][1]-=PIECE_DIAMETER;
+                }else{
+                    pointLocationOrderedCounterClockwise[from][1]+=PIECE_DIAMETER;
+                }
+                if(to <13){
+                    pointLocationOrderedCounterClockwise[to][1]+=PIECE_DIAMETER;
+                }else if(to >13 &&to !=25){
+                    pointLocationOrderedCounterClockwise[to][1]-=PIECE_DIAMETER;
+                }else if (to ==25){
+                    pointLocationOrderedCounterClockwise[to][1]-=PIECE_DIAMETER/3;
+                }
 
+                repaint();
+                break;
+            }
+        }
+    }
 }

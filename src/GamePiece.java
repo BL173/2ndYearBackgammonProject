@@ -6,7 +6,16 @@ import java.awt.geom.Ellipse2D;
 
 public class GamePiece extends JComponent {
     private int xCoordinate, yCoordinate;
+    private int pipLocation;
     private final int DIAMETER=35;
+
+    public int getPipLocation() {
+        return pipLocation;
+    }
+
+    public void setPipLocation(int pipLocation) {
+        this.pipLocation = pipLocation;
+    }
 
     public int getXCoordinate() {
         return xCoordinate;

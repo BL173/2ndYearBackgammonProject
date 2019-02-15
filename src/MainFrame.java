@@ -5,12 +5,12 @@ import javax.swing.*;
 
 
 public class MainFrame extends JFrame{
-    private static final int FRAME_WIDTH = 800;
-    private static final int FRAME_HEIGHT = 600;
+    //private static final int FRAME_WIDTH = 800;
+    //private static final int FRAME_HEIGHT = 600;
     private String userInput;
     DefaultUserInputModel userInputModel = new DefaultUserInputModel();
     JPanel commandPanel = new CommandPanel(userInputModel);
-    JPanel gameBoardPanel = new GameBoardPanel();
+    JPanel gameBoardPanel = new GameBoardPanel(userInputModel);
     JPanel infoPanel = new InfoPanel(userInputModel);
 
 
