@@ -1,3 +1,10 @@
+/*
+Team: Jives
+Written by: Brian Leahy 17372896,
+            Oscar Byrne Carty 17430786,
+            Gearoid Lynch 17459176
+ */
+
 import java.awt.*;
 //import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
@@ -108,12 +115,12 @@ public class GameBoardPanel extends JPanel {
         Rectangle bottomBox = new Rectangle(0, 577, 962, 50);
         g2.draw(bottomBox);
 
-        g2.drawString("24", 31, 602);
-        g2.drawString("23", 105, 602);
-        g2.drawString("22", 179, 602);
-        g2.drawString("21", 253, 602);
-        g2.drawString("20", 327, 602);
-        g2.drawString("19", 401, 602);
+        g2.drawString("13", 31, 602);
+        g2.drawString("14", 105, 602);
+        g2.drawString("15", 179, 602);
+        g2.drawString("16", 253, 602);
+        g2.drawString("17", 327, 602);
+        g2.drawString("18", 401, 602);
 
         Line2D.Double segment13 = new Line2D.Double(0, 577, 37, 352);
         g2.draw(segment13);
@@ -142,12 +149,12 @@ public class GameBoardPanel extends JPanel {
         Line2D.Double segment18_2 = new Line2D.Double(444, 577, 407, 352);
         g2.draw(segment18_2);
 
-        g2.drawString("18", 549, 602);
-        g2.drawString("17", 623, 602);
-        g2.drawString("16", 697, 602);
-        g2.drawString("15", 771, 602);
-        g2.drawString("14", 845, 602);
-        g2.drawString("13", 919, 602);
+        g2.drawString("19", 549, 602);
+        g2.drawString("20", 623, 602);
+        g2.drawString("21", 697, 602);
+        g2.drawString("22", 771, 602);
+        g2.drawString("23", 845, 602);
+        g2.drawString("24", 919, 602);
 
         Line2D.Double segment19 = new Line2D.Double(518, 577, 555, 352);
         g2.draw(segment19);

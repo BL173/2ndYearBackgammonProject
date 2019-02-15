@@ -1,3 +1,10 @@
+/*
+Team: Jives
+Written by: Brian Leahy 17372896,
+            Oscar Byrne Carty 17430786,
+            Gearoid Lynch 17459176
+ */
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -19,14 +26,6 @@ public class InfoPanel extends JPanel{
     JScrollPane previousTurns = new JScrollPane(previousInputs);
     private DefaultUserInputModel userInputModel;
 
-    //unused, commented out
-    /*private class Listener implements ActionListener {
-        public void actionPerformed(ActionEvent event) {
-            userInput = previousInputs.getText();
-            previousInputs.setText("");
-            //previousTurns.append(userInput + "\n");
-        }
-    }*/
 
     public InfoPanel(DefaultUserInputModel userInputModel) {
         GridLayout infoLayout = new GridLayout(2, 2);
