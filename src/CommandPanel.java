@@ -34,8 +34,10 @@ public class CommandPanel extends JPanel{
             //resultArea.append(userInput + "\n");
             if (userInput.equals("quit") ||userInput.equals("Quit")||userInput.equals("QUIT")){
                 System.exit(0);
+            }else{
+                userInputModel.setUserInput(userInput);
             }
-            userInputModel.setUserInput(userInput);
+            //userInputModel.setUserInput(userInput);
         }
     }
 

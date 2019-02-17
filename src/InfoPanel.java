@@ -33,8 +33,8 @@ public class InfoPanel extends JPanel{
         this.userInputModel.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
-                if("userInput".equals(evt.getPropertyName()) && !userInputModel.getUserInput().equals("")){
-                    previousInputs.append(userInputModel.getUserInput() + "\n");
+                if("infoPanelOutput".equals(evt.getPropertyName()) && !userInputModel.getInfoPanelOutput().equals("")){
+                    previousInputs.append(userInputModel.getInfoPanelOutput() + "\n");
                 }
             }
         });

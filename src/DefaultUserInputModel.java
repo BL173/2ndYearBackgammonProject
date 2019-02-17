@@ -11,6 +11,7 @@ import java.beans.PropertyChangeSupport;
 public class DefaultUserInputModel implements UserInputModel{
     private PropertyChangeSupport propertyChangeSupport;
     private String userInput;
+    private String infoPanelOutput;
 
     public DefaultUserInputModel(){
         propertyChangeSupport = new PropertyChangeSupport(this);
@@ -27,6 +28,18 @@ public class DefaultUserInputModel implements UserInputModel{
         propertyChangeSupport.firePropertyChange("userInput", oldUserInput, userInput);
         userInput = "";
         propertyChangeSupport.firePropertyChange("userInput", oldUserInput, userInput);
+    }
+
+    public String getInfoPanelOutput(){
+        return infoPanelOutput;
+    }
+    //@Override
+    public void setInfoPanelOutput(String newInfoPanelOutput){
+        String oldInfoPanelOutput = infoPanelOutput;
+        infoPanelOutput = newInfoPanelOutput;
+        propertyChangeSupport.firePropertyChange("infoPanelOutput", oldInfoPanelOutput, infoPanelOutput);
+        infoPanelOutput = "";
+        propertyChangeSupport.firePropertyChange("infoPanelOutput", oldInfoPanelOutput, infoPanelOutput);
     }
 
     @Override
