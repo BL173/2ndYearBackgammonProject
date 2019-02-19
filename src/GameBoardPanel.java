@@ -303,8 +303,15 @@ public class GameBoardPanel extends JPanel {
                 if("userInput".equals(evt.getPropertyName()) && !userInputModel.getUserInput().equals("")){
                     String inputValues[] =userInputModel.getUserInput().split("\\s+");
                     try{
-                        moveBluePiece(Integer.parseInt(inputValues[0]),Integer.parseInt(inputValues[1]));
-                        moveRedPiece(Integer.parseInt(inputValues[0]),Integer.parseInt(inputValues[1]));
+                        if (inputValues.length !=2){
+                            throw new InvalidInputException();
+                        }
+                        try{
+                            moveBluePiece(Integer.parseInt(inputValues[0]),Integer.parseInt(inputValues[1]));
+                            moveRedPiece(Integer.parseInt(inputValues[0]),Integer.parseInt(inputValues[1]));
+                        }catch(java.lang.NumberFormatException e){
+                            throw new InvalidInputException();
+                        }
                     }catch(InvalidInputException e){
                         userInputModel.setInfoPanelOutput("This is an invalid move.");
                     }
