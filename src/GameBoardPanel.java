@@ -26,6 +26,7 @@ public class GameBoardPanel extends JPanel {
     private boolean newGame =true;
     private int testMoveCounter=0;
     private DefaultUserInputModel userInputModel;
+    private final int RED_TURN=0, BLUE_TURN=1;
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -307,13 +308,18 @@ public class GameBoardPanel extends JPanel {
                             throw new InvalidInputException();
                         }
                         try{
-                            moveBluePiece(Integer.parseInt(inputValues[0]),Integer.parseInt(inputValues[1]));
-                            moveRedPiece(Integer.parseInt(inputValues[0]),Integer.parseInt(inputValues[1]));
+                            if(userInputModel.getTurn()==RED_TURN){
+                                moveRedPiece(Integer.parseInt(inputValues[0]),Integer.parseInt(inputValues[1]));
+                                userInputModel.setTurn(BLUE_TURN);
+                            }else if(userInputModel.getTurn()==BLUE_TURN){
+                                moveBluePiece(Integer.parseInt(inputValues[0]),Integer.parseInt(inputValues[1]));
+                                userInputModel.setTurn(RED_TURN);
+                            }
                         }catch(java.lang.NumberFormatException e){
                             throw new InvalidInputException();
                         }
                     }catch(InvalidInputException e){
-                        userInputModel.setInfoPanelOutput("This is an invalid move.");
+                        userInputModel.setInfoPanelOutput("This is an invalid move, try again.");
                     }
                 }
             }
@@ -323,21 +329,28 @@ public class GameBoardPanel extends JPanel {
 
 
     public void moveRedPiece(int from, int to){
-        if (from < 0 || from > 24 || to <= from || to > 25||numberOfRedPiecesOnPoint[from]==0) {
+        if (from < 0 || from > 24 /*|| to <= from*/ || to > 25||numberOfRedPiecesOnPoint[from]==0) {
             throw new InvalidInputException();
         }else {
             for(int i=0;i<15;i++){
                 if(redPlayerGamePieces[i].getPipLocation()==from){
                     numberOfRedPiecesOnPoint[from]--;
                     int shiftPiecesToBottomOfPipCounter=0;
-                    if (from<13&&numberOfRedPiecesOnPoint[from]>0){
+                    if (from==0&&numberOfRedPiecesOnPoint[from]>0){
+                        for(int j=i+1;j<15;j++){
+                            if(redPlayerGamePieces[j].getPipLocation()==from){
+                                redPlayerGamePieces[j].setXYCoordinate((pointLocationOrderedCounterClockwise[6][0]+pointLocationOrderedCounterClockwise[7][0])/2,50+shiftPiecesToBottomOfPipCounter*PIECE_DIAMETER);
+                                shiftPiecesToBottomOfPipCounter++;
+                            }
+                        }
+                    }else if (from<13&&numberOfRedPiecesOnPoint[from]>0){
                         for(int j=i+1;j<15;j++){
                             if(redPlayerGamePieces[j].getPipLocation()==from){
                                 redPlayerGamePieces[j].setXYCoordinate(pointLocationOrderedCounterClockwise[from][0],pointLocationOrderedCounterClockwise[from][1]+shiftPiecesToBottomOfPipCounter*PIECE_DIAMETER);
                                 shiftPiecesToBottomOfPipCounter++;
                             }
                         }
-                    }else{
+                    }else if (numberOfRedPiecesOnPoint[from]>0){
                         for(int j=i+1;j<15;j++){
                             if(redPlayerGamePieces[j].getPipLocation()==from){
                                 redPlayerGamePieces[j].setXYCoordinate(pointLocationOrderedCounterClockwise[from][0],pointLocationOrderedCounterClockwise[from][1]-shiftPiecesToBottomOfPipCounter*PIECE_DIAMETER);
@@ -345,7 +358,9 @@ public class GameBoardPanel extends JPanel {
                             }
                         }
                     }
-                    if(to <13){
+                    if (to ==0){
+                        redPlayerGamePieces[i].setXYCoordinate((pointLocationOrderedCounterClockwise[6][0]+pointLocationOrderedCounterClockwise[7][0])/2,50+numberOfRedPiecesOnPoint[to]*PIECE_DIAMETER);
+                    }else if(to <13){
                         redPlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[to][0],pointLocationOrderedCounterClockwise[to][1]+numberOfRedPiecesOnPoint[to]*PIECE_DIAMETER);
                     }else if(to >13 &&to !=25){
                         redPlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[to][0],pointLocationOrderedCounterClockwise[to][1]-numberOfRedPiecesOnPoint[to]*PIECE_DIAMETER);
@@ -364,21 +379,28 @@ public class GameBoardPanel extends JPanel {
     public void moveBluePiece(int from, int to){
         from=25-from;
         to=25-to;
-        if (from >25 || from <1 || to >= from || to < 0||numberOfBluePiecesOnPoint[from]==0) {
+        if (from >25 || from <1 /*|| to >= from */|| to < 0||numberOfBluePiecesOnPoint[from]==0) {
             throw new InvalidInputException();
         }else {
             for(int i=0;i<15;i++){
                 if(bluePlayerGamePieces[i].getPipLocation()==from){
                     numberOfBluePiecesOnPoint[from]--;
                     int shiftPiecesToBottomOfPipCounter=0;
-                    if (from<13&&numberOfBluePiecesOnPoint[from]>0){
+                    if (from==25&&numberOfBluePiecesOnPoint[from]>0){
+                        for(int j=i+1;j<15;j++){
+                            if(bluePlayerGamePieces[j].getPipLocation()==from){
+                                bluePlayerGamePieces[j].setXYCoordinate((pointLocationOrderedCounterClockwise[6][0]+pointLocationOrderedCounterClockwise[7][0])/2,542-shiftPiecesToBottomOfPipCounter*PIECE_DIAMETER);
+                                shiftPiecesToBottomOfPipCounter++;
+                            }
+                        }
+                    }else if (from<13&&numberOfBluePiecesOnPoint[from]>0){
                         for(int j=i+1;j<15;j++){
                             if(bluePlayerGamePieces[j].getPipLocation()==from){
                                 bluePlayerGamePieces[j].setXYCoordinate(pointLocationOrderedCounterClockwise[from][0],pointLocationOrderedCounterClockwise[from][1]+shiftPiecesToBottomOfPipCounter*PIECE_DIAMETER);
                                 shiftPiecesToBottomOfPipCounter++;
                             }
                         }
-                    }else{
+                    }else if(numberOfBluePiecesOnPoint[from]>0){
                         for(int j=i+1;j<15;j++){
                             if(bluePlayerGamePieces[j].getPipLocation()==from){
                                 bluePlayerGamePieces[j].setXYCoordinate(pointLocationOrderedCounterClockwise[from][0],pointLocationOrderedCounterClockwise[from][1]-shiftPiecesToBottomOfPipCounter*PIECE_DIAMETER);
@@ -386,7 +408,9 @@ public class GameBoardPanel extends JPanel {
                             }
                         }
                     }
-                    if(to <13&&to != 0){
+                    if (to ==25){
+                        bluePlayerGamePieces[i].setXYCoordinate((pointLocationOrderedCounterClockwise[6][0]+pointLocationOrderedCounterClockwise[7][0])/2,542-numberOfBluePiecesOnPoint[to]*PIECE_DIAMETER);
+                    }else if(to <13&&to != 0){
                         bluePlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[to][0],pointLocationOrderedCounterClockwise[to][1]+numberOfBluePiecesOnPoint[to]*PIECE_DIAMETER);
                     }else if(to >13 /*&&to !=25*/){
                         bluePlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[to][0],pointLocationOrderedCounterClockwise[to][1]-numberOfBluePiecesOnPoint[to]*PIECE_DIAMETER);

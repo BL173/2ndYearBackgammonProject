@@ -35,8 +35,10 @@ public class CommandPanel extends JPanel{
 
             if (userInput.equals("quit")){
                 System.exit(0);
-            }else if(userInput.equals("Who controls the British crown?")||userInput.equals("Who keeps the metric system down?")||userInput.equals("Who keeps Atlantis off the maps?")||userInput.equals("Who keeps the marshians under wraps?")){
+            }else if(userInput.equals("who controls the british crown?")||userInput.equals("who keeps the metric system down?")||userInput.equals("who keeps atlantis off the maps?")||userInput.equals("who keeps the marshians under wraps?")){
                 userInputModel.setInfoPanelOutput("We do!");
+            }else if (userInput.equals("next")){
+                userInputModel.setTurn(1-(userInputModel.getTurn()));
             }else {
                 userInputModel.setUserInput(userInput);
             }
