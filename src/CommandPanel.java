@@ -30,12 +30,17 @@ public class CommandPanel extends JPanel{
     private class Listener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
             userInput = commandInputField.getText();
+            userInput=userInput.toLowerCase();
             commandInputField.setText("");
-            //resultArea.append(userInput + "\n");
-            if (userInput.equals("quit") ||userInput.equals("Quit")||userInput.equals("QUIT")){
+
+            if (userInput.equals("quit")){
                 System.exit(0);
+            }else if(userInput.equals("Who controls the British crown?")||userInput.equals("Who keeps the metric system down?")||userInput.equals("Who keeps Atlantis off the maps?")||userInput.equals("Who keeps the marshians under wraps?")){
+                userInputModel.setInfoPanelOutput("We do!");
+            }else {
+                userInputModel.setUserInput(userInput);
             }
-            userInputModel.setUserInput(userInput);
+
         }
     }
 

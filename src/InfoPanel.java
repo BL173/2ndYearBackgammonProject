@@ -20,11 +20,12 @@ public class InfoPanel extends JPanel{
     private JLabel possibleLabel = new JLabel("Possible Turns");
     JTextArea possibleTurns = new JTextArea(10, 25);
     JScrollPane p = new JScrollPane(possibleTurns);
-    private String userInput;
-    private JLabel infoLabel = new JLabel("Previous Inputs \n");
+    //private String userInput;
+    private JLabel infoLabel = new JLabel("Game Info\n");
     JTextArea previousInputs = new JTextArea(10, 25);
     JScrollPane previousTurns = new JScrollPane(previousInputs);
     private DefaultUserInputModel userInputModel;
+
 
     public InfoPanel(DefaultUserInputModel userInputModel) {
         GridLayout infoLayout = new GridLayout(2, 2);
@@ -32,8 +33,8 @@ public class InfoPanel extends JPanel{
         this.userInputModel.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
-                if("userInput".equals(evt.getPropertyName()) && !userInputModel.getUserInput().equals(null)){
-                    previousInputs.append(userInputModel.getUserInput() + "\n");
+                if("infoPanelOutput".equals(evt.getPropertyName()) && !userInputModel.getInfoPanelOutput().equals("")){
+                    previousInputs.append(userInputModel.getInfoPanelOutput() + "\n");
                 }
             }
         });

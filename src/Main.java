@@ -12,6 +12,8 @@ public class Main {
 
     public static void main(String args[]){
 
-        JFrame frame = new MainFrame();
+        JFrame gameFrame = new MainFrame();
+        JFrame announceFrame = new AnnounceGame();
+        announceFrame.setVisible(true);
     }
 }
