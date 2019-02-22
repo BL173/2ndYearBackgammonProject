@@ -69,7 +69,9 @@ public class CommandPanel extends JPanel{
         //scrollpane is temporary until info panel is finished
         JScrollPane scrollPane = new JScrollPane(resultArea);
         resultArea.append("Current Commands:\n\n");
-        resultArea.append("quit -- exit program");
+        resultArea.append("To move: enter pip number to move from followed by pip number to move to\n");
+        resultArea.append("next -- skip to next player's turn\n");
+        resultArea.append("quit -- exit program\n");
 
         add(commandLabel, BorderLayout.LINE_START);
         add(commandInputField, BorderLayout.CENTER);
