@@ -26,6 +26,7 @@ public class GameBoardPanel extends JPanel {
     private boolean newGame =true;
     private int testMoveCounter=0;
     private DefaultUserInputModel userInputModel;
+    private final int RED_TURN=0, BLUE_TURN=1;
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -43,12 +44,7 @@ public class GameBoardPanel extends JPanel {
         g2.draw(topBox);
 
         //top left quadrant of the board
-        g2.drawString("12", 37, 25);
-        g2.drawString("11", 111, 25);
-        g2.drawString("10", 185, 25);
-        g2.drawString("9", 259, 25);
-        g2.drawString("8", 333, 25);
-        g2.drawString("7", 407, 25);
+
 
         Line2D.Double segment1 = new Line2D.Double(0, 50, 37, 275);
         g2.draw(segment1);
@@ -77,12 +73,7 @@ public class GameBoardPanel extends JPanel {
         g2.draw(segment6_2);
 
         //top right quadrant of the board
-        g2.drawString("6", 555, 25);
-        g2.drawString("5", 629, 25);
-        g2.drawString("4", 703, 25);
-        g2.drawString("3", 768, 25);
-        g2.drawString("2", 842, 25);
-        g2.drawString("1", 916, 25);
+
 
         Line2D.Double segment7 = new Line2D.Double(518, 50, 555, 275);
         g2.draw(segment7);
@@ -113,12 +104,6 @@ public class GameBoardPanel extends JPanel {
         Rectangle bottomBox = new Rectangle(0, 577, 962, 50);
         g2.draw(bottomBox);
 
-        g2.drawString("13", 31, 602);
-        g2.drawString("14", 105, 602);
-        g2.drawString("15", 179, 602);
-        g2.drawString("16", 253, 602);
-        g2.drawString("17", 327, 602);
-        g2.drawString("18", 401, 602);
 
         Line2D.Double segment13 = new Line2D.Double(0, 577, 37, 352);
         g2.draw(segment13);
@@ -147,12 +132,6 @@ public class GameBoardPanel extends JPanel {
         Line2D.Double segment18_2 = new Line2D.Double(444, 577, 407, 352);
         g2.draw(segment18_2);
 
-        g2.drawString("19", 549, 602);
-        g2.drawString("20", 623, 602);
-        g2.drawString("21", 697, 602);
-        g2.drawString("22", 771, 602);
-        g2.drawString("23", 845, 602);
-        g2.drawString("24", 919, 602);
 
         Line2D.Double segment19 = new Line2D.Double(518, 577, 555, 352);
         g2.draw(segment19);
@@ -197,6 +176,68 @@ public class GameBoardPanel extends JPanel {
 
         Rectangle gameScore = new Rectangle(972, 345, 80, 25);
         g2.draw(gameScore);
+
+        if(userInputModel.getTurn()==RED_TURN){
+            g2.drawString("12", 34, 25);
+            g2.drawString("11", 108, 25);
+            g2.drawString("10", 182, 25);
+            g2.drawString("9", 259, 25);
+            g2.drawString("8", 333, 25);
+            g2.drawString("7", 407, 25);
+
+            g2.drawString("6", 555, 25);
+            g2.drawString("5", 629, 25);
+            g2.drawString("4", 703, 25);
+            g2.drawString("3", 768, 25);
+            g2.drawString("2", 842, 25);
+            g2.drawString("1", 916, 25);
+
+            g2.drawString("13", 31, 602);
+            g2.drawString("14", 105, 602);
+            g2.drawString("15", 179, 602);
+            g2.drawString("16", 253, 602);
+            g2.drawString("17", 327, 602);
+            g2.drawString("18", 401, 602);
+
+
+            g2.drawString("19", 549, 602);
+            g2.drawString("20", 623, 602);
+            g2.drawString("21", 697, 602);
+            g2.drawString("22", 771, 602);
+            g2.drawString("23", 845, 602);
+            g2.drawString("24", 919, 602);
+        }
+
+        else if(userInputModel.getTurn()==BLUE_TURN){
+            g2.drawString("13", 37, 25);
+            g2.drawString("14", 111, 25);
+            g2.drawString("15", 185, 25);
+            g2.drawString("16", 259, 25);
+            g2.drawString("17", 333, 25);
+            g2.drawString("18", 407, 25);
+
+            g2.drawString("19", 555, 25);
+            g2.drawString("20", 629, 25);
+            g2.drawString("21", 703, 25);
+            g2.drawString("22", 768, 25);
+            g2.drawString("23", 842, 25);
+            g2.drawString("24", 916, 25);
+
+            g2.drawString("12", 31, 602);
+            g2.drawString("11", 105, 602);
+            g2.drawString("10", 179, 602);
+            g2.drawString("9", 253, 602);
+            g2.drawString("8", 327, 602);
+            g2.drawString("7", 401, 602);
+
+
+            g2.drawString("6", 552, 602);
+            g2.drawString("5", 626, 602);
+            g2.drawString("4", 700, 602);
+            g2.drawString("3", 774, 602);
+            g2.drawString("2", 848, 602);
+            g2.drawString("1", 922, 602);
+        }
 
 
 
@@ -307,13 +348,18 @@ public class GameBoardPanel extends JPanel {
                             throw new InvalidInputException();
                         }
                         try{
-                            moveBluePiece(Integer.parseInt(inputValues[0]),Integer.parseInt(inputValues[1]));
-                            moveRedPiece(Integer.parseInt(inputValues[0]),Integer.parseInt(inputValues[1]));
+                            if(userInputModel.getTurn()==RED_TURN){
+                                moveRedPiece(Integer.parseInt(inputValues[0]),Integer.parseInt(inputValues[1]));
+                                userInputModel.setTurn(BLUE_TURN);
+                            }else if(userInputModel.getTurn()==BLUE_TURN){
+                                moveBluePiece(Integer.parseInt(inputValues[0]),Integer.parseInt(inputValues[1]));
+                                userInputModel.setTurn(RED_TURN);
+                            }
                         }catch(java.lang.NumberFormatException e){
                             throw new InvalidInputException();
                         }
                     }catch(InvalidInputException e){
-                        userInputModel.setInfoPanelOutput("This is an invalid move.");
+                        userInputModel.setInfoPanelOutput("This is an invalid move, try again.");
                     }
                 }
             }
@@ -323,21 +369,28 @@ public class GameBoardPanel extends JPanel {
 
 
     public void moveRedPiece(int from, int to){
-        if (from < 0 || from > 24 || to <= from || to > 25||numberOfRedPiecesOnPoint[from]==0) {
+        if (from < 0 || from > 24 /*|| to <= from*/ || to > 25||numberOfRedPiecesOnPoint[from]==0) {
             throw new InvalidInputException();
         }else {
             for(int i=0;i<15;i++){
                 if(redPlayerGamePieces[i].getPipLocation()==from){
                     numberOfRedPiecesOnPoint[from]--;
                     int shiftPiecesToBottomOfPipCounter=0;
-                    if (from<13&&numberOfRedPiecesOnPoint[from]>0){
+                    if (from==0&&numberOfRedPiecesOnPoint[from]>0){
+                        for(int j=i+1;j<15;j++){
+                            if(redPlayerGamePieces[j].getPipLocation()==from){
+                                redPlayerGamePieces[j].setXYCoordinate((pointLocationOrderedCounterClockwise[6][0]+pointLocationOrderedCounterClockwise[7][0])/2,50+shiftPiecesToBottomOfPipCounter*PIECE_DIAMETER);
+                                shiftPiecesToBottomOfPipCounter++;
+                            }
+                        }
+                    }else if (from<13&&numberOfRedPiecesOnPoint[from]>0){
                         for(int j=i+1;j<15;j++){
                             if(redPlayerGamePieces[j].getPipLocation()==from){
                                 redPlayerGamePieces[j].setXYCoordinate(pointLocationOrderedCounterClockwise[from][0],pointLocationOrderedCounterClockwise[from][1]+shiftPiecesToBottomOfPipCounter*PIECE_DIAMETER);
                                 shiftPiecesToBottomOfPipCounter++;
                             }
                         }
-                    }else{
+                    }else if (numberOfRedPiecesOnPoint[from]>0){
                         for(int j=i+1;j<15;j++){
                             if(redPlayerGamePieces[j].getPipLocation()==from){
                                 redPlayerGamePieces[j].setXYCoordinate(pointLocationOrderedCounterClockwise[from][0],pointLocationOrderedCounterClockwise[from][1]-shiftPiecesToBottomOfPipCounter*PIECE_DIAMETER);
@@ -345,7 +398,9 @@ public class GameBoardPanel extends JPanel {
                             }
                         }
                     }
-                    if(to <13){
+                    if (to ==0){
+                        redPlayerGamePieces[i].setXYCoordinate((pointLocationOrderedCounterClockwise[6][0]+pointLocationOrderedCounterClockwise[7][0])/2,50+numberOfRedPiecesOnPoint[to]*PIECE_DIAMETER);
+                    }else if(to <13){
                         redPlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[to][0],pointLocationOrderedCounterClockwise[to][1]+numberOfRedPiecesOnPoint[to]*PIECE_DIAMETER);
                     }else if(to >13 &&to !=25){
                         redPlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[to][0],pointLocationOrderedCounterClockwise[to][1]-numberOfRedPiecesOnPoint[to]*PIECE_DIAMETER);
@@ -364,21 +419,28 @@ public class GameBoardPanel extends JPanel {
     public void moveBluePiece(int from, int to){
         from=25-from;
         to=25-to;
-        if (from >25 || from <1 || to >= from || to < 0||numberOfBluePiecesOnPoint[from]==0) {
+        if (from >25 || from <1 /*|| to >= from */|| to < 0||numberOfBluePiecesOnPoint[from]==0) {
             throw new InvalidInputException();
         }else {
             for(int i=0;i<15;i++){
                 if(bluePlayerGamePieces[i].getPipLocation()==from){
                     numberOfBluePiecesOnPoint[from]--;
                     int shiftPiecesToBottomOfPipCounter=0;
-                    if (from<13&&numberOfBluePiecesOnPoint[from]>0){
+                    if (from==25&&numberOfBluePiecesOnPoint[from]>0){
+                        for(int j=i+1;j<15;j++){
+                            if(bluePlayerGamePieces[j].getPipLocation()==from){
+                                bluePlayerGamePieces[j].setXYCoordinate((pointLocationOrderedCounterClockwise[6][0]+pointLocationOrderedCounterClockwise[7][0])/2,542-shiftPiecesToBottomOfPipCounter*PIECE_DIAMETER);
+                                shiftPiecesToBottomOfPipCounter++;
+                            }
+                        }
+                    }else if (from<13&&numberOfBluePiecesOnPoint[from]>0){
                         for(int j=i+1;j<15;j++){
                             if(bluePlayerGamePieces[j].getPipLocation()==from){
                                 bluePlayerGamePieces[j].setXYCoordinate(pointLocationOrderedCounterClockwise[from][0],pointLocationOrderedCounterClockwise[from][1]+shiftPiecesToBottomOfPipCounter*PIECE_DIAMETER);
                                 shiftPiecesToBottomOfPipCounter++;
                             }
                         }
-                    }else{
+                    }else if(numberOfBluePiecesOnPoint[from]>0){
                         for(int j=i+1;j<15;j++){
                             if(bluePlayerGamePieces[j].getPipLocation()==from){
                                 bluePlayerGamePieces[j].setXYCoordinate(pointLocationOrderedCounterClockwise[from][0],pointLocationOrderedCounterClockwise[from][1]-shiftPiecesToBottomOfPipCounter*PIECE_DIAMETER);
@@ -386,7 +448,9 @@ public class GameBoardPanel extends JPanel {
                             }
                         }
                     }
-                    if(to <13&&to != 0){
+                    if (to ==25){
+                        bluePlayerGamePieces[i].setXYCoordinate((pointLocationOrderedCounterClockwise[6][0]+pointLocationOrderedCounterClockwise[7][0])/2,542-numberOfBluePiecesOnPoint[to]*PIECE_DIAMETER);
+                    }else if(to <13&&to != 0){
                         bluePlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[to][0],pointLocationOrderedCounterClockwise[to][1]+numberOfBluePiecesOnPoint[to]*PIECE_DIAMETER);
                     }else if(to >13 /*&&to !=25*/){
                         bluePlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[to][0],pointLocationOrderedCounterClockwise[to][1]-numberOfBluePiecesOnPoint[to]*PIECE_DIAMETER);
