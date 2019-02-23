@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Random;
 import javax.swing.*;
 
 
@@ -25,6 +26,13 @@ public class CommandPanel extends JPanel{
     private boolean redPlayerInputCheck = false;
 
 
+    Random rand = new Random();
+
+    int diceOne = (rand.nextInt(6)) + 1;
+    int diceTwo = (rand.nextInt(6)) + 1;
+
+    int diceThree = (rand.nextInt(6)) + 1;
+    int diceFour = (rand.nextInt(6)) + 1;
 
     public String getUserInput() {
         return userInput;
@@ -41,23 +49,57 @@ public class CommandPanel extends JPanel{
                 userInputModel.setInfoPanelOutput("please enter player one name: ");
                 redPlayerInputCheck = true;
             }else if(redPlayerInputCheck == true) {
-                Players redPlayer = new Players(userInput, "red");
+                Players redPlayer = new Players(userInput, 0);
                 userInputModel.setInfoPanelOutput("Welcome " + userInput + ", you are the red player\nPlease enter player two name: ");
                 redPlayerInputCheck = false;
                 bluePlayerInputCheck = true;
             }else if(bluePlayerInputCheck == true) {
-                Players bluePlayer = new Players(userInput, "blue");
+                Players bluePlayer = new Players(userInput, 1);
                 userInputModel.setInfoPanelOutput("Welcome " + userInput + ", you are the blue player");
                 bluePlayerInputCheck = false;
             }else if(userInput.equals("who controls the british crown?")||userInput.equals("who keeps the metric system down?")||userInput.equals("who keeps atlantis off the maps?")||userInput.equals("who keeps the marshians under wraps?")){
                 userInputModel.setInfoPanelOutput("We do!");
             }else if (userInput.equals("next")){
                 userInputModel.setTurn(1-(userInputModel.getTurn()));
-            }else {
+            }else if(userInput.equals("roll")) {
+                StartDice();
+
+            }
+            else {
                 userInputModel.setUserInput(userInput);
             }
 
         }
+    }
+    public void StartDice() {
+
+        Random rand = new Random();
+
+        diceOne = (rand.nextInt(6)) + 1;
+        diceTwo = (rand.nextInt(6)) + 1;
+
+        diceThree = (rand.nextInt(6)) + 1;
+        diceFour = (rand.nextInt(6)) + 1;
+
+        int x = diceOne + diceTwo;
+        int y = diceThree + diceFour;
+
+        userInputModel.setInfoPanelOutput("\nPlayer 1 rolls: " + diceOne +" "+ diceTwo + "\nCombined is " + x);
+        userInputModel.setInfoPanelOutput("Player 2 rolls: " + diceThree +" "+ diceFour + "\nCombined is " + y);
+
+        if((diceOne + diceTwo) > (diceThree + diceFour)) {
+            userInputModel.setInfoPanelOutput("Player 1 goes first:");
+            userInputModel.setTurn(0);
+        }
+        else if((diceOne + diceTwo) < (diceThree + diceFour)) {
+            userInputModel.setInfoPanelOutput("Player 2 goes first:");
+            userInputModel.setTurn(1);
+        }
+        else {
+            userInputModel.setInfoPanelOutput("Since both rolls are equal, we roll again:\n");
+            StartDice();
+        }
+
     }
 
     public CommandPanel(DefaultUserInputModel userInputModel) {
@@ -82,9 +124,11 @@ public class CommandPanel extends JPanel{
         resultArea = new JTextArea(10, 30);
         //scrollpane is temporary until info panel is finished
         JScrollPane scrollPane = new JScrollPane(resultArea);
+        resultArea.setEditable(false);
         resultArea.append("Current Commands:\n\n");
         resultArea.append("quit -- exit program\n\n");
         resultArea.append("new game -- start new game\n\n");
+        resultArea.append("roll -- rolls dice to decide who goes first\n\n");
 
 
 

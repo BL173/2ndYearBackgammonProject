@@ -28,6 +28,10 @@ public class GameBoardPanel extends JPanel {
     private DefaultUserInputModel userInputModel;
     private final int RED_TURN=0, BLUE_TURN=1;
 
+    Dice diceRed = new Dice(userInputModel, 0, 0, 0);
+    Dice diceBlue = new Dice(userInputModel, 0, 0, 1);
+
+
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
@@ -351,9 +355,11 @@ public class GameBoardPanel extends JPanel {
                             if(userInputModel.getTurn()==RED_TURN){
                                 moveRedPiece(Integer.parseInt(inputValues[0]),Integer.parseInt(inputValues[1]));
                                 userInputModel.setTurn(BLUE_TURN);
+                                diceBlue.RollDice(1);
                             }else if(userInputModel.getTurn()==BLUE_TURN){
                                 moveBluePiece(Integer.parseInt(inputValues[0]),Integer.parseInt(inputValues[1]));
                                 userInputModel.setTurn(RED_TURN);
+                                diceRed.RollDice(0);
                             }
                         }catch(java.lang.NumberFormatException e){
                             throw new InvalidInputException();

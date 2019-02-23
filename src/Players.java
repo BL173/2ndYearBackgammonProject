@@ -7,12 +7,14 @@ import javax.swing.JTextField;
 
 public class Players {
     private String playerName;
-    private String playerColour;
+    private int playerColour;
 
-    Players(String playerName, String playerColour){
+    Players(String playerName, int playerColour){
         this.playerName = playerName;
         this.playerColour = playerColour;
     }
+
+
 
 
     /*private DefaultUserInputModel userInputModel;
@@ -49,7 +51,7 @@ public class Players {
         this.playerName = playerName;
     }
 
-    public void setPlayerColour(String playerColour){
+    public void setPlayerColour(int playerColour){
         this.playerColour = playerColour;
     }
 
