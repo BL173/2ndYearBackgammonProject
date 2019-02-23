@@ -78,20 +78,15 @@ public class CommandPanel extends JPanel{
         diceOne = (rand.nextInt(6)) + 1;
         diceTwo = (rand.nextInt(6)) + 1;
 
-        diceThree = (rand.nextInt(6)) + 1;
-        diceFour = (rand.nextInt(6)) + 1;
 
-        int x = diceOne + diceTwo;
-        int y = diceThree + diceFour;
+        userInputModel.setInfoPanelOutput("\nPlayer 1 rolls: " + diceOne);
+        userInputModel.setInfoPanelOutput("Player 2 rolls: " + diceTwo);
 
-        userInputModel.setInfoPanelOutput("\nPlayer 1 rolls: " + diceOne +" "+ diceTwo + "\nCombined is " + x);
-        userInputModel.setInfoPanelOutput("Player 2 rolls: " + diceThree +" "+ diceFour + "\nCombined is " + y);
-
-        if((diceOne + diceTwo) > (diceThree + diceFour)) {
+        if(diceOne > diceTwo) {
             userInputModel.setInfoPanelOutput("Player 1 goes first:");
             userInputModel.setTurn(0);
         }
-        else if((diceOne + diceTwo) < (diceThree + diceFour)) {
+        else if(diceOne < diceTwo) {
             userInputModel.setInfoPanelOutput("Player 2 goes first:");
             userInputModel.setTurn(1);
         }
