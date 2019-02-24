@@ -9,41 +9,31 @@ import javax.swing.JTextField;
 public class Players {
     private String playerName;
     private int playerColour;
+    private DefaultUserInputModel userInputModel;
+    private String userInput;
+
 
     Players(String playerName, int playerColour){
         this.playerName = playerName;
         this.playerColour = playerColour;
     }
 
+    //private static final int INPUT_FIELD_WIDTH = 15;
+    //private JTextField commandInputField;
 
 
 
-    /*private DefaultUserInputModel userInputModel;
-
-    private String userInput;
-    private static final int INPUT_FIELD_WIDTH = 15;
-    private JTextField commandInputField;
-
-
-
-   public Players(DefaultUserInputModel userInputModel, JTextField commandInputField){
-        this.userInputModel = userInputModel;
-        this.commandInputField = commandInputField;
-        this.userInputModel.addPropertyChangeListener(new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                commandInputField.setText("please enter player 1 name: ");
-                userInput = commandInputField.getText();
-                commandInputField.setText("");
-                if ("userInput".equals(evt.getPropertyName()) && !userInputModel.getUserInput().equals("")){
-                    setPlayerName(userInput);
-                }
-            }
-        });
-    }
-
-    private void userInput(String userInput){
-        this.userInput = userInput;
+   /*public Players(DefaultUserInputModel userInputModel){
+       this.userInputModel = userInputModel;
+       this.userInputModel.addPropertyChangeListener(new PropertyChangeListener() {
+           @Override
+           public void propertyChange(PropertyChangeEvent evt) {
+               if ("playerName".equals(evt.getPropertyName())){
+                   //User input changed
+                   setPlayerName(userInputModel.getPlayerName());
+               }
+           }
+       });
     }*/
 
 

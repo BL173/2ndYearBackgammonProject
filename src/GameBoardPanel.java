@@ -286,6 +286,7 @@ public class GameBoardPanel extends JPanel {
                                 moveBluePiece(Integer.parseInt(inputValues[0]),Integer.parseInt(inputValues[1]));
                                 userInputModel.setTurn(RED_TURN);
                                 RollDice(0);
+
                             }
                         }catch(java.lang.NumberFormatException e){
                             throw new InvalidInputException();
