@@ -21,7 +21,7 @@ public class InfoPanel extends JPanel{
     JTextArea possibleTurns = new JTextArea(10, 25);
     JScrollPane p = new JScrollPane(possibleTurns);
     //private String userInput;
-    private JLabel infoLabel = new JLabel("Previous Inputs \n");
+    private JLabel infoLabel = new JLabel("Game Info\n");
     JTextArea previousInputs = new JTextArea(10, 25);
     JScrollPane previousTurns = new JScrollPane(previousInputs);
     private DefaultUserInputModel userInputModel;

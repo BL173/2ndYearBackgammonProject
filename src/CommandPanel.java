@@ -21,6 +21,9 @@ public class CommandPanel extends JPanel{
     private JButton submitButton;
     private JTextArea resultArea;
     private DefaultUserInputModel userInputModel;
+    private boolean bluePlayerInputCheck = false;
+    private boolean redPlayerInputCheck = false;
+
 
 
     public String getUserInput() {
@@ -32,9 +35,20 @@ public class CommandPanel extends JPanel{
             userInput = commandInputField.getText();
             userInput=userInput.toLowerCase();
             commandInputField.setText("");
-
-            if (userInput.equals("quit")){
+            if (userInput.equals("quit")) {
                 System.exit(0);
+            }else if(userInput.equals("new game")) {
+                userInputModel.setInfoPanelOutput("please enter player one name: ");
+                redPlayerInputCheck = true;
+            }else if(redPlayerInputCheck == true) {
+                Players redPlayer = new Players(userInput, "red");
+                userInputModel.setInfoPanelOutput("Welcome " + userInput + ", you are the red player\nPlease enter player two name: ");
+                redPlayerInputCheck = false;
+                bluePlayerInputCheck = true;
+            }else if(bluePlayerInputCheck == true) {
+                Players bluePlayer = new Players(userInput, "blue");
+                userInputModel.setInfoPanelOutput("Welcome " + userInput + ", you are the blue player");
+                bluePlayerInputCheck = false;
             }else if(userInput.equals("who controls the british crown?")||userInput.equals("who keeps the metric system down?")||userInput.equals("who keeps atlantis off the maps?")||userInput.equals("who keeps the marshians under wraps?")){
                 userInputModel.setInfoPanelOutput("We do!");
             }else if (userInput.equals("next")){
@@ -49,7 +63,7 @@ public class CommandPanel extends JPanel{
     public CommandPanel(DefaultUserInputModel userInputModel) {
         setVisible(true);
         setLayout(new BorderLayout());
-        //Current Work
+
         this.userInputModel = userInputModel;
         this.userInputModel.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
@@ -72,6 +86,7 @@ public class CommandPanel extends JPanel{
         resultArea.append("To move: enter pip number to move from followed by pip number to move to\n");
         resultArea.append("next -- skip to next player's turn\n");
         resultArea.append("quit -- exit program\n");
+        resultArea.append("new game -- start new game\n\n");
 
         add(commandLabel, BorderLayout.LINE_START);
         add(commandInputField, BorderLayout.CENTER);
