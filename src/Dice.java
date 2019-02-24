@@ -1,6 +1,11 @@
 
 import java.util.Random;
-
+/*
+Team: Jives
+Written by: Brian Leahy 17372896,
+            Oscar Byrne Carty 17430786,
+            Gearoid Lynch 17459176
+ */
 public class Dice {
 
     private DefaultUserInputModel userInputModel;
@@ -21,7 +26,12 @@ public class Dice {
         Random rand = new Random();
         diceOne = (rand.nextInt(6)) + 1;
         diceTwo = (rand.nextInt(6)) + 1;
-        userInputModel.setInfoPanelOutput("\nDice One: " + diceOne);
-        userInputModel.setInfoPanelOutput("\nDice Two: " + diceTwo);
+        if (userInputModel.getTurn()==1){
+          userInputModel.setInfoPanelOutput(userInputModel.getRedPlayerName()+ " rolls:");
+        }else{
+            userInputModel.setInfoPanelOutput(userInputModel.getBluePlayerName()+ " rolls:");
+        }
+        userInputModel.setInfoPanelOutput("Dice One: " + diceOne);
+        userInputModel.setInfoPanelOutput("Dice Two: " + diceTwo);
     }
 }

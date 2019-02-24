@@ -37,7 +37,6 @@ public class CommandPanel extends JPanel{
     public String getUserInput() {
         return userInput;
     }
-    //public Players redPlayer;
 
 
 
@@ -52,25 +51,20 @@ public class CommandPanel extends JPanel{
                 userInputModel.setInfoPanelOutput("Please enter player one name: ");
                 redPlayerInputCheck = true;
             }else if(redPlayerInputCheck == true) {
-                //redPlayer = new Players(userInput, 0);
-                userInputModel.setInfoPanelOutput("Welcome " + userInput + ", you are the red player\nPlease enter player two name: ");
-                userInputModel.setRedPlayerName(userInput);
+                userInputModel.setRedPlayerName(userInput.substring(0,1).toUpperCase()+userInput.substring(1));
+                userInputModel.setInfoPanelOutput("Welcome " + userInputModel.getRedPlayerName() + ", you are the red player\nPlease enter player two name: ");
                 redPlayerInputCheck = false;
                 bluePlayerInputCheck = true;
             }else if(bluePlayerInputCheck == true) {
-                //Players bluePlayer = new Players(userInput, 1);
-                userInputModel.setInfoPanelOutput("Welcome " + userInput + ", you are the blue player");
-                userInputModel.setBluePlayerName(userInput);
+                userInputModel.setBluePlayerName(userInput.substring(0,1).toUpperCase()+userInput.substring(1));
+                userInputModel.setInfoPanelOutput("Welcome " + userInputModel.getBluePlayerName() + ", you are the blue player");
                 bluePlayerInputCheck = false;
                 StartDice();
             }else if(userInput.equals("who controls the british crown?")||userInput.equals("who keeps the metric system down?")||userInput.equals("who keeps atlantis off the maps?")||userInput.equals("who keeps the marshians under wraps?")){
                 userInputModel.setInfoPanelOutput("We do!");
             }else if (userInput.equals("next")){
                 userInputModel.setTurn(1-(userInputModel.getTurn()));
-            }/*else if(userInput.equals("roll")) {
-                StartDice();
-
-            }*/
+            }
             else {
                 userInputModel.setUserInput(userInput);
             }
