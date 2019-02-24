@@ -16,12 +16,4 @@ public class Dice {
         this.turn = turn;
     }
 
-    public void RollDice(int turn) {
-
-        Random rand = new Random();
-
-        diceOne = (rand.nextInt(6)) + 1;
-        diceTwo = (rand.nextInt(6)) + 1;
-
-    }
 }

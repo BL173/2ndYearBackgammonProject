@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.geom.Line2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import javax.swing.*;
 import exceptions.*;
@@ -28,8 +29,8 @@ public class GameBoardPanel extends JPanel {
     private DefaultUserInputModel userInputModel;
     private final int RED_TURN=0, BLUE_TURN=1;
 
-    Dice diceRed = new Dice(userInputModel, 0, 0, 0);
-    Dice diceBlue = new Dice(userInputModel, 0, 0, 1);
+    private int diceOne;
+    private int diceTwo;
 
 
     public void paintComponent(Graphics g) {
@@ -355,11 +356,11 @@ public class GameBoardPanel extends JPanel {
                             if(userInputModel.getTurn()==RED_TURN){
                                 moveRedPiece(Integer.parseInt(inputValues[0]),Integer.parseInt(inputValues[1]));
                                 userInputModel.setTurn(BLUE_TURN);
-                                diceBlue.RollDice(1);
+                                RollDice(1);
                             }else if(userInputModel.getTurn()==BLUE_TURN){
                                 moveBluePiece(Integer.parseInt(inputValues[0]),Integer.parseInt(inputValues[1]));
                                 userInputModel.setTurn(RED_TURN);
-                                diceRed.RollDice(0);
+                                RollDice(0);
                             }
                         }catch(java.lang.NumberFormatException e){
                             throw new InvalidInputException();
@@ -372,6 +373,15 @@ public class GameBoardPanel extends JPanel {
         });
     }
 
+    public void RollDice(int turn) {
+
+        Random rand = new Random();
+
+        diceOne = (rand.nextInt(6)) + 1;
+        diceTwo = (rand.nextInt(6)) + 1;
+
+        userInputModel.setInfoPanelOutput("\nPlayer "+ turn +" rolls: " + diceOne + ", " + diceTwo);
+    }
 
 
     public void moveRedPiece(int from, int to){
