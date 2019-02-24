@@ -37,6 +37,9 @@ public class CommandPanel extends JPanel{
     public String getUserInput() {
         return userInput;
     }
+    public Players redPlayer;
+
+
 
     private class Listener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
@@ -49,8 +52,9 @@ public class CommandPanel extends JPanel{
                 userInputModel.setInfoPanelOutput("please enter player one name: ");
                 redPlayerInputCheck = true;
             }else if(redPlayerInputCheck == true) {
-                Players redPlayer = new Players(userInput, 0);
+                redPlayer = new Players(userInput, 0);
                 userInputModel.setInfoPanelOutput("Welcome " + userInput + ", you are the red player\nPlease enter player two name: ");
+                userInputModel.setRedPlayerName(userInput);
                 redPlayerInputCheck = false;
                 bluePlayerInputCheck = true;
             }else if(bluePlayerInputCheck == true) {
@@ -71,6 +75,8 @@ public class CommandPanel extends JPanel{
 
         }
     }
+
+
     public void StartDice() {
 
         Random rand = new Random();

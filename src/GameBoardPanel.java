@@ -45,134 +45,59 @@ public class GameBoardPanel extends JPanel {
         }
 
 
-        Rectangle topBox = new Rectangle(0, 0, 962, 50);
+
+
+
+        // all the diagonals on the top of the board going down right
+        for(int i = 0; i < 13; i++){
+            Line2D.Double segment = new Line2D.Double(i * 74, 50, 37 + (i * 74), 275);
+            g2.draw(segment);
+            if(i == 5)
+                i++;
+        }
+
+        //all the diagonals on the top of the board going down left
+        for(int i = 0; i < 13; i++){
+            Line2D.Double segment2 = new Line2D.Double(74 + (i * 74), 50, 37 + (i * 74), 275);
+            g2.draw(segment2);
+            if(i == 5)
+                i++;
+        }
+
+
+        //all the diagonals at the bottom going up and right
+        for(int i = 0; i<13; i++){
+            Line2D.Double segment2 = new Line2D.Double(i * 74, 577, 37 + (i * 74), 352);
+            g2.draw(segment2);
+            if(i == 5)
+                i++;
+        }
+
+        //all the diagonals at the bottom going up left
+        for(int i = 0 ;i<13; i++){
+            Line2D.Double segment2 = new Line2D.Double(74 + (i * 74), 577, 37 + (i * 74), 352);
+            g2.draw(segment2);
+            if(i == 5)
+                i++;
+        }
+
+        //box at the top of the board containing the numbers
+        Rectangle topBox = new Rectangle(0, 0, 1062, 50);
         g2.draw(topBox);
 
-        //top left quadrant of the board
-
-
-        Line2D.Double segment1 = new Line2D.Double(0, 50, 37, 275);
-        g2.draw(segment1);
-        Line2D.Double segment2 = new Line2D.Double(74, 50, 111, 275);
-        g2.draw(segment2);
-        Line2D.Double segment3 = new Line2D.Double(148, 50, 185, 275);
-        g2.draw(segment3);
-        Line2D.Double segment4 = new Line2D.Double(222, 50, 259, 275);
-        g2.draw(segment4);
-        Line2D.Double segment5 = new Line2D.Double(296, 50, 333, 275);
-        g2.draw(segment5);
-        Line2D.Double segment6 = new Line2D.Double(370, 50, 407, 275);
-        g2.draw(segment6);
-
-        Line2D.Double segment1_2 = new Line2D.Double(74, 50, 37, 275);
-        g2.draw(segment1_2);
-        Line2D.Double segment2_2 = new Line2D.Double(148, 50, 111, 275);
-        g2.draw(segment2_2);
-        Line2D.Double segment3_2 = new Line2D.Double(222, 50, 185, 275);
-        g2.draw(segment3_2);
-        Line2D.Double segment4_2 = new Line2D.Double(296, 50, 259, 275);
-        g2.draw(segment4_2);
-        Line2D.Double segment5_2 = new Line2D.Double(370, 50, 333, 275);
-        g2.draw(segment5_2);
-        Line2D.Double segment6_2 = new Line2D.Double(444, 50, 407, 275);
-        g2.draw(segment6_2);
-
-        //top right quadrant of the board
-
-
-        Line2D.Double segment7 = new Line2D.Double(518, 50, 555, 275);
-        g2.draw(segment7);
-        Line2D.Double segment8 = new Line2D.Double(592, 50, 629, 275);
-        g2.draw(segment8);
-        Line2D.Double segment9 = new Line2D.Double(666, 50, 703, 275);
-        g2.draw(segment9);
-        Line2D.Double segment10 = new Line2D.Double(740, 50, 777, 275);
-        g2.draw(segment10);
-        Line2D.Double segment11 = new Line2D.Double(814, 50, 851, 275);
-        g2.draw(segment11);
-        Line2D.Double segment12 = new Line2D.Double(888, 50, 925, 275);
-        g2.draw(segment12);
-
-        Line2D.Double segment7_2 = new Line2D.Double(592, 50, 555, 275);
-        g2.draw(segment7_2);
-        Line2D.Double segment8_2 = new Line2D.Double(666, 50, 629, 275);
-        g2.draw(segment8_2);
-        Line2D.Double segment9_2 = new Line2D.Double(740, 50, 703, 275);
-        g2.draw(segment9_2);
-        Line2D.Double segment10_2 = new Line2D.Double(814, 50, 777, 275);
-        g2.draw(segment10_2);
-        Line2D.Double segment11_2 = new Line2D.Double(888, 50, 851, 275);
-        g2.draw(segment11_2);
-        Line2D.Double segment12_2 = new Line2D.Double(962, 50, 925, 275);
-        g2.draw(segment12_2);
-
-        Rectangle bottomBox = new Rectangle(0, 577, 962, 50);
+        //box at the bottom of the board containing the numbers
+        Rectangle bottomBox = new Rectangle(0, 577, 1062, 50);
         g2.draw(bottomBox);
-
-
-        Line2D.Double segment13 = new Line2D.Double(0, 577, 37, 352);
-        g2.draw(segment13);
-        Line2D.Double segment14 = new Line2D.Double(74, 577, 111, 352);
-        g2.draw(segment14);
-        Line2D.Double segment15 = new Line2D.Double(148, 577, 185, 352);
-        g2.draw(segment15);
-        Line2D.Double segment16 = new Line2D.Double(222, 577, 259, 352);
-        g2.draw(segment16);
-        Line2D.Double segment17 = new Line2D.Double(296, 577, 333, 352);
-        g2.draw(segment17);
-        Line2D.Double segment18 = new Line2D.Double(370, 577, 407, 352);
-        g2.draw(segment18);
-
-
-        Line2D.Double segment13_2 = new Line2D.Double(74, 577, 37, 352);
-        g2.draw(segment13_2);
-        Line2D.Double segment14_2 = new Line2D.Double(148, 577, 111, 352);
-        g2.draw(segment14_2);
-        Line2D.Double segment15_2 = new Line2D.Double(222, 577, 185, 352);
-        g2.draw(segment15_2);
-        Line2D.Double segment16_2 = new Line2D.Double(296, 577, 259, 352);
-        g2.draw(segment16_2);
-        Line2D.Double segment17_2 = new Line2D.Double(370, 577, 333, 352);
-        g2.draw(segment17_2);
-        Line2D.Double segment18_2 = new Line2D.Double(444, 577, 407, 352);
-        g2.draw(segment18_2);
-
-
-        Line2D.Double segment19 = new Line2D.Double(518, 577, 555, 352);
-        g2.draw(segment19);
-        Line2D.Double segment20 = new Line2D.Double(592, 577, 629, 352);
-        g2.draw(segment20);
-        Line2D.Double segment21 = new Line2D.Double(666, 577, 703, 352);
-        g2.draw(segment21);
-        Line2D.Double segment22 = new Line2D.Double(740, 577, 777, 352);
-        g2.draw(segment22);
-        Line2D.Double segment23 = new Line2D.Double(814, 577, 851, 352);
-        g2.draw(segment23);
-        Line2D.Double segment24 = new Line2D.Double(888, 577, 925, 352);
-        g2.draw(segment24);
-
-        Line2D.Double segment19_2 = new Line2D.Double(592, 577, 555, 352);
-        g2.draw(segment19_2);
-        Line2D.Double segment20_2 = new Line2D.Double(666, 577, 629, 352);
-        g2.draw(segment20_2);
-        Line2D.Double segment21_2 = new Line2D.Double(740, 577, 703, 352);
-        g2.draw(segment21_2);
-        Line2D.Double segment22_2 = new Line2D.Double(814, 577, 777, 352);
-        g2.draw(segment22_2);
-        Line2D.Double segment23_2 = new Line2D.Double(888, 577, 851, 352);
-        g2.draw(segment23_2);
-        Line2D.Double segment24_2 = new Line2D.Double(962, 577, 925, 352);
-        g2.draw(segment24_2);
 
         Rectangle sideBar = new Rectangle(962, 0, 100, 627);
         g2.draw(sideBar);
 
-        Rectangle innerSideBar = new Rectangle(962, 50, 100, 527);
-        g2.draw(innerSideBar);
 
+        //the finishing are for blue
         Rectangle gamePieceFinishArea1 = new Rectangle(972, 60, 80, 190);
         g2.draw(gamePieceFinishArea1);
 
+        //the finishing are for red
         Rectangle gamePieceFinishArea2 = new Rectangle(972, 377, 80, 190);
         g2.draw(gamePieceFinishArea2);
 
@@ -376,7 +301,6 @@ public class GameBoardPanel extends JPanel {
     public void RollDice(int turn) {
 
         Random rand = new Random();
-
         diceOne = (rand.nextInt(6)) + 1;
         diceTwo = (rand.nextInt(6)) + 1;
 
