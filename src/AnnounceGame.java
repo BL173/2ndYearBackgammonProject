@@ -44,11 +44,8 @@ public class AnnounceGame extends JFrame implements ActionListener{
         startGame = (JButton)e.getSource();
         CloseFrame();
         System.out.println("Frame Closed.");
-    }
-
-    public static void main(String args[]){
-        AnnounceGame test = new AnnounceGame();
-        test.setVisible(true);
+        JFrame gameFrame = new MainFrame();
+        gameFrame.setVisible(true);
     }
 
     public void CloseFrame() {

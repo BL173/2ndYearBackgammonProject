@@ -29,7 +29,7 @@ public class InfoPanel extends JPanel{
 
     public InfoPanel(DefaultUserInputModel userInputModel) {
         GridLayout infoLayout = new GridLayout(2, 2);
-        previousInputs.append("Red Player Turn \n");
+        previousInputs.append("Please enter player one name: \n");
         this.userInputModel =userInputModel;
         this.userInputModel.addPropertyChangeListener(new PropertyChangeListener() {
             @Override

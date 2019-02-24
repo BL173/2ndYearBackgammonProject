@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -7,16 +8,15 @@ import javax.swing.JTextField;
 
 public class Players {
     private String playerName;
-    private String playerColour;
+    private int playerColour;
     private DefaultUserInputModel userInputModel;
     private String userInput;
 
-    Players(String playerName, String playerColour){
+
+    Players(String playerName, int playerColour){
         this.playerName = playerName;
         this.playerColour = playerColour;
     }
-
-
 
     //private static final int INPUT_FIELD_WIDTH = 15;
     //private JTextField commandInputField;
@@ -38,13 +38,17 @@ public class Players {
 
 
 
+
     public void setPlayerName(String playerName){
         this.playerName = playerName;
     }
 
-    public void setPlayerColour(String playerColour){
+    public void setPlayerColour(int playerColour){
         this.playerColour = playerColour;
     }
 
+    public String getPlayerName(){
+        return playerName;
+    }
 
 }
