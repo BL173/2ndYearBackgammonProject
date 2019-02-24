@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -47,6 +48,7 @@ public class Players {
 
 
 
+
     public void setPlayerName(String playerName){
         this.playerName = playerName;
     }
@@ -55,5 +57,8 @@ public class Players {
         this.playerColour = playerColour;
     }
 
+    public String getPlayerName(){
+        return playerName;
+    }
 
 }

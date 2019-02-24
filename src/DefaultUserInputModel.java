@@ -13,6 +13,9 @@ public class DefaultUserInputModel implements UserInputModel{
     private String userInput;
     private String infoPanelOutput;
     private int turn=0;
+    private String redPlayerName;
+    private String bluePlayerName;
+
 
     public DefaultUserInputModel(){
         propertyChangeSupport = new PropertyChangeSupport(this);
@@ -52,10 +55,20 @@ public class DefaultUserInputModel implements UserInputModel{
         turn = newTurn;
         propertyChangeSupport.firePropertyChange("turn", oldTurn, infoPanelOutput);
         if(turn==0){
-            setInfoPanelOutput("Red Player Turn");
+            setInfoPanelOutput(redPlayerName + "'s Turn");
         }else if(turn==1){
             setInfoPanelOutput("Blue Player Turn");
         }
+    }
+
+    public void setRedPlayerName(String newPlayerName){
+        String oldRedPlayerName = redPlayerName;
+        this.redPlayerName = newPlayerName;
+        propertyChangeSupport.firePropertyChange("redPlayerName", oldRedPlayerName, newPlayerName);
+    }
+
+    public String getRedPlayerName() {
+        return redPlayerName;
     }
 
     @Override
