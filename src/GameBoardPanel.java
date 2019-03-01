@@ -24,12 +24,9 @@ public class GameBoardPanel extends JPanel {
     private int numberOfBluePiecesOnPoint[]=new int[26];
     private final int PIECE_DIAMETER=35;
     private boolean newGame =true;
-    private int testMoveCounter=0;
     private DefaultUserInputModel userInputModel;
     private final int RED_TURN=0, BLUE_TURN=1;
 
-    //Dice diceRed;
-    //Dice diceBlue;
 
     public void setNewGame(boolean newGame) {
         this.newGame = newGame;

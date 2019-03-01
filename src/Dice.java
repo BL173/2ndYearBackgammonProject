@@ -11,7 +11,7 @@ Written by: Brian Leahy 17372896,
 public class Dice {
 
     private DefaultUserInputModel userInputModel;
-    private int turn;
+    private Boolean firstTurn=true;
     private int diceOne;
     private int diceTwo;
 
@@ -29,7 +29,7 @@ public class Dice {
         this.userInputModel.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
-                if ("turn".equals(evt.getPropertyName())){
+                if ("turn".equals(evt.getPropertyName())&&firstTurn==false){
                     //turn changed
                     rollDice();
                 }
@@ -42,7 +42,7 @@ public class Dice {
         Random rand = new Random();
         diceOne = (rand.nextInt(6)) + 1;
         diceTwo = (rand.nextInt(6)) + 1;
-        if (userInputModel.getTurn()==1){
+        if (userInputModel.getTurn()==0){
           userInputModel.setInfoPanelOutput(userInputModel.getRedPlayerName()+ " rolls:");
         }else{
             userInputModel.setInfoPanelOutput(userInputModel.getBluePlayerName()+ " rolls:");
@@ -51,7 +51,7 @@ public class Dice {
         userInputModel.setInfoPanelOutput("Dice Two: " + diceTwo);
     }
     public void startDice() {
-
+        firstTurn=true;
         Random rand = new Random();
 
         diceOne = (rand.nextInt(6)) + 1;
@@ -73,6 +73,6 @@ public class Dice {
             userInputModel.setInfoPanelOutput("Since both rolls are equal, we roll again:\n");
             startDice();
         }
-
+        firstTurn=false;
     }
 }
