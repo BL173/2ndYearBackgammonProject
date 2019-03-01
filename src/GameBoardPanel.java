@@ -28,9 +28,12 @@ public class GameBoardPanel extends JPanel {
     private DefaultUserInputModel userInputModel;
     private final int RED_TURN=0, BLUE_TURN=1;
 
-    Dice diceRed;
-    Dice diceBlue;
+    //Dice diceRed;
+    //Dice diceBlue;
 
+    public void setNewGame(boolean newGame) {
+        this.newGame = newGame;
+    }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -262,39 +265,44 @@ public class GameBoardPanel extends JPanel {
             numberOfBluePiecesOnPoint[6]++;
             bluePlayerGamePieces[i].setPipLocation(6);
         }
-
     }
 
     public GameBoardPanel(DefaultUserInputModel userInputModel){
         this.userInputModel = userInputModel;
-        diceRed = new Dice(userInputModel, 0, 0, 0);
-        diceBlue = new Dice(userInputModel, 0, 0, 1);
+        //diceRed = new Dice(userInputModel, 0, 0, 0);
+        //diceBlue = new Dice(userInputModel, 0, 0, 1);
         this.userInputModel.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 if("userInput".equals(evt.getPropertyName()) && !userInputModel.getUserInput().equals("")){
-                    String inputValues[] =userInputModel.getUserInput().split("\\s+");
-                    try{
-                        if (inputValues.length !=2){
-                            throw new InvalidInputException();
-                        }
+                    if(userInputModel.getUserInput().equals("newgame")){
+                        setNewGame(true);
+                        repaint();
+                    }else {
+                        String inputValues[] =userInputModel.getUserInput().split("\\s+");
                         try{
-                            if(userInputModel.getTurn()==RED_TURN){
-                                moveRedPiece(Integer.parseInt(inputValues[0]),Integer.parseInt(inputValues[1]));
-                                diceBlue.RollDice(0);
-                                userInputModel.setTurn(BLUE_TURN);
-                            }else if(userInputModel.getTurn()==BLUE_TURN){
-                                moveBluePiece(Integer.parseInt(inputValues[0]),Integer.parseInt(inputValues[1]));
-                                diceRed.RollDice(1);
-                                userInputModel.setTurn(RED_TURN);
-
+                            if (inputValues.length !=2){
+                                throw new InvalidInputException();
                             }
-                        }catch(java.lang.NumberFormatException e){
-                            throw new InvalidInputException();
+                            try{
+                                if(userInputModel.getTurn()==RED_TURN){
+                                    moveRedPiece(Integer.parseInt(inputValues[0]),Integer.parseInt(inputValues[1]));
+                                    //diceBlue.RollDice();
+                                    userInputModel.setTurn(BLUE_TURN);
+                                }else if(userInputModel.getTurn()==BLUE_TURN){
+                                    moveBluePiece(Integer.parseInt(inputValues[0]),Integer.parseInt(inputValues[1]));
+                                    //diceRed.RollDice();
+                                    userInputModel.setTurn(RED_TURN);
+
+                                }
+                            }catch(java.lang.NumberFormatException e){
+                                throw new InvalidInputException();
+                            }
+                        }catch(InvalidInputException e){
+                            userInputModel.setInfoPanelOutput("This is an invalid move, try again.");
                         }
-                    }catch(InvalidInputException e){
-                        userInputModel.setInfoPanelOutput("This is an invalid move, try again.");
                     }
+
                 }
             }
         });

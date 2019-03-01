@@ -24,21 +24,11 @@ public class CommandPanel extends JPanel{
     private DefaultUserInputModel userInputModel;
     private boolean bluePlayerInputCheck = false;
     private boolean redPlayerInputCheck = true;
-
-
-    Random rand = new Random();
-
-    int diceOne = (rand.nextInt(6)) + 1;
-    int diceTwo = (rand.nextInt(6)) + 1;
-
-    int diceThree = (rand.nextInt(6)) + 1;
-    int diceFour = (rand.nextInt(6)) + 1;
+    private Dice gameDice;
 
     public String getUserInput() {
         return userInput;
     }
-
-
 
     private class Listener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
@@ -59,7 +49,8 @@ public class CommandPanel extends JPanel{
                 userInputModel.setBluePlayerName(userInput.substring(0,1).toUpperCase()+userInput.substring(1));
                 userInputModel.setInfoPanelOutput("Welcome " + userInputModel.getBluePlayerName() + ", you are the blue player");
                 bluePlayerInputCheck = false;
-                StartDice();
+                gameDice.startDice();
+                userInputModel.setUserInput("newgame");
             }else if(userInput.equals("who controls the british crown?")||userInput.equals("who keeps the metric system down?")||userInput.equals("who keeps atlantis off the maps?")||userInput.equals("who keeps the marshians under wraps?")){
                 userInputModel.setInfoPanelOutput("We do!");
             }else if (userInput.equals("next")){
@@ -72,36 +63,10 @@ public class CommandPanel extends JPanel{
         }
     }
 
-
-    public void StartDice() {
-
-        Random rand = new Random();
-
-        diceOne = (rand.nextInt(6)) + 1;
-        diceTwo = (rand.nextInt(6)) + 1;
-
-
-        userInputModel.setInfoPanelOutput("\n"+userInputModel.getRedPlayerName()+" rolls: " + diceOne);
-        userInputModel.setInfoPanelOutput(userInputModel.getBluePlayerName()+" rolls: " + diceTwo);
-
-        if(diceOne > diceTwo) {
-            userInputModel.setInfoPanelOutput(userInputModel.getRedPlayerName()+ " goes first:");
-            userInputModel.setTurn(0);
-        }
-        else if(diceOne < diceTwo) {
-            userInputModel.setInfoPanelOutput(userInputModel.getBluePlayerName()+ " goes first:");
-            userInputModel.setTurn(1);
-        }
-        else {
-            userInputModel.setInfoPanelOutput("Since both rolls are equal, we roll again:\n");
-            StartDice();
-        }
-
-    }
-
     public CommandPanel(DefaultUserInputModel userInputModel) {
         setVisible(true);
         setLayout(new BorderLayout());
+        gameDice = new Dice(userInputModel);
 
         this.userInputModel = userInputModel;
         this.userInputModel.addPropertyChangeListener(new PropertyChangeListener() {
