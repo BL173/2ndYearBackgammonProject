@@ -24,7 +24,7 @@ public class CommandPanel extends JPanel{
     private DefaultUserInputModel userInputModel;
     private boolean bluePlayerInputCheck = false;
     private boolean redPlayerInputCheck = true;
-    private Dice gameDice;
+    //private Dice gameDice;
 
     public String getUserInput() {
         return userInput;
@@ -33,6 +33,7 @@ public class CommandPanel extends JPanel{
     private class Listener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
             userInput = commandInputField.getText();
+            String userName=userInput;
             userInput=userInput.toLowerCase();
             commandInputField.setText("");
             if (userInput.equals("quit")) {
@@ -41,16 +42,21 @@ public class CommandPanel extends JPanel{
                 userInputModel.setInfoPanelOutput("Please enter player one name: ");
                 redPlayerInputCheck = true;
             }else if(redPlayerInputCheck == true) {
-                userInputModel.setRedPlayerName(userInput.substring(0,1).toUpperCase()+userInput.substring(1));
+                userInputModel.setRedPlayerName(userName);
                 userInputModel.setInfoPanelOutput("Welcome " + userInputModel.getRedPlayerName() + ", you are the red player\nPlease enter player two name: ");
                 redPlayerInputCheck = false;
                 bluePlayerInputCheck = true;
             }else if(bluePlayerInputCheck == true) {
-                userInputModel.setBluePlayerName(userInput.substring(0,1).toUpperCase()+userInput.substring(1));
-                userInputModel.setInfoPanelOutput("Welcome " + userInputModel.getBluePlayerName() + ", you are the blue player");
-                bluePlayerInputCheck = false;
-                gameDice.startDice();
-                userInputModel.setUserInput("newgame");
+                if(userName.equals(userInputModel.getRedPlayerName())){
+                    userInputModel.setInfoPanelOutput("Please pick a different name to the other player.");
+                }else{
+                    userInputModel.setInfoPanelOutput("Welcome " + userName + ", you are the blue player");
+                    userInputModel.setBluePlayerName(userName);
+                    bluePlayerInputCheck = false;
+                    //gameDice.startDice();
+                    userInputModel.setUserInput("newgame");
+                }
+
             }else if(userInput.equals("who controls the british crown?")||userInput.equals("who keeps the metric system down?")||userInput.equals("who keeps atlantis off the maps?")||userInput.equals("who keeps the marshians under wraps?")){
                 userInputModel.setInfoPanelOutput("We do!");
             }else if (userInput.equals("next")){
@@ -66,7 +72,7 @@ public class CommandPanel extends JPanel{
     public CommandPanel(DefaultUserInputModel userInputModel) {
         setVisible(true);
         setLayout(new BorderLayout());
-        gameDice = new Dice(userInputModel);
+        //gameDice = new Dice(userInputModel);
 
         this.userInputModel = userInputModel;
         this.userInputModel.addPropertyChangeListener(new PropertyChangeListener() {

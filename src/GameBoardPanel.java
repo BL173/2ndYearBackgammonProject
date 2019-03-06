@@ -26,6 +26,7 @@ public class GameBoardPanel extends JPanel {
     private boolean newGame =true;
     private DefaultUserInputModel userInputModel;
     private final int RED_TURN=0, BLUE_TURN=1;
+    private Dice gameDice;
 
 
     public void setNewGame(boolean newGame) {
@@ -266,6 +267,7 @@ public class GameBoardPanel extends JPanel {
 
     public GameBoardPanel(DefaultUserInputModel userInputModel){
         this.userInputModel = userInputModel;
+        gameDice = new Dice(userInputModel);
         //diceRed = new Dice(userInputModel, 0, 0, 0);
         //diceBlue = new Dice(userInputModel, 0, 0, 1);
         this.userInputModel.addPropertyChangeListener(new PropertyChangeListener() {
@@ -290,7 +292,6 @@ public class GameBoardPanel extends JPanel {
                                     moveBluePiece(Integer.parseInt(inputValues[0]),Integer.parseInt(inputValues[1]));
                                     //diceRed.RollDice();
                                     userInputModel.setTurn(RED_TURN);
-
                                 }
                             }catch(java.lang.NumberFormatException e){
                                 throw new InvalidInputException();
@@ -300,6 +301,8 @@ public class GameBoardPanel extends JPanel {
                         }
                     }
 
+                }else if ("bluePlayerName".equals(evt.getPropertyName()) && !userInputModel.getBluePlayerName().equals("")){
+                    gameDice.startDice();
                 }
             }
         });
@@ -402,6 +405,12 @@ public class GameBoardPanel extends JPanel {
                     break;
                 }
             }
+        }
+    }
+
+    public void possibleMoves(int turn){
+        if(turn==RED_TURN&&numberOfRedPiecesOnPoint[0]==0){
+
         }
     }
 }
