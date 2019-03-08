@@ -26,8 +26,21 @@ public class GameBoardPanel extends JPanel {
     private boolean newGame =true;
     private DefaultUserInputModel userInputModel;
     private final int RED_TURN=0, BLUE_TURN=1;
+    private move possibleMoves[] = new move[50];
+    private int numberOfPossibleMoves;
     private Dice gameDice;
 
+
+    private class move{
+        public int from;
+        public int to;
+        public Boolean hit=false;
+        public String index;
+        public move(int f, int t){
+            from = f;
+            to=t;
+        }
+    }
 
     public void setNewGame(boolean newGame) {
         this.newGame = newGame;
@@ -107,7 +120,7 @@ public class GameBoardPanel extends JPanel {
         Rectangle gameScore = new Rectangle(972, 345, 80, 25);
         g2.draw(gameScore);
 
-        if(userInputModel.getTurn()==RED_TURN){
+        if(userInputModel.getTurn()==BLUE_TURN){
             g2.drawString("12", 34, 25);
             g2.drawString("11", 108, 25);
             g2.drawString("10", 182, 25);
@@ -138,7 +151,7 @@ public class GameBoardPanel extends JPanel {
             g2.drawString("24", 919, 602);
         }
 
-        else if(userInputModel.getTurn()==BLUE_TURN){
+        else if(userInputModel.getTurn()==RED_TURN){
             g2.drawString("13", 37, 25);
             g2.drawString("14", 111, 25);
             g2.drawString("15", 185, 25);
@@ -169,19 +182,7 @@ public class GameBoardPanel extends JPanel {
             g2.drawString("1", 922, 602);
         }
 
-
-
-
-        //draw Game Pieces
-        /*if(testMoveCounter<24){
-            try{
-                //removeAll();
-                testMove();
-                //GameBoardPanel.repaint();
-            }catch(Exception InterruptedException){}
-        }*/
         for(int i=0;i<15;i++){
-            //redPlayerGamePieces[i] = new GamePiece(g);
             redPlayerGamePieces[i].drawRedPiece(g);
             bluePlayerGamePieces[i].drawBluePiece(g);
         }
@@ -286,12 +287,11 @@ public class GameBoardPanel extends JPanel {
                             try{
                                 if(userInputModel.getTurn()==RED_TURN){
                                     moveRedPiece(Integer.parseInt(inputValues[0]),Integer.parseInt(inputValues[1]));
-                                    //diceBlue.RollDice();
                                     userInputModel.setTurn(BLUE_TURN);
                                 }else if(userInputModel.getTurn()==BLUE_TURN){
                                     moveBluePiece(Integer.parseInt(inputValues[0]),Integer.parseInt(inputValues[1]));
-                                    //diceRed.RollDice();
                                     userInputModel.setTurn(RED_TURN);
+                                    //generatePossibleRedMoves();
                                 }
                             }catch(java.lang.NumberFormatException e){
                                 throw new InvalidInputException();
@@ -303,6 +303,10 @@ public class GameBoardPanel extends JPanel {
 
                 }else if ("bluePlayerName".equals(evt.getPropertyName()) && !userInputModel.getBluePlayerName().equals("")){
                     gameDice.startDice();
+                    repaint();
+                }else if("turn".equals(evt.getPropertyName()) && userInputModel.getTurn()==RED_TURN){
+                    generatePossibleRedMoves();
+                    //repaint();
                 }
             }
         });
@@ -311,7 +315,9 @@ public class GameBoardPanel extends JPanel {
 
 
     public void moveRedPiece(int from, int to){
-        if (from < 0 || from > 24 /*|| to <= from*/ || to > 25||numberOfRedPiecesOnPoint[from]==0) {
+        from=25-from;
+        to=25-to;
+        if (from < 0 || from > 25 || to <0 || to > 25||numberOfRedPiecesOnPoint[from]==0) {
             throw new InvalidInputException();
         }else {
             for(int i=0;i<15;i++){
@@ -359,9 +365,7 @@ public class GameBoardPanel extends JPanel {
     }
 
     public void moveBluePiece(int from, int to){
-        from=25-from;
-        to=25-to;
-        if (from >25 || from <1 /*|| to >= from */|| to < 0||numberOfBluePiecesOnPoint[from]==0) {
+        if (from >25 || from <0 || to > 25|| to < 0||numberOfBluePiecesOnPoint[from]==0) {
             throw new InvalidInputException();
         }else {
             for(int i=0;i<15;i++){
@@ -408,9 +412,34 @@ public class GameBoardPanel extends JPanel {
         }
     }
 
-    public void possibleMoves(int turn){
-        if(turn==RED_TURN&&numberOfRedPiecesOnPoint[0]==0){
-
+    public void generatePossibleRedMoves(){
+        numberOfPossibleMoves=0;
+        String output="PM";
+        if(numberOfRedPiecesOnPoint[0]!=0){
+            if(numberOfBluePiecesOnPoint[gameDice.getDiceOne()]==0){
+                possibleMoves[numberOfPossibleMoves]=new move(0,gameDice.getDiceOne());
+                //userInputModel.setInfoPanelOutput("PM(BAR, "+(25-possibleMoves[numberOfPossibleMoves].to)+")");
+                output+="(BAR, "+(25-possibleMoves[numberOfPossibleMoves].to)+")\n";
+                numberOfPossibleMoves++;
+            }else if (numberOfBluePiecesOnPoint[gameDice.getDiceOne()]==1){
+                possibleMoves[numberOfPossibleMoves]=new move(0,gameDice.getDiceOne());
+                //userInputModel.setInfoPanelOutput("PM(BAR, "+(25-possibleMoves[numberOfPossibleMoves].to)+"*)");
+                output+="(BAR, "+(25-possibleMoves[numberOfPossibleMoves].to)+"*)\n";
+                numberOfPossibleMoves++;
+            }
+            if(numberOfBluePiecesOnPoint[gameDice.getDiceTwo()]==0){
+                possibleMoves[numberOfPossibleMoves]=new move(0,gameDice.getDiceTwo());
+                //userInputModel.setInfoPanelOutput("PM(BAR, "+(25-possibleMoves[numberOfPossibleMoves].to)+")");
+                output+="(BAR, "+(25-possibleMoves[numberOfPossibleMoves].to)+")\n";
+                numberOfPossibleMoves++;
+            }else if (numberOfBluePiecesOnPoint[gameDice.getDiceTwo()]==1){
+                possibleMoves[numberOfPossibleMoves]=new move(0,gameDice.getDiceTwo());
+                //userInputModel.setInfoPanelOutput("PM(BAR, "+(25-possibleMoves[numberOfPossibleMoves].to)+"*)");
+                output+="(BAR, "+(25-possibleMoves[numberOfPossibleMoves].to)+"*)\n";
+                numberOfPossibleMoves++;
+            }
+            userInputModel.setInfoPanelOutput(output);
         }
     }
+
 }
