@@ -16,7 +16,6 @@ public class DefaultUserInputModel implements UserInputModel{
     private String redPlayerName;
     private String bluePlayerName;
 
-
     public DefaultUserInputModel(){
         propertyChangeSupport = new PropertyChangeSupport(this);
     }

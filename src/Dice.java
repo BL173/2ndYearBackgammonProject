@@ -1,4 +1,6 @@
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Random;
 /*
 Team: Jives
@@ -9,26 +11,38 @@ Written by: Brian Leahy 17372896,
 public class Dice {
 
     private DefaultUserInputModel userInputModel;
-    private int turn;
+    private Boolean firstTurn=true;
     private int diceOne;
     private int diceTwo;
 
-
-    public Dice(DefaultUserInputModel userInputModel, int diceOne, int diceTwo, int turn) {
-        this.userInputModel = userInputModel;
-        this.diceOne = diceOne;
-        this.diceTwo = diceTwo;
-        this.turn = turn;
+    public int getDiceOne() {
+        return diceOne;
     }
 
-<<<<<<< HEAD
-=======
-    public void RollDice(int turn) {
+    public int getDiceTwo() {
+        return diceTwo;
+    }
+
+    public Dice(DefaultUserInputModel userInputModel) {
+        this.userInputModel = userInputModel;
+
+        this.userInputModel.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                if ("turn".equals(evt.getPropertyName())&&firstTurn==false){
+                    //turn changed
+                    rollDice();
+                }
+            }
+        });
+    }
+
+    public void rollDice() {
 
         Random rand = new Random();
         diceOne = (rand.nextInt(6)) + 1;
         diceTwo = (rand.nextInt(6)) + 1;
-        if (userInputModel.getTurn()==1){
+        if (userInputModel.getTurn()==0){
           userInputModel.setInfoPanelOutput(userInputModel.getRedPlayerName()+ " rolls:");
         }else{
             userInputModel.setInfoPanelOutput(userInputModel.getBluePlayerName()+ " rolls:");
@@ -36,5 +50,31 @@ public class Dice {
         userInputModel.setInfoPanelOutput("Dice One: " + diceOne);
         userInputModel.setInfoPanelOutput("Dice Two: " + diceTwo);
     }
->>>>>>> ba3a4beb9738c6a25cc7a5fd1b550dd1b45d37cb
+
+    public void startDice() {
+        firstTurn=true;
+        Random rand = new Random();
+
+        diceOne = (rand.nextInt(6)) + 1;
+        diceTwo = (rand.nextInt(6)) + 1;
+
+
+        userInputModel.setInfoPanelOutput("\n"+userInputModel.getRedPlayerName()+" rolls: " + diceOne);
+        userInputModel.setInfoPanelOutput(userInputModel.getBluePlayerName()+" rolls: " + diceTwo);
+
+        if(diceOne > diceTwo) {
+            userInputModel.setInfoPanelOutput(userInputModel.getRedPlayerName()+ " goes first:");
+            userInputModel.setTurn(0);
+        }
+        else if(diceOne < diceTwo) {
+            userInputModel.setInfoPanelOutput(userInputModel.getBluePlayerName()+ " goes first:");
+            userInputModel.setTurn(1);
+        }
+        else {
+            userInputModel.setInfoPanelOutput("Since both rolls are equal, we roll again:\n");
+            startDice();
+        }
+        firstTurn=false;
+    }
+
 }
