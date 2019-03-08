@@ -441,8 +441,36 @@ public class GameBoardPanel extends JPanel {
                 output+="(BAR, "+(25-possibleMoves[numberOfPossibleMoves].to)+"*)\n";
                 numberOfPossibleMoves++;
             }
-            userInputModel.setInfoPanelOutput(output);
+            //userInputModel.setInfoPanelOutput(output);
+        }else{
+            for(int i=1;i<25;i++){
+                if (numberOfRedPiecesOnPoint[i]>0){
+                    if(numberOfBluePiecesOnPoint[i+gameDice.getDiceOne()]==0){
+                        possibleMoves[numberOfPossibleMoves]=new move(i,i+gameDice.getDiceOne());
+                        //userInputModel.setInfoPanelOutput("PM(BAR, "+(25-possibleMoves[numberOfPossibleMoves].to)+")");
+                        output+="("+(25-i)+", "+(25-possibleMoves[numberOfPossibleMoves].to)+")\n";
+                        numberOfPossibleMoves++;
+                    }else if (numberOfBluePiecesOnPoint[i+gameDice.getDiceOne()]==1){
+                        possibleMoves[numberOfPossibleMoves]=new move(i,i+gameDice.getDiceOne());
+                        //userInputModel.setInfoPanelOutput("PM(BAR, "+(25-possibleMoves[numberOfPossibleMoves].to)+"*)");
+                        output+="("+(25-i)+", "+(25-possibleMoves[numberOfPossibleMoves].to)+"*)\n";
+                        numberOfPossibleMoves++;
+                    }
+                    if(numberOfBluePiecesOnPoint[i+gameDice.getDiceTwo()]==0){
+                        possibleMoves[numberOfPossibleMoves]=new move(i,i+gameDice.getDiceTwo());
+                        //userInputModel.setInfoPanelOutput("PM(BAR, "+(25-possibleMoves[numberOfPossibleMoves].to)+")");
+                        output+="("+(25-i)+", "+(25-possibleMoves[numberOfPossibleMoves].to)+")\n";
+                        numberOfPossibleMoves++;
+                    }else if (numberOfBluePiecesOnPoint[i+gameDice.getDiceTwo()]==1){
+                        possibleMoves[numberOfPossibleMoves]=new move(i,i+gameDice.getDiceTwo());
+                        //userInputModel.setInfoPanelOutput("PM(BAR, "+(25-possibleMoves[numberOfPossibleMoves].to)+"*)");
+                        output+="("+(25-i)+", "+(25-possibleMoves[numberOfPossibleMoves].to)+"*)\n";
+                        numberOfPossibleMoves++;
+                    }
+                }
+            }
         }
+        userInputModel.setInfoPanelOutput(output);
     }
 
     public void generatePossibleBlueMoves(){
