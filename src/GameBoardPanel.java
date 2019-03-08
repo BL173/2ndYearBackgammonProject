@@ -29,8 +29,13 @@ public class GameBoardPanel extends JPanel {
     private DefaultUserInputModel userInputModel;
     private final int RED_TURN=0, BLUE_TURN=1;
 
+<<<<<<< HEAD
     private int diceOne;
     private int diceTwo;
+=======
+    Dice diceRed;
+    Dice diceBlue;
+>>>>>>> ba3a4beb9738c6a25cc7a5fd1b550dd1b45d37cb
 
 
     public void paintComponent(Graphics g) {
@@ -268,6 +273,8 @@ public class GameBoardPanel extends JPanel {
 
     public GameBoardPanel(DefaultUserInputModel userInputModel){
         this.userInputModel = userInputModel;
+        diceRed = new Dice(userInputModel, 0, 0, 0);
+        diceBlue = new Dice(userInputModel, 0, 0, 1);
         this.userInputModel.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
@@ -280,12 +287,21 @@ public class GameBoardPanel extends JPanel {
                         try{
                             if(userInputModel.getTurn()==RED_TURN){
                                 moveRedPiece(Integer.parseInt(inputValues[0]),Integer.parseInt(inputValues[1]));
+<<<<<<< HEAD
                                 userInputModel.setTurn(BLUE_TURN);
                                 RollDice(1);
                             }else if(userInputModel.getTurn()==BLUE_TURN){
                                 moveBluePiece(Integer.parseInt(inputValues[0]),Integer.parseInt(inputValues[1]));
                                 userInputModel.setTurn(RED_TURN);
                                 RollDice(0);
+=======
+                                diceBlue.RollDice(0);
+                                userInputModel.setTurn(BLUE_TURN);
+                            }else if(userInputModel.getTurn()==BLUE_TURN){
+                                moveBluePiece(Integer.parseInt(inputValues[0]),Integer.parseInt(inputValues[1]));
+                                diceRed.RollDice(1);
+                                userInputModel.setTurn(RED_TURN);
+>>>>>>> ba3a4beb9738c6a25cc7a5fd1b550dd1b45d37cb
 
                             }
                         }catch(java.lang.NumberFormatException e){

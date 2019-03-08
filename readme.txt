@@ -6,5 +6,7 @@ Written by: Brian Leahy 17372896,
  */
 
 
-At the moment, the only necessary commands are listed in the command panel at the bottom of the screen.
-On startup, program will automatically move 1 red and 1 blue piece from start to finish, simultaneously
+All necessary commands are listed in the command panel at the bottom of the screen.
+On startup, program will automatically create an announcement panel, which is replaced with the gameboard after hitting start.
+Game asks for names on start, which can also be done by entering newgame
+Dice rolls automatically on turn, not currently necessary to move according to dice roll

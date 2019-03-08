@@ -55,9 +55,9 @@ public class DefaultUserInputModel implements UserInputModel{
         turn = newTurn;
         propertyChangeSupport.firePropertyChange("turn", oldTurn, infoPanelOutput);
         if(turn==0){
-            setInfoPanelOutput(redPlayerName + "'s Turn");
+            setInfoPanelOutput(redPlayerName + "'s Turn\n");
         }else if(turn==1){
-            setInfoPanelOutput(bluePlayerName + "'s Turn");
+            setInfoPanelOutput(bluePlayerName + "'s Turn\n");
         }
     }
 

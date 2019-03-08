@@ -5,7 +5,12 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.JTextField;
-
+/*
+Team: Jives
+Written by: Brian Leahy 17372896,
+            Oscar Byrne Carty 17430786,
+            Gearoid Lynch 17459176
+ */
 public class Players {
     private String playerName;
     private int playerColour;
