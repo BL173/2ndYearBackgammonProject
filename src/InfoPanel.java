@@ -34,9 +34,15 @@ public class InfoPanel extends JPanel{
         this.userInputModel.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
-                if("infoPanelOutput".equals(evt.getPropertyName()) && !userInputModel.getInfoPanelOutput().equals("")){
+                /*if("turn".equals(evt.getPropertyName())){
+                    possibleTurns.setText("");
+                }*/
+                if("infoPanelOutput".equals(evt.getPropertyName()) && userInputModel.getInfoPanelOutput().startsWith("PM(")&&!userInputModel.getInfoPanelOutput().equals("")){
+                    possibleTurns.setText(userInputModel.getInfoPanelOutput().substring(2) + "\n");
+                }else if("infoPanelOutput".equals(evt.getPropertyName()) &&!userInputModel.getInfoPanelOutput().equals("")){
                     previousInputs.append(userInputModel.getInfoPanelOutput() + "\n");
                 }
+
             }
         });
 
