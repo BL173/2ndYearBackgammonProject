@@ -29,6 +29,7 @@ public class GameBoardPanel extends JPanel {
     private final int RED_TURN=0, BLUE_TURN=1;
     private move possibleMoves[] = new move[50];
     private int numberOfPossibleMoves;
+    private char moveIndex;
     private Dice gameDice;
 
 
@@ -423,27 +424,36 @@ public class GameBoardPanel extends JPanel {
     public void generatePossibleRedMoves(){
         numberOfPossibleMoves=0;
         String output="PM";
+        moveIndex='A';
         if(numberOfRedPiecesOnPoint[0]!=0){
             if(numberOfBluePiecesOnPoint[gameDice.getDiceOne()]==0){
                 possibleMoves[numberOfPossibleMoves]=new move(0,gameDice.getDiceOne());
                 //userInputModel.setInfoPanelOutput("PM(BAR, "+(25-possibleMoves[numberOfPossibleMoves].to)+")");
-                output+="(BAR, "+(25-possibleMoves[numberOfPossibleMoves].to)+")\n";
+                output+=moveIndex+" (BAR, "+(25-possibleMoves[numberOfPossibleMoves].to)+")\n";
+                possibleMoves[numberOfPossibleMoves].index=Character.toString(moveIndex);
+                moveIndex++;
                 numberOfPossibleMoves++;
             }else if (numberOfBluePiecesOnPoint[gameDice.getDiceOne()]==1){
                 possibleMoves[numberOfPossibleMoves]=new move(0,gameDice.getDiceOne());
                 //userInputModel.setInfoPanelOutput("PM(BAR, "+(25-possibleMoves[numberOfPossibleMoves].to)+"*)");
-                output+="(BAR, "+(25-possibleMoves[numberOfPossibleMoves].to)+"*)\n";
+                output+=moveIndex+" (BAR, "+(25-possibleMoves[numberOfPossibleMoves].to)+"*)\n";
+                possibleMoves[numberOfPossibleMoves].index=Character.toString(moveIndex);
+                moveIndex++;
                 numberOfPossibleMoves++;
             }
             if(numberOfBluePiecesOnPoint[gameDice.getDiceTwo()]==0){
                 possibleMoves[numberOfPossibleMoves]=new move(0,gameDice.getDiceTwo());
                 //userInputModel.setInfoPanelOutput("PM(BAR, "+(25-possibleMoves[numberOfPossibleMoves].to)+")");
-                output+="(BAR, "+(25-possibleMoves[numberOfPossibleMoves].to)+")\n";
+                output+=moveIndex+" (BAR, "+(25-possibleMoves[numberOfPossibleMoves].to)+")\n";
+                possibleMoves[numberOfPossibleMoves].index=Character.toString(moveIndex);
+                moveIndex++;
                 numberOfPossibleMoves++;
             }else if (numberOfBluePiecesOnPoint[gameDice.getDiceTwo()]==1){
                 possibleMoves[numberOfPossibleMoves]=new move(0,gameDice.getDiceTwo());
                 //userInputModel.setInfoPanelOutput("PM(BAR, "+(25-possibleMoves[numberOfPossibleMoves].to)+"*)");
-                output+="(BAR, "+(25-possibleMoves[numberOfPossibleMoves].to)+"*)\n";
+                output+=moveIndex+" (BAR, "+(25-possibleMoves[numberOfPossibleMoves].to)+"*)\n";
+                possibleMoves[numberOfPossibleMoves].index=Character.toString(moveIndex);
+                moveIndex++;
                 numberOfPossibleMoves++;
             }
         }else{
