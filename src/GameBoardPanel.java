@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.geom.Line2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import javax.swing.*;
 import exceptions.*;
@@ -278,9 +279,14 @@ public class GameBoardPanel extends JPanel {
                     if(userInputModel.getUserInput().equals("newgame")){
                         setNewGame(true);
                         repaint();
-                    }else {
+                    }
+                    else if(userInputModel.getUserInput().equals("cheat")) {
+                        userInputModel.setInfoPanelOutput("Cheat has been activated");
+                        cheat();
+                    }else{
                         String inputValues[] =userInputModel.getUserInput().split("\\s+");
                         try{
+
                             if (inputValues.length !=2){
                                 throw new InvalidInputException();
                             }
@@ -314,7 +320,6 @@ public class GameBoardPanel extends JPanel {
             }
         });
     }
-
 
 
     public void moveRedPiece(int from, int to){
@@ -503,4 +508,17 @@ public class GameBoardPanel extends JPanel {
         }
     }
 
+
+    public void cheat() {
+        for(int i = 0; i < 25; i++) {
+            numberOfBluePiecesOnPoint[i] = 0;
+            numberOfRedPiecesOnPoint[i] = 0;
+        }
+        for(int i = 0; i < 2; i++) {
+            redPlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[2][0], pointLocationOrderedCounterClockwise[2][1]+numberOfRedPiecesOnPoint[2] * PIECE_DIAMETER);
+            numberOfRedPiecesOnPoint[2]++;
+            redPlayerGamePieces[i].setPipLocation(2);
+        }
+        repaint();
+    }
 }

@@ -50,6 +50,7 @@ public class Dice {
         userInputModel.setInfoPanelOutput("Dice One: " + diceOne);
         userInputModel.setInfoPanelOutput("Dice Two: " + diceTwo);
     }
+
     public void startDice() {
         firstTurn=true;
         Random rand = new Random();
@@ -75,4 +76,5 @@ public class Dice {
         }
         firstTurn=false;
     }
+
 }
