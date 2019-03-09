@@ -31,6 +31,7 @@ public class GameBoardPanel extends JPanel {
     private int numberOfPossibleMoves;
     private char[] moveIndex= new char[2];
     private Dice gameDice;
+    private int selectedMove;
 
 
     private class move{
@@ -272,8 +273,7 @@ public class GameBoardPanel extends JPanel {
     public GameBoardPanel(DefaultUserInputModel userInputModel){
         this.userInputModel = userInputModel;
         gameDice = new Dice(userInputModel);
-        //diceRed = new Dice(userInputModel, 0, 0, 0);
-        //diceBlue = new Dice(userInputModel, 0, 0, 1);
+
         this.userInputModel.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
@@ -285,7 +285,15 @@ public class GameBoardPanel extends JPanel {
                     else if(userInputModel.getUserInput().equals("cheat")) {
                         userInputModel.setInfoPanelOutput("Cheat has been activated");
                         cheat();
-                    }else{
+                    }else if(checkPossibleMoveIndex(userInputModel.getUserInput().toUpperCase())){
+                        if(userInputModel.getTurn()==RED_TURN){
+                            moveRedPiece(25-possibleMoves[selectedMove].from,25-possibleMoves[selectedMove].to);
+                            userInputModel.setTurn(BLUE_TURN);
+                        }else if(userInputModel.getTurn()==BLUE_TURN){
+                            moveBluePiece(possibleMoves[selectedMove].from,possibleMoves[selectedMove].to);
+                            userInputModel.setTurn(RED_TURN);
+                        }
+                    }else {
                         String inputValues[] =userInputModel.getUserInput().split("\\s+");
                         try{
 
@@ -299,7 +307,6 @@ public class GameBoardPanel extends JPanel {
                                 }else if(userInputModel.getTurn()==BLUE_TURN){
                                     moveBluePiece(Integer.parseInt(inputValues[0]),Integer.parseInt(inputValues[1]));
                                     userInputModel.setTurn(RED_TURN);
-                                    //generatePossibleRedMoves();
                                 }
                             }catch(java.lang.NumberFormatException e){
                                 throw new InvalidInputException();
@@ -568,6 +575,16 @@ public class GameBoardPanel extends JPanel {
         mIString=Character.toString(moveIndex[1]);
         incrementMoveIndex();
         return mIString;
+    }
+
+    public Boolean checkPossibleMoveIndex(String input){
+        for (int i=0;i<numberOfPossibleMoves;i++){
+            if (input.equals(possibleMoves[i].index)){
+                selectedMove=i;
+                return true;
+            }
+        }
+        return false;
     }
 
     public void cheat() {
