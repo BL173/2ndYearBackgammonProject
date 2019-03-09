@@ -501,6 +501,7 @@ public class GameBoardPanel extends JPanel {
                 possibleMoves[numberOfPossibleMoves]=new move(25,25-gameDice.getDiceOne());
                 //userInputModel.setInfoPanelOutput("PM(BAR, "+(25-possibleMoves[numberOfPossibleMoves].to)+"*)");
                 output+="(BAR, "+(possibleMoves[numberOfPossibleMoves].to)+"*)\n";
+                possibleMoves[numberOfPossibleMoves].hit=true;
                 numberOfPossibleMoves++;
             }
             if(numberOfRedPiecesOnPoint[25-gameDice.getDiceTwo()]==0){
@@ -512,6 +513,7 @@ public class GameBoardPanel extends JPanel {
                 possibleMoves[numberOfPossibleMoves]=new move(25,gameDice.getDiceTwo());
                 //userInputModel.setInfoPanelOutput("PM(BAR, "+(25-possibleMoves[numberOfPossibleMoves].to)+"*)");
                 output+="(BAR, "+(possibleMoves[numberOfPossibleMoves].to)+"*)\n";
+                possibleMoves[numberOfPossibleMoves].hit=true;
                 numberOfPossibleMoves++;
             }
             //userInputModel.setInfoPanelOutput(output);
@@ -527,6 +529,7 @@ public class GameBoardPanel extends JPanel {
                         possibleMoves[numberOfPossibleMoves]=new move(i,i-gameDice.getDiceOne());
                         //userInputModel.setInfoPanelOutput("PM(BAR, "+(25-possibleMoves[numberOfPossibleMoves].to)+"*)");
                         output+="("+i+", "+possibleMoves[numberOfPossibleMoves].to+"*)\n";
+                        possibleMoves[numberOfPossibleMoves].hit=true;
                         numberOfPossibleMoves++;
                     }
                     if(i-gameDice.getDiceTwo()>=0&&numberOfRedPiecesOnPoint[i-gameDice.getDiceTwo()]==0){
@@ -538,6 +541,7 @@ public class GameBoardPanel extends JPanel {
                         possibleMoves[numberOfPossibleMoves]=new move(i,i-gameDice.getDiceTwo());
                         //userInputModel.setInfoPanelOutput("PM(BAR, "+(25-possibleMoves[numberOfPossibleMoves].to)+"*)");
                         output+="("+i+", "+possibleMoves[numberOfPossibleMoves].to+"*)\n";
+                        possibleMoves[numberOfPossibleMoves].hit=true;
                         numberOfPossibleMoves++;
                     }
                 }
