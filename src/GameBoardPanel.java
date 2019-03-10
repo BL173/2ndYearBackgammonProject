@@ -32,6 +32,7 @@ public class GameBoardPanel extends JPanel {
     private char[] moveIndex= new char[2];
     private Dice gameDice;
     private int selectedMove;
+    private int movesLeftThisTurn;
 
 
     private class move{
@@ -323,11 +324,11 @@ public class GameBoardPanel extends JPanel {
                     gameDice.startDice();
                     repaint();
                 }else if("turn".equals(evt.getPropertyName()) && userInputModel.getTurn()==RED_TURN){
+                    setMovesLeftThisTurn();
                     generatePossibleRedMoves();
-                    //repaint();
                 }else if("turn".equals(evt.getPropertyName()) && userInputModel.getTurn()==BLUE_TURN){
+                    setMovesLeftThisTurn();
                     generatePossibleBlueMoves();
-                    //repaint();
                 }
             }
         });
@@ -490,7 +491,7 @@ public class GameBoardPanel extends JPanel {
                 }
             }
         }
-        userInputModel.setInfoPanelOutput(output);
+        userInputModel.setInfoPanelOutput(output+"\nMoves Left: "+ movesLeftThisTurn +"\n");
     }
 
     public void generatePossibleBlueMoves(){
@@ -553,7 +554,7 @@ public class GameBoardPanel extends JPanel {
                 }
             }
         }
-        userInputModel.setInfoPanelOutput(output);
+        userInputModel.setInfoPanelOutput(output+"\nMoves Left: "+ movesLeftThisTurn +"\n");
     }
 
     public void incrementMoveIndex(){
@@ -597,6 +598,15 @@ public class GameBoardPanel extends JPanel {
             }
         }
         return false;
+    }
+
+    public void setMovesLeftThisTurn() {
+        if(gameDice.getDiceOne()==gameDice.getDiceTwo()){
+            movesLeftThisTurn=4;
+        }else{
+            movesLeftThisTurn=2;
+        }
+        //userInputModel.setInfoPanelOutput("Moves Left: "+ movesLeftThisTurn +"\n");
     }
 
     public void cheat() {
