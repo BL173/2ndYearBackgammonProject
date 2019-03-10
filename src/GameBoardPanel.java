@@ -40,13 +40,14 @@ public class GameBoardPanel extends JPanel {
         public int to;
         //lol get it? like the second to but just two bc they sound the same? lol I'm so funny, I should have my own tv show
         public int two;
+        public int diceNumber;
         public Boolean hit=false;
         public String index;
-        public move(int f, int t, String i){
+        public move(int f, int t, String i, int d){
             from = f;
             to=t;
             index=i;
-
+            diceNumber=d;
         }
     }
 
@@ -290,6 +291,7 @@ public class GameBoardPanel extends JPanel {
                         userInputModel.setInfoPanelOutput("Cheat has been activated");
                         cheat();
                     }else if(checkPossibleMoveIndex(userInputModel.getUserInput().toUpperCase())){
+                        gameDice.invalidateDice(possibleMoves[selectedMove].diceNumber);
                         if(userInputModel.getTurn()==RED_TURN){
                             moveRedPiece(possibleMoves[selectedMove].from,possibleMoves[selectedMove].to);
                             decrementMovesLeftThisTurn();
@@ -307,6 +309,7 @@ public class GameBoardPanel extends JPanel {
                                 throw new InvalidInputException();
                             }
                             try{
+                                gameDice.invalidateDice(possibleMoves[selectedMove].diceNumber);
                                 if(userInputModel.getTurn()==RED_TURN){
                                     moveRedPiece(Integer.parseInt(inputValues[0]),Integer.parseInt(inputValues[1]));
                                     decrementMovesLeftThisTurn();
@@ -443,52 +446,52 @@ public class GameBoardPanel extends JPanel {
         moveIndex[0]=' ';
         moveIndex[1]='A';
         if(numberOfRedPiecesOnPoint[0]!=0){
-            if(numberOfBluePiecesOnPoint[gameDice.getDiceOne()]==0){
-                possibleMoves[numberOfPossibleMoves]=new move(25,25-gameDice.getDiceOne(),moveIndexToString());
+            if(numberOfBluePiecesOnPoint[gameDice.getDiceOne()]==0&&gameDice.getDiceOneValid()){
+                possibleMoves[numberOfPossibleMoves]=new move(25,25-gameDice.getDiceOne(),moveIndexToString(),1);
                 output+=possibleMoves[numberOfPossibleMoves].index+" (BAR, "+possibleMoves[numberOfPossibleMoves].to+")\n";
                 numberOfPossibleMoves++;
-            }else if (numberOfBluePiecesOnPoint[gameDice.getDiceOne()]==1){
-                possibleMoves[numberOfPossibleMoves]=new move(25,25-gameDice.getDiceOne(),moveIndexToString());
+            }else if (numberOfBluePiecesOnPoint[gameDice.getDiceOne()]==1&&gameDice.getDiceOneValid()){
+                possibleMoves[numberOfPossibleMoves]=new move(25,25-gameDice.getDiceOne(),moveIndexToString(),1);
                 output+=possibleMoves[numberOfPossibleMoves].index+" (BAR, "+possibleMoves[numberOfPossibleMoves].to+"*)\n";
                 numberOfPossibleMoves++;
             }
-            if(numberOfBluePiecesOnPoint[gameDice.getDiceTwo()]==0){
-                possibleMoves[numberOfPossibleMoves]=new move(25,25-gameDice.getDiceTwo(),moveIndexToString());
+            if(numberOfBluePiecesOnPoint[gameDice.getDiceTwo()]==0&&gameDice.getDiceTwoValid()){
+                possibleMoves[numberOfPossibleMoves]=new move(25,25-gameDice.getDiceTwo(),moveIndexToString(),2);
                 output+=possibleMoves[numberOfPossibleMoves].index+" (BAR, "+possibleMoves[numberOfPossibleMoves].to+")\n";
                 numberOfPossibleMoves++;
-            }else if (numberOfBluePiecesOnPoint[gameDice.getDiceTwo()]==1){
-                possibleMoves[numberOfPossibleMoves]=new move(25,25-gameDice.getDiceTwo(),moveIndexToString());
+            }else if (numberOfBluePiecesOnPoint[gameDice.getDiceTwo()]==1&&gameDice.getDiceTwoValid()){
+                possibleMoves[numberOfPossibleMoves]=new move(25,25-gameDice.getDiceTwo(),moveIndexToString(),2);
                 output+=possibleMoves[numberOfPossibleMoves].index+" (BAR, "+possibleMoves[numberOfPossibleMoves].to+"*)\n";
                 numberOfPossibleMoves++;
             }
         }else{
             for(int i=1;i<25;i++){
                 if (numberOfRedPiecesOnPoint[i]>0){
-                    if(i+gameDice.getDiceOne()<25&&numberOfBluePiecesOnPoint[i+gameDice.getDiceOne()]==0){
-                        possibleMoves[numberOfPossibleMoves]=new move(25-i,25-(i+gameDice.getDiceOne()),moveIndexToString());
+                    if(i+gameDice.getDiceOne()<25&&numberOfBluePiecesOnPoint[i+gameDice.getDiceOne()]==0&&gameDice.getDiceOneValid()){
+                        possibleMoves[numberOfPossibleMoves]=new move(25-i,25-(i+gameDice.getDiceOne()),moveIndexToString(),1);
                         output+=possibleMoves[numberOfPossibleMoves].index+" ("+(25-i)+", "+possibleMoves[numberOfPossibleMoves].to+")\n";
                         numberOfPossibleMoves++;
-                    }else if (i+gameDice.getDiceOne()<25&&numberOfBluePiecesOnPoint[i+gameDice.getDiceOne()]==1){
-                        possibleMoves[numberOfPossibleMoves]=new move(25-i,25-(i+gameDice.getDiceOne()),moveIndexToString());
+                    }else if (i+gameDice.getDiceOne()<25&&numberOfBluePiecesOnPoint[i+gameDice.getDiceOne()]==1&&gameDice.getDiceOneValid()){
+                        possibleMoves[numberOfPossibleMoves]=new move(25-i,25-(i+gameDice.getDiceOne()),moveIndexToString(),1);
                         output+=possibleMoves[numberOfPossibleMoves].index+" ("+(25-i)+", "+possibleMoves[numberOfPossibleMoves].to+"*)\n";
                         possibleMoves[numberOfPossibleMoves].hit=true;
                         numberOfPossibleMoves++;
-                    }else if(i+gameDice.getDiceOne()==25){
-                        possibleMoves[numberOfPossibleMoves]=new move(25-i,25-(i+gameDice.getDiceOne()),moveIndexToString());
+                    }else if(i+gameDice.getDiceOne()==25&&gameDice.getDiceOneValid()){
+                        possibleMoves[numberOfPossibleMoves]=new move(25-i,25-(i+gameDice.getDiceOne()),moveIndexToString(),1);
                         output+=possibleMoves[numberOfPossibleMoves].index+" ("+(25-i)+", OFF)\n";
                         numberOfPossibleMoves++;
                     }
-                    if(i+gameDice.getDiceTwo()<25&&numberOfBluePiecesOnPoint[i+gameDice.getDiceTwo()]==0){
-                        possibleMoves[numberOfPossibleMoves]=new move(25-i,25-(i+gameDice.getDiceTwo()),moveIndexToString());
+                    if(i+gameDice.getDiceTwo()<25&&numberOfBluePiecesOnPoint[i+gameDice.getDiceTwo()]==0&&gameDice.getDiceTwoValid()){
+                        possibleMoves[numberOfPossibleMoves]=new move(25-i,25-(i+gameDice.getDiceTwo()),moveIndexToString(),2);
                         output+=possibleMoves[numberOfPossibleMoves].index+" ("+(25-i)+", "+possibleMoves[numberOfPossibleMoves].to+")\n";
                         numberOfPossibleMoves++;
-                    }else if (i+gameDice.getDiceTwo()<25&&numberOfBluePiecesOnPoint[i+gameDice.getDiceTwo()]==1){
-                        possibleMoves[numberOfPossibleMoves]=new move(25-i,25-(i+gameDice.getDiceTwo()),moveIndexToString());
+                    }else if (i+gameDice.getDiceTwo()<25&&numberOfBluePiecesOnPoint[i+gameDice.getDiceTwo()]==1&&gameDice.getDiceTwoValid()){
+                        possibleMoves[numberOfPossibleMoves]=new move(25-i,25-(i+gameDice.getDiceTwo()),moveIndexToString(),2);
                         output+=possibleMoves[numberOfPossibleMoves].index+" ("+(25-i)+", "+possibleMoves[numberOfPossibleMoves].to+"*)\n";
                         possibleMoves[numberOfPossibleMoves].hit=true;
                         numberOfPossibleMoves++;
-                    }else if(i+gameDice.getDiceTwo()==25){
-                        possibleMoves[numberOfPossibleMoves]=new move(25-i,25-(i+gameDice.getDiceTwo()),moveIndexToString());
+                    }else if(i+gameDice.getDiceTwo()==25&&gameDice.getDiceTwoValid()){
+                        possibleMoves[numberOfPossibleMoves]=new move(25-i,25-(i+gameDice.getDiceTwo()),moveIndexToString(),2);
                         output+=possibleMoves[numberOfPossibleMoves].index+" ("+(25-i)+", OFF)\n";
                         numberOfPossibleMoves++;
                     }
@@ -504,22 +507,22 @@ public class GameBoardPanel extends JPanel {
         moveIndex[0]=' ';
         moveIndex[1]='A';
         if(numberOfBluePiecesOnPoint[25]!=0){
-            if(numberOfRedPiecesOnPoint[25-gameDice.getDiceOne()]==0){
-                possibleMoves[numberOfPossibleMoves]=new move(25,25-gameDice.getDiceOne(),moveIndexToString());
+            if(numberOfRedPiecesOnPoint[25-gameDice.getDiceOne()]==0&&gameDice.getDiceOneValid()){
+                possibleMoves[numberOfPossibleMoves]=new move(25,25-gameDice.getDiceOne(),moveIndexToString(),1);
                 output+=possibleMoves[numberOfPossibleMoves].index+" (BAR, "+(possibleMoves[numberOfPossibleMoves].to)+")\n";
                 numberOfPossibleMoves++;
-            }else if (numberOfRedPiecesOnPoint[25-gameDice.getDiceOne()]==1){
-                possibleMoves[numberOfPossibleMoves]=new move(25,25-gameDice.getDiceOne(),moveIndexToString());
+            }else if (numberOfRedPiecesOnPoint[25-gameDice.getDiceOne()]==1&&gameDice.getDiceOneValid()){
+                possibleMoves[numberOfPossibleMoves]=new move(25,25-gameDice.getDiceOne(),moveIndexToString(),1);
                 output+=possibleMoves[numberOfPossibleMoves].index+" (BAR, "+(possibleMoves[numberOfPossibleMoves].to)+"*)\n";
                 possibleMoves[numberOfPossibleMoves].hit=true;
                 numberOfPossibleMoves++;
             }
-            if(numberOfRedPiecesOnPoint[25-gameDice.getDiceTwo()]==0){
-                possibleMoves[numberOfPossibleMoves]=new move(25,25-gameDice.getDiceTwo(),moveIndexToString());
+            if(numberOfRedPiecesOnPoint[25-gameDice.getDiceTwo()]==0&&gameDice.getDiceTwoValid()){
+                possibleMoves[numberOfPossibleMoves]=new move(25,25-gameDice.getDiceTwo(),moveIndexToString(),2);
                 output+=possibleMoves[numberOfPossibleMoves].index+" (BAR, "+(possibleMoves[numberOfPossibleMoves].to)+")\n";
                 numberOfPossibleMoves++;
-            }else if (numberOfRedPiecesOnPoint[25-gameDice.getDiceTwo()]==1){
-                possibleMoves[numberOfPossibleMoves]=new move(25,gameDice.getDiceTwo(),moveIndexToString());
+            }else if (numberOfRedPiecesOnPoint[25-gameDice.getDiceTwo()]==1&&gameDice.getDiceTwoValid()){
+                possibleMoves[numberOfPossibleMoves]=new move(25,gameDice.getDiceTwo(),moveIndexToString(),2);
                 output+=possibleMoves[numberOfPossibleMoves].index+" (BAR, "+(possibleMoves[numberOfPossibleMoves].to)+"*)\n";
                 possibleMoves[numberOfPossibleMoves].hit=true;
                 numberOfPossibleMoves++;
@@ -527,31 +530,31 @@ public class GameBoardPanel extends JPanel {
         }else{
             for(int i=25;i>0;i--){
                 if (numberOfBluePiecesOnPoint[i]>0){
-                    if(i-gameDice.getDiceOne()>0&&numberOfRedPiecesOnPoint[i-gameDice.getDiceOne()]==0){
-                        possibleMoves[numberOfPossibleMoves]=new move(i,i-gameDice.getDiceOne(),moveIndexToString());
+                    if(i-gameDice.getDiceOne()>0&&numberOfRedPiecesOnPoint[i-gameDice.getDiceOne()]==0&&gameDice.getDiceOneValid()){
+                        possibleMoves[numberOfPossibleMoves]=new move(i,i-gameDice.getDiceOne(),moveIndexToString(),1);
                         output+=possibleMoves[numberOfPossibleMoves].index+" ("+i+", "+possibleMoves[numberOfPossibleMoves].to+")\n";
                         numberOfPossibleMoves++;
-                    }else if (i-gameDice.getDiceOne()>0&&numberOfRedPiecesOnPoint[i-gameDice.getDiceOne()]==1){
-                        possibleMoves[numberOfPossibleMoves]=new move(i,i-gameDice.getDiceOne(),moveIndexToString());
+                    }else if (i-gameDice.getDiceOne()>0&&numberOfRedPiecesOnPoint[i-gameDice.getDiceOne()]==1&&gameDice.getDiceOneValid()){
+                        possibleMoves[numberOfPossibleMoves]=new move(i,i-gameDice.getDiceOne(),moveIndexToString(),1);
                         output+=possibleMoves[numberOfPossibleMoves].index+" ("+i+", "+possibleMoves[numberOfPossibleMoves].to+"*)\n";
                         possibleMoves[numberOfPossibleMoves].hit=true;
                         numberOfPossibleMoves++;
-                    }else if(i-gameDice.getDiceOne()==0){
-                        possibleMoves[numberOfPossibleMoves]=new move(i,i-gameDice.getDiceOne(),moveIndexToString());
+                    }else if(i-gameDice.getDiceOne()==0&&gameDice.getDiceOneValid()){
+                        possibleMoves[numberOfPossibleMoves]=new move(i,i-gameDice.getDiceOne(),moveIndexToString(),1);
                         output+=possibleMoves[numberOfPossibleMoves].index+" ("+i+", "+"OFF)\n";
                         numberOfPossibleMoves++;
                     }
-                    if(i-gameDice.getDiceTwo()>0&&numberOfRedPiecesOnPoint[i-gameDice.getDiceTwo()]==0){
-                        possibleMoves[numberOfPossibleMoves]=new move(i,i-gameDice.getDiceTwo(),moveIndexToString());
+                    if(i-gameDice.getDiceTwo()>0&&numberOfRedPiecesOnPoint[i-gameDice.getDiceTwo()]==0&&gameDice.getDiceTwoValid()){
+                        possibleMoves[numberOfPossibleMoves]=new move(i,i-gameDice.getDiceTwo(),moveIndexToString(),2);
                         output+=possibleMoves[numberOfPossibleMoves].index+" ("+i+", "+possibleMoves[numberOfPossibleMoves].to+")\n";
                         numberOfPossibleMoves++;
-                    }else if (i-gameDice.getDiceTwo()>0&&numberOfRedPiecesOnPoint[i-gameDice.getDiceTwo()]==1){
-                        possibleMoves[numberOfPossibleMoves]=new move(i,i-gameDice.getDiceTwo(),moveIndexToString());
+                    }else if (i-gameDice.getDiceTwo()>0&&numberOfRedPiecesOnPoint[i-gameDice.getDiceTwo()]==1&&gameDice.getDiceTwoValid()){
+                        possibleMoves[numberOfPossibleMoves]=new move(i,i-gameDice.getDiceTwo(),moveIndexToString(),2);
                         output+=possibleMoves[numberOfPossibleMoves].index+" ("+i+", "+possibleMoves[numberOfPossibleMoves].to+"*)\n";
                         possibleMoves[numberOfPossibleMoves].hit=true;
                         numberOfPossibleMoves++;
-                    }else if(i-gameDice.getDiceTwo()==0){
-                        possibleMoves[numberOfPossibleMoves]=new move(i,i-gameDice.getDiceTwo(),moveIndexToString());
+                    }else if(i-gameDice.getDiceTwo()==0&&gameDice.getDiceTwoValid()){
+                        possibleMoves[numberOfPossibleMoves]=new move(i,i-gameDice.getDiceTwo(),moveIndexToString(),2);
                         output+=possibleMoves[numberOfPossibleMoves].index+" ("+i+", "+"OFF)\n";
                         numberOfPossibleMoves++;
                     }
@@ -598,6 +601,7 @@ public class GameBoardPanel extends JPanel {
     public Boolean checkPossibleMove(String input[]){
         for(int i=0;i<numberOfPossibleMoves;i++){
             if(Integer.parseInt(input[0])==possibleMoves[i].from&&Integer.parseInt(input[1])==possibleMoves[i].to){
+                selectedMove=i;
                 return true;
             }
         }
@@ -605,12 +609,11 @@ public class GameBoardPanel extends JPanel {
     }
 
     public void setMovesLeftThisTurn() {
-        if(gameDice.getDiceOne()==gameDice.getDiceTwo()){
+        if(gameDice.rollDouble()){
             movesLeftThisTurn=4;
         }else{
             movesLeftThisTurn=2;
         }
-        //userInputModel.setInfoPanelOutput("Moves Left: "+ movesLeftThisTurn +"\n");
     }
 
     public void decrementMovesLeftThisTurn(){

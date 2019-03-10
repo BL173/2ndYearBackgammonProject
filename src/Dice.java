@@ -13,7 +13,9 @@ public class Dice {
     private DefaultUserInputModel userInputModel;
     private Boolean firstTurn=true;
     private int diceOne;
+    private Boolean diceOneValid=true;
     private int diceTwo;
+    private Boolean diceTwoValid=true;
 
     public int getDiceOne() {
         return diceOne;
@@ -21,6 +23,31 @@ public class Dice {
 
     public int getDiceTwo() {
         return diceTwo;
+    }
+
+    public Boolean getDiceOneValid() {
+        return diceOneValid;
+    }
+
+    public Boolean getDiceTwoValid() {
+        return diceTwoValid;
+    }
+
+    public void invalidateDice(int d) {
+        if(!rollDouble()){
+            if(d==1){
+                diceOneValid=false;
+            }else if(d==2){
+                diceTwoValid=false;
+            }
+        }
+    }
+
+    public Boolean rollDouble(){
+        if(diceOne==diceTwo){
+            return true;
+        }
+        return false;
     }
 
     public Dice(DefaultUserInputModel userInputModel) {
@@ -49,6 +76,8 @@ public class Dice {
         }
         userInputModel.setInfoPanelOutput("Dice One: " + diceOne);
         userInputModel.setInfoPanelOutput("Dice Two: " + diceTwo);
+        diceOneValid=true;
+        diceTwoValid=true;
     }
 
     public void startDice() {
@@ -75,6 +104,8 @@ public class Dice {
             startDice();
         }
         firstTurn=false;
+        diceOneValid=true;
+        diceTwoValid=true;
     }
 
 }
