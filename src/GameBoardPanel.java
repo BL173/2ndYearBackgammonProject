@@ -292,10 +292,12 @@ public class GameBoardPanel extends JPanel {
                     }else if(checkPossibleMoveIndex(userInputModel.getUserInput().toUpperCase())){
                         if(userInputModel.getTurn()==RED_TURN){
                             moveRedPiece(possibleMoves[selectedMove].from,possibleMoves[selectedMove].to);
-                            userInputModel.setTurn(BLUE_TURN);
+                            decrementMovesLeftThisTurn();
+                            //userInputModel.setTurn(BLUE_TURN);
                         }else if(userInputModel.getTurn()==BLUE_TURN){
                             moveBluePiece(possibleMoves[selectedMove].from,possibleMoves[selectedMove].to);
-                            userInputModel.setTurn(RED_TURN);
+                            decrementMovesLeftThisTurn();
+                            //userInputModel.setTurn(RED_TURN);
                         }
                     }else {
                         String inputValues[] =userInputModel.getUserInput().split("\\s+");
@@ -307,10 +309,12 @@ public class GameBoardPanel extends JPanel {
                             try{
                                 if(userInputModel.getTurn()==RED_TURN){
                                     moveRedPiece(Integer.parseInt(inputValues[0]),Integer.parseInt(inputValues[1]));
-                                    userInputModel.setTurn(BLUE_TURN);
+                                    decrementMovesLeftThisTurn();
+                                    //userInputModel.setTurn(BLUE_TURN);
                                 }else if(userInputModel.getTurn()==BLUE_TURN){
                                     moveBluePiece(Integer.parseInt(inputValues[0]),Integer.parseInt(inputValues[1]));
-                                    userInputModel.setTurn(RED_TURN);
+                                    decrementMovesLeftThisTurn();
+                                    //userInputModel.setTurn(RED_TURN);
                                 }
                             }catch(java.lang.NumberFormatException e){
                                 throw new InvalidInputException();
@@ -607,6 +611,20 @@ public class GameBoardPanel extends JPanel {
             movesLeftThisTurn=2;
         }
         //userInputModel.setInfoPanelOutput("Moves Left: "+ movesLeftThisTurn +"\n");
+    }
+
+    public void decrementMovesLeftThisTurn(){
+        if(movesLeftThisTurn>1&&userInputModel.getTurn()==RED_TURN){
+            movesLeftThisTurn--;
+            generatePossibleRedMoves();
+        }else if (movesLeftThisTurn>1&&userInputModel.getTurn()==BLUE_TURN){
+            movesLeftThisTurn--;
+            generatePossibleBlueMoves();
+        }else if(userInputModel.getTurn()==RED_TURN){
+            userInputModel.setTurn(BLUE_TURN);
+        }else if(userInputModel.getTurn()==BLUE_TURN){
+            userInputModel.setTurn(RED_TURN);
+        }
     }
 
     public void cheat() {
