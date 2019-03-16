@@ -6,6 +6,8 @@ Written by: Brian Leahy 17372896,
  */
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Line2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -13,8 +15,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import javax.swing.*;
 import exceptions.*;
-
-
+import java.util.concurrent.TimeUnit;
 
 public class GameBoardPanel extends JPanel {
 
@@ -33,7 +34,8 @@ public class GameBoardPanel extends JPanel {
     private Dice gameDice;
     private int selectedMove;
     private int movesLeftThisTurn;
-
+    private final static int TWO_SECONDS = 2000;
+    private Timer timer;
 
     private class move{
         public int from;
@@ -313,11 +315,9 @@ public class GameBoardPanel extends JPanel {
                                 if(userInputModel.getTurn()==RED_TURN){
                                     moveRedPiece(Integer.parseInt(inputValues[0]),Integer.parseInt(inputValues[1]));
                                     decrementMovesLeftThisTurn();
-                                    //userInputModel.setTurn(BLUE_TURN);
                                 }else if(userInputModel.getTurn()==BLUE_TURN){
                                     moveBluePiece(Integer.parseInt(inputValues[0]),Integer.parseInt(inputValues[1]));
                                     decrementMovesLeftThisTurn();
-                                    //userInputModel.setTurn(RED_TURN);
                                 }
                             }catch(java.lang.NumberFormatException e){
                                 throw new InvalidInputException();
@@ -340,7 +340,6 @@ public class GameBoardPanel extends JPanel {
             }
         });
     }
-
 
     public void moveRedPiece(int from, int to){
         from=25-from;
@@ -498,7 +497,35 @@ public class GameBoardPanel extends JPanel {
                 }
             }
         }
-        userInputModel.setInfoPanelOutput(output+"\nMoves Left: "+ movesLeftThisTurn +"\n");
+        System.out.println("number of moves "+ numberOfPossibleMoves);
+        if (numberOfPossibleMoves>1){
+            userInputModel.setInfoPanelOutput(output+"\nMoves Left: "+ movesLeftThisTurn +"\n");
+        }else if(numberOfPossibleMoves==1){
+            userInputModel.setInfoPanelOutput(output+"\nOnly 1 possible move, moving automatically.\nPlease do not enter any commands");
+            timer = new Timer(TWO_SECONDS, new ActionListener() {
+                public void actionPerformed(ActionEvent evt) {
+                    timer.setRepeats(false);
+                    moveRedPiece(possibleMoves[selectedMove].from,possibleMoves[selectedMove].to);
+                    decrementMovesLeftThisTurn();
+                }
+            });
+            timer.start();
+        }else if(numberOfPossibleMoves==0) {
+            userInputModel.setInfoPanelOutput(output + "\nNo possible moves, skipping turn.\nPlease do not enter any commands");
+            timer = new Timer(TWO_SECONDS, new ActionListener() {
+                public void actionPerformed(ActionEvent evt) {
+                    timer.setRepeats(false);
+                    userInputModel.setTurn(BLUE_TURN);
+                }
+            });
+            timer.start();
+            //userInputModel.setTurn(BLUE_TURN);
+            /*try{
+                Thread.sleep(2000);
+            }catch(java.lang.InterruptedException e){
+                System.out.println("interrupted exception");
+            }*/
+        }
     }
 
     public void generatePossibleBlueMoves(){
@@ -561,7 +588,28 @@ public class GameBoardPanel extends JPanel {
                 }
             }
         }
-        userInputModel.setInfoPanelOutput(output+"\nMoves Left: "+ movesLeftThisTurn +"\n");
+        if (numberOfPossibleMoves>1){
+            userInputModel.setInfoPanelOutput(output+"\nMoves Left: "+ movesLeftThisTurn +"\n");
+        }else if(numberOfPossibleMoves==1){
+            userInputModel.setInfoPanelOutput(output+"\nOnly 1 possible move,moving automatically.\nPlease do not enter any commands");
+            timer = new Timer(TWO_SECONDS, new ActionListener() {
+                public void actionPerformed(ActionEvent evt) {
+                    timer.setRepeats(false);
+                    moveBluePiece(possibleMoves[0].from,possibleMoves[0].to);
+                    decrementMovesLeftThisTurn();
+                }
+            });
+            timer.start();
+        }else if(numberOfPossibleMoves==0) {
+            userInputModel.setInfoPanelOutput(output + "\nNo possible moves, skipping turn.\nPlease do not enter any commands");
+            timer = new Timer(TWO_SECONDS, new ActionListener() {
+                public void actionPerformed(ActionEvent evt) {
+                    timer.setRepeats(false);
+                    userInputModel.setTurn(RED_TURN);
+                }
+            });
+            timer.start();
+        }
     }
 
     public void incrementMoveIndex(){

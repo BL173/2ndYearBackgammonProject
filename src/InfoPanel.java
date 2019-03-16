@@ -16,7 +16,6 @@ import java.beans.PropertyChangeListener;
 
 public class InfoPanel extends JPanel{
     private static final int INPUT_FIELD_WIDTH = 10;
-
     private JLabel possibleLabel = new JLabel("Possible Turns");
     JTextArea possibleTurns = new JTextArea(10, 25);
     JScrollPane p = new JScrollPane(possibleTurns);
@@ -26,7 +25,6 @@ public class InfoPanel extends JPanel{
     JScrollPane previousTurns = new JScrollPane(previousInputs);
     private DefaultUserInputModel userInputModel;
 
-
     public InfoPanel(DefaultUserInputModel userInputModel) {
         GridLayout infoLayout = new GridLayout(2, 2);
         previousInputs.append("Please enter player one name: \n");
@@ -34,9 +32,6 @@ public class InfoPanel extends JPanel{
         this.userInputModel.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
-                /*if("turn".equals(evt.getPropertyName())){
-                    possibleTurns.setText("");
-                }*/
                 if("infoPanelOutput".equals(evt.getPropertyName()) && userInputModel.getInfoPanelOutput().startsWith("PM")&&!userInputModel.getInfoPanelOutput().equals("")){
                     possibleTurns.setText(userInputModel.getInfoPanelOutput().substring(2) + "\n");
                 }else if("infoPanelOutput".equals(evt.getPropertyName()) &&!userInputModel.getInfoPanelOutput().equals("")){
@@ -45,6 +40,8 @@ public class InfoPanel extends JPanel{
 
             }
         });
+
+
 
         infoLayout.setHgap(-50);
         infoLayout.setVgap(10);
