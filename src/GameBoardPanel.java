@@ -281,8 +281,16 @@ public class GameBoardPanel extends JPanel {
                         repaint();
                     }
                     else if(userInputModel.getUserInput().equals("cheat")) {
-                        userInputModel.setInfoPanelOutput("Cheat has been activated");
-                        cheat();
+                        if(userInputModel.getTurn()==RED_TURN) {
+                            userInputModel.setInfoPanelOutput("Cheat has been activated");
+                            cheat();
+                            userInputModel.setTurn(BLUE_TURN);
+                        }else if(userInputModel.getTurn()==BLUE_TURN) {
+                            userInputModel.setInfoPanelOutput("Cheat has been activated");
+                            cheat();
+                            userInputModel.setTurn(RED_TURN);
+
+                        }
                     }else{
                         String inputValues[] =userInputModel.getUserInput().split("\\s+");
                         try{
