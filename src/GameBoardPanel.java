@@ -746,7 +746,7 @@ public class GameBoardPanel extends JPanel {
         }
         for(int i = 12; i < 15; i++) {
             redPlayerGamePieces[i].setXYCoordinate((pointLocationOrderedCounterClockwise[18][0] + pointLocationOrderedCounterClockwise[19][0]) / 2, pointLocationOrderedCounterClockwise[25][1] - numberOfRedPiecesOnPoint[25] * (PIECE_DIAMETER / 3));
-            numberOfRedPiecesOnPoint[25]++;
+            numberOfRedPiecesOnPoint[0]++;
             redPlayerGamePieces[i].setPipLocation(0);
         }
         repaint();
