@@ -520,7 +520,9 @@ public class GameBoardPanel extends JPanel {
                 public void actionPerformed(ActionEvent evt) {
                     //timer.setRepeats(false);
                     moveRedPiece(possibleMoves[0].from,possibleMoves[0].to);
-                    gameDice.invalidateDice(possibleMoves[0].diceNumber);
+                    if(!gameDice.rollDouble()){
+                        gameDice.invalidateDice(possibleMoves[0].diceNumber);
+                    }
                     decrementMovesLeftThisTurn();
                 }
             });
@@ -607,7 +609,9 @@ public class GameBoardPanel extends JPanel {
                 public void actionPerformed(ActionEvent evt) {
                     //timer.setRepeats(false);
                     moveBluePiece(possibleMoves[0].from,possibleMoves[0].to);
-                    gameDice.invalidateDice(possibleMoves[0].diceNumber);
+                    if(!gameDice.rollDouble()){
+                        gameDice.invalidateDice(possibleMoves[0].diceNumber);
+                    }
                     decrementMovesLeftThisTurn();
                 }
             });
