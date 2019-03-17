@@ -10,7 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Random;
 import javax.swing.*;
 
 
@@ -24,7 +23,6 @@ public class CommandPanel extends JPanel{
     private DefaultUserInputModel userInputModel;
     private boolean bluePlayerInputCheck = false;
     private boolean redPlayerInputCheck = true;
-    //private Dice gameDice;
 
     public String getUserInput() {
         return userInput;
@@ -90,15 +88,14 @@ public class CommandPanel extends JPanel{
 
         commandInputField.addActionListener(inputListener);
         resultArea = new JTextArea(10, 30);
-        //scrollpane is temporary until info panel is finished
         JScrollPane scrollPane = new JScrollPane(resultArea);
         resultArea.setEditable(false);
         resultArea.append("Current Commands:\n\n");
-        resultArea.append("To move: enter pip number to move from followed by pip number to move to\n");
+        resultArea.append("To move: enter move index (A, B, C...) or pip number to move from followed by pip number to move to\n");
         resultArea.append("next -- skip to next player's turn\n");
         resultArea.append("quit -- exit program\n");
         resultArea.append("newgame -- start new game\n");
-        //resultArea.append("roll -- rolls dice to decide who goes first\n");
+        resultArea.append("cheat -- moves all pieces to cheat position\n");
 
         add(commandLabel, BorderLayout.LINE_START);
         add(commandInputField, BorderLayout.CENTER);

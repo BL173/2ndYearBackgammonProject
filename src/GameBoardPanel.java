@@ -15,7 +15,6 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import javax.swing.*;
 import exceptions.*;
-import java.util.concurrent.TimeUnit;
 
 public class GameBoardPanel extends JPanel {
 
@@ -36,7 +35,6 @@ public class GameBoardPanel extends JPanel {
     private int movesLeftThisTurn;
     private final static int TWO_SECONDS = 2000;
     private Timer timer;
-    private Boolean bearOffAllowed = false;
 
     private class move{
         public int from;
@@ -305,12 +303,16 @@ public class GameBoardPanel extends JPanel {
                         gameDice.invalidateDice(possibleMoves[selectedMove].diceNumber);
                         if(userInputModel.getTurn()==RED_TURN){
                             moveRedPiece(possibleMoves[selectedMove].from,possibleMoves[selectedMove].to);
+                            if(possibleMoves[selectedMove].hit==true){
+                                moveBluePiece(25-possibleMoves[selectedMove].to,25);
+                            }
                             decrementMovesLeftThisTurn();
-                            //userInputModel.setTurn(BLUE_TURN);
                         }else if(userInputModel.getTurn()==BLUE_TURN){
                             moveBluePiece(possibleMoves[selectedMove].from,possibleMoves[selectedMove].to);
+                            if(possibleMoves[selectedMove].hit==true){
+                                moveRedPiece(25-possibleMoves[selectedMove].to,25);
+                            }
                             decrementMovesLeftThisTurn();
-                            //userInputModel.setTurn(RED_TURN);
                         }
                     }else {
                         String inputValues[] =userInputModel.getUserInput().split("\\s+");
@@ -516,20 +518,23 @@ public class GameBoardPanel extends JPanel {
             userInputModel.setInfoPanelOutput(output+"\nOnly 1 possible move, moving automatically.\nPlease do not enter any commands");
             timer = new Timer(TWO_SECONDS, new ActionListener() {
                 public void actionPerformed(ActionEvent evt) {
-                    timer.setRepeats(false);
-                    moveRedPiece(possibleMoves[selectedMove].from,possibleMoves[selectedMove].to);
+                    //timer.setRepeats(false);
+                    moveRedPiece(possibleMoves[0].from,possibleMoves[0].to);
+                    gameDice.invalidateDice(possibleMoves[0].diceNumber);
                     decrementMovesLeftThisTurn();
                 }
             });
+            timer.setRepeats(false);
             timer.start();
         }else if(numberOfPossibleMoves==0) {
             userInputModel.setInfoPanelOutput(output + "\nNo possible moves, skipping turn.\nPlease do not enter any commands");
             timer = new Timer(TWO_SECONDS, new ActionListener() {
                 public void actionPerformed(ActionEvent evt) {
-                    timer.setRepeats(false);
+                    //timer.setRepeats(false);
                     userInputModel.setTurn(BLUE_TURN);
                 }
             });
+            timer.setRepeats(false);
             timer.start();
         }
     }
@@ -600,20 +605,23 @@ public class GameBoardPanel extends JPanel {
             userInputModel.setInfoPanelOutput(output+"\nOnly 1 possible move,moving automatically.\nPlease do not enter any commands");
             timer = new Timer(TWO_SECONDS, new ActionListener() {
                 public void actionPerformed(ActionEvent evt) {
-                    timer.setRepeats(false);
+                    //timer.setRepeats(false);
                     moveBluePiece(possibleMoves[0].from,possibleMoves[0].to);
+                    gameDice.invalidateDice(possibleMoves[0].diceNumber);
                     decrementMovesLeftThisTurn();
                 }
             });
+            timer.setRepeats(false);
             timer.start();
         }else if(numberOfPossibleMoves==0) {
             userInputModel.setInfoPanelOutput(output + "\nNo possible moves, skipping turn.\nPlease do not enter any commands");
             timer = new Timer(TWO_SECONDS, new ActionListener() {
                 public void actionPerformed(ActionEvent evt) {
-                    timer.setRepeats(false);
+                    //timer.setRepeats(false);
                     userInputModel.setTurn(RED_TURN);
                 }
             });
+            timer.setRepeats(false);
             timer.start();
         }
     }
