@@ -15,7 +15,6 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import javax.swing.*;
 import exceptions.*;
-import java.util.concurrent.TimeUnit;
 
 public class GameBoardPanel extends JPanel {
 
@@ -36,7 +35,6 @@ public class GameBoardPanel extends JPanel {
     private int movesLeftThisTurn;
     private final static int TWO_SECONDS = 2000;
     private Timer timer;
-    private Boolean bearOffAllowed = false;
 
     private class move{
         public int from;
@@ -291,8 +289,16 @@ public class GameBoardPanel extends JPanel {
                         repaint();
                     }
                     else if(userInputModel.getUserInput().equals("cheat")) {
-                        userInputModel.setInfoPanelOutput("Cheat has been activated");
-                        cheat();
+                        if(userInputModel.getTurn()==RED_TURN) {
+                            userInputModel.setInfoPanelOutput("Cheat has been activated");
+                            cheat();
+                            userInputModel.setTurn(BLUE_TURN);
+                        }else if(userInputModel.getTurn()==BLUE_TURN) {
+                            userInputModel.setInfoPanelOutput("Cheat has been activated");
+                            cheat();
+                            userInputModel.setTurn(RED_TURN);
+
+                        }
                     }else if(checkPossibleMoveIndex(userInputModel.getUserInput().toUpperCase())){
                         gameDice.invalidateDice(possibleMoves[selectedMove].diceNumber);
                         if(userInputModel.getTurn()==RED_TURN){
