@@ -605,6 +605,16 @@ public class GameBoardPanel extends JPanel {
         if(numberOfRedPiecesOnPoint[0]>1 && diceValid){
 
         }else if(diceValid){
+            if((25-t1) +dice<25&&numberOfBluePiecesOnPoint[25-t1+dice]==0){
+                possibleMoves[numberOfPossibleMoves+1]=new move(f1,t1,d,h1);
+                possibleMoves[numberOfPossibleMoves].secondMove(t1,t1-dice,false);
+                numberOfPossibleMoves++;
+            }else if((25-t1) +dice<25&&numberOfBluePiecesOnPoint[25-t1+dice]==0){
+                possibleMoves[numberOfPossibleMoves+1]=new move(f1,t1,d,h1);
+                possibleMoves[numberOfPossibleMoves].secondMove(t1,t1-dice,true);
+                numberOfPossibleMoves++;
+            }
+
             for(int i=1;i<25;i++){
                 if (numberOfRedPiecesOnPoint[i]>0){
                     if(i+dice<25&&numberOfBluePiecesOnPoint[i+dice]==0){
