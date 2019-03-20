@@ -36,6 +36,10 @@ public class GameBoardPanel extends JPanel {
     private final static int TWO_SECONDS = 2000;
     private Timer timer;
 
+    private int red = numberOfRedPiecesOnPoint[25];
+    private int blue = numberOfBluePiecesOnPoint[0];
+
+
     private class move{
         public int from;
         public int to;
@@ -299,6 +303,10 @@ public class GameBoardPanel extends JPanel {
                             userInputModel.setTurn(RED_TURN);
 
                         }
+                    }else if(userInputModel.getUserInput().equals("cheatred")){
+                        cheatRed();
+                    }else if(userInputModel.getUserInput().equals("cheatblue")){
+                        cheatBlue();
                     }else if(checkPossibleMoveIndex(userInputModel.getUserInput().toUpperCase())){
                         gameDice.invalidateDice(possibleMoves[selectedMove].diceNumber);
                         if(userInputModel.getTurn()==RED_TURN){
@@ -338,6 +346,10 @@ public class GameBoardPanel extends JPanel {
                         }
                     }
 
+                }else if("turn".equals(evt.getPropertyName()) && numberOfRedPiecesOnPoint[25] == 15){
+                    userInputModel.setWinner("red");
+                }else if("turn".equals(evt.getPropertyName()) && numberOfBluePiecesOnPoint[0] == 15){
+                    userInputModel.setWinner("blue");
                 }else if ("bluePlayerName".equals(evt.getPropertyName()) && !userInputModel.getBluePlayerName().equals("")){
                     gameDice.startDice();
                     repaint();
@@ -693,7 +705,7 @@ public class GameBoardPanel extends JPanel {
     }
 
     public void cheat() {
-        for(int i = 0; i < 25; i++) {
+        for(int i = 0; i < 26; i++) {
             numberOfBluePiecesOnPoint[i] = 0;
             numberOfRedPiecesOnPoint[i] = 0;
         }
@@ -708,8 +720,8 @@ public class GameBoardPanel extends JPanel {
             bluePlayerGamePieces[i].setPipLocation(4);
         }
         for(int i = 6; i < 9; i++) {
-            bluePlayerGamePieces[i].setXYCoordinate((pointLocationOrderedCounterClockwise[18][0] + pointLocationOrderedCounterClockwise[19][0]) / 2, pointLocationOrderedCounterClockwise[0][1]+numberOfBluePiecesOnPoint[0] * (PIECE_DIAMETER / 3));
-            numberOfBluePiecesOnPoint[0]++;
+            bluePlayerGamePieces[i].setXYCoordinate((pointLocationOrderedCounterClockwise[18][0] + pointLocationOrderedCounterClockwise[19][0]) / 2, pointLocationOrderedCounterClockwise[25][1] - numberOfBluePiecesOnPoint[25] * PIECE_DIAMETER);
+            numberOfBluePiecesOnPoint[25]++;
             bluePlayerGamePieces[i].setPipLocation(25);
         }
         for(int i = 9; i < 12; i++) {
@@ -718,8 +730,8 @@ public class GameBoardPanel extends JPanel {
             bluePlayerGamePieces[i].setPipLocation(1);
         }
         for(int i = 12; i < 15; i++) {
-            bluePlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[0][0], pointLocationOrderedCounterClockwise[0][1]+numberOfBluePiecesOnPoint[25] * (PIECE_DIAMETER / 3));
-            numberOfBluePiecesOnPoint[25]++;
+            bluePlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[0][0], pointLocationOrderedCounterClockwise[0][1]+numberOfBluePiecesOnPoint[0] * (PIECE_DIAMETER / 3));
+            numberOfBluePiecesOnPoint[0]++;
             bluePlayerGamePieces[i].setPipLocation(0);
         }
         for(int i = 0; i < 2; i++) {
@@ -753,12 +765,37 @@ public class GameBoardPanel extends JPanel {
             redPlayerGamePieces[i].setPipLocation(25);
         }
         for(int i = 12; i < 15; i++) {
-            redPlayerGamePieces[i].setXYCoordinate((pointLocationOrderedCounterClockwise[18][0] + pointLocationOrderedCounterClockwise[19][0]) / 2, pointLocationOrderedCounterClockwise[25][1] - numberOfRedPiecesOnPoint[25] * (PIECE_DIAMETER / 3));
+            redPlayerGamePieces[i].setXYCoordinate((pointLocationOrderedCounterClockwise[18][0] + pointLocationOrderedCounterClockwise[19][0]) / 2, pointLocationOrderedCounterClockwise[0][1] + numberOfRedPiecesOnPoint[0] * PIECE_DIAMETER );
             numberOfRedPiecesOnPoint[0]++;
             redPlayerGamePieces[i].setPipLocation(0);
         }
         repaint();
     }
+
+    public void cheatRed() {
+        for(int i = 0; i < 26; i++) {
+            numberOfRedPiecesOnPoint[i] = 0;
+        }
+        for(int i = 0; i < 15; i++) {
+            redPlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[25][0], pointLocationOrderedCounterClockwise[25][1] - numberOfRedPiecesOnPoint[25] * (PIECE_DIAMETER / 3));
+            numberOfRedPiecesOnPoint[25]++;
+            redPlayerGamePieces[i].setPipLocation(25);
+        }
+        repaint();
+    }
+
+    public void cheatBlue() {
+        for (int i = 0; i < 26; i++) {
+            numberOfBluePiecesOnPoint[i] = 0;
+        }
+        for(int i = 0; i < 15; i++) {
+            bluePlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[0][0], pointLocationOrderedCounterClockwise[0][1]+numberOfBluePiecesOnPoint[0] * (PIECE_DIAMETER / 3));
+            numberOfBluePiecesOnPoint[0]++;
+            bluePlayerGamePieces[i].setPipLocation(0);
+        }
+        repaint();
+    }
+
 
     public Boolean checkBearOffAllowed(){
         int piecesInFinalQuarter=0;
@@ -775,4 +812,6 @@ public class GameBoardPanel extends JPanel {
             return true;
         return false;
     }
+
+
 }

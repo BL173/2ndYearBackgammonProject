@@ -15,6 +15,19 @@ public class DefaultUserInputModel implements UserInputModel{
     private int turn=0;
     private String redPlayerName;
     private String bluePlayerName;
+    private String winner = " ";
+
+    public String getWinner() {
+        return winner;
+    }
+
+    public void setWinner(String winner) {
+        String oldWinner = this.winner;
+        this.winner = winner;
+        propertyChangeSupport.firePropertyChange("winner", oldWinner, winner);
+    }
+
+
 
     public DefaultUserInputModel(){
         propertyChangeSupport = new PropertyChangeSupport(this);

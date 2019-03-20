@@ -14,5 +14,6 @@ public class Main {
 
         JFrame announceFrame = new AnnounceGame();
         announceFrame.setVisible(true);
+
     }
 }
