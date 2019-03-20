@@ -52,6 +52,12 @@ public class GameBoardPanel extends JPanel {
             index=i;
             diceNumber=d;
         }
+
+        public void secondMove(int f2, int t2, Boolean h2){
+            from2=f2;
+            to2=t2;
+            hit2=h2;
+        }
         public String toString(){
             String moveString=index+" ('";
             if(from==25){
@@ -581,7 +587,21 @@ public class GameBoardPanel extends JPanel {
 
         }else{
             for(int i=1;i<25;i++){
-
+                if (numberOfRedPiecesOnPoint[i]>0){
+                    if(i+gameDice.getDiceOne()<25&&numberOfBluePiecesOnPoint[i+gameDice.getDiceOne()]==0&&gameDice.getDiceOneValid()){
+                        possibleMoves[numberOfPossibleMoves+1]=possibleMoves[numberOfPossibleMoves];
+                        possibleMoves[numberOfPossibleMoves].secondMove(25-i,25-(i+getOtherDice(possibleMoves[numberOfPossibleMoves].diceNumber)),false);
+                        numberOfPossibleMoves++;
+                    }else if (i+gameDice.getDiceOne()<25&&numberOfBluePiecesOnPoint[i+gameDice.getDiceOne()]==1&&gameDice.getDiceOneValid()){
+                        possibleMoves[numberOfPossibleMoves+1]=possibleMoves[numberOfPossibleMoves];
+                        possibleMoves[numberOfPossibleMoves].secondMove(25-i,25-(i+getOtherDice(possibleMoves[numberOfPossibleMoves].diceNumber)),true);
+                        numberOfPossibleMoves++;
+                    }else if(i+gameDice.getDiceOne()==25&&gameDice.getDiceOneValid()&&checkBearOffAllowed()){
+                        possibleMoves[numberOfPossibleMoves+1]=possibleMoves[numberOfPossibleMoves];
+                        possibleMoves[numberOfPossibleMoves].secondMove(25-i,25-(i+getOtherDice(possibleMoves[numberOfPossibleMoves].diceNumber)),false);
+                        numberOfPossibleMoves++;
+                    }
+                }
             }
         }
     }
