@@ -27,7 +27,7 @@ public class GameBoardPanel extends JPanel {
     private boolean newGame =true;
     private DefaultUserInputModel userInputModel;
     private final int RED_TURN=0, BLUE_TURN=1;
-    private move possibleMoves[] = new move[50];
+    private move possibleMoves[] = new move[100];
     private int numberOfPossibleMoves;
     private char[] moveIndex= new char[2];
     private Dice gameDice;
@@ -342,19 +342,25 @@ public class GameBoardPanel extends JPanel {
 
                         }
                     }else if(checkPossibleMoveIndex(userInputModel.getUserInput().toUpperCase())){
-                        gameDice.invalidateDice(possibleMoves[selectedMove].diceNumber);
+                        //gameDice.invalidateDice(possibleMoves[selectedMove].diceNumber);
                         if(userInputModel.getTurn()==RED_TURN){
                             moveRedPiece(possibleMoves[selectedMove].from,possibleMoves[selectedMove].to);
                             if(possibleMoves[selectedMove].hit1==true){
                                 moveBluePiece(25-possibleMoves[selectedMove].to,25);
                             }
-                            decrementMovesLeftThisTurn();
+                            if(!possibleMoves[selectedMove].skipSecondMove){
+                                moveRedPiece(possibleMoves[selectedMove].from2,possibleMoves[selectedMove].to2);
+                            }
+                            if(possibleMoves[selectedMove].hit2==true){
+                                moveBluePiece(25-possibleMoves[selectedMove].to2,25);
+                            }
+                            decrementMovesLeftThisTurnBy2();
                         }else if(userInputModel.getTurn()==BLUE_TURN){
                             moveBluePiece(possibleMoves[selectedMove].from,possibleMoves[selectedMove].to);
                             if(possibleMoves[selectedMove].hit1==true){
                                 moveRedPiece(25-possibleMoves[selectedMove].to,25);
                             }
-                            decrementMovesLeftThisTurn();
+                            decrementMovesLeftThisTurnBy2();
                         }
                     }else {
                         String inputValues[] =userInputModel.getUserInput().split("\\s+");
@@ -601,9 +607,16 @@ public class GameBoardPanel extends JPanel {
         int t1 = possibleMoves[numberOfPossibleMoves].to;
         int d =possibleMoves[numberOfPossibleMoves].diceNumber;
         Boolean h1 = possibleMoves[numberOfPossibleMoves].hit1;
-        //possibleMoves[numberOfPossibleMoves+1]=possibleMoves[numberOfPossibleMoves];
         if(numberOfRedPiecesOnPoint[0]>1 && diceValid){
-
+            if(numberOfBluePiecesOnPoint[dice]==0&&diceValid){
+                possibleMoves[numberOfPossibleMoves+1]=new move(f1,t1,d,h1);
+                possibleMoves[numberOfPossibleMoves].secondMove(25,25-dice,false);
+                numberOfPossibleMoves++;
+            }else if(numberOfBluePiecesOnPoint[dice]==0&&diceValid){
+                possibleMoves[numberOfPossibleMoves+1]=new move(f1,t1,d,h1);
+                possibleMoves[numberOfPossibleMoves].secondMove(25,25-dice,true);
+                numberOfPossibleMoves++;
+            }
         }else if(diceValid){
             if((25-t1) +dice<25&&numberOfBluePiecesOnPoint[25-t1+dice]==0){
                 possibleMoves[numberOfPossibleMoves+1]=new move(f1,t1,d,h1);
@@ -781,6 +794,19 @@ public class GameBoardPanel extends JPanel {
             generatePossibleRedMoves();
         }else if (movesLeftThisTurn>1&&userInputModel.getTurn()==BLUE_TURN){
             movesLeftThisTurn--;
+            generatePossibleBlueMoves();
+        }else if(userInputModel.getTurn()==RED_TURN){
+            userInputModel.setTurn(BLUE_TURN);
+        }else if(userInputModel.getTurn()==BLUE_TURN){
+            userInputModel.setTurn(RED_TURN);
+        }
+    }
+    public void decrementMovesLeftThisTurnBy2(){
+        if(movesLeftThisTurn>2&&userInputModel.getTurn()==RED_TURN){
+            movesLeftThisTurn-=2;
+            generatePossibleRedMoves();
+        }else if (movesLeftThisTurn>2&&userInputModel.getTurn()==BLUE_TURN){
+            movesLeftThisTurn-=2;
             generatePossibleBlueMoves();
         }else if(userInputModel.getTurn()==RED_TURN){
             userInputModel.setTurn(BLUE_TURN);
