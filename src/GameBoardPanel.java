@@ -886,7 +886,7 @@ public class GameBoardPanel extends JPanel {
             bluePlayerGamePieces[i].setPipLocation(4);
         }
         for(int i = 6; i < 9; i++) {
-            bluePlayerGamePieces[i].setXYCoordinate((pointLocationOrderedCounterClockwise[6][0] + pointLocationOrderedCounterClockwise[7][0]) / 2, pointLocationOrderedCounterClockwise[25][1] - numberOfBluePiecesOnPoint[25] * PIECE_DIAMETER);
+            bluePlayerGamePieces[i].setXYCoordinate((pointLocationOrderedCounterClockwise[6][0] + pointLocationOrderedCounterClockwise[7][0]) / 2, 10 + pointLocationOrderedCounterClockwise[25][1] - numberOfBluePiecesOnPoint[25] * PIECE_DIAMETER);
             numberOfBluePiecesOnPoint[25]++;
             bluePlayerGamePieces[i].setPipLocation(25);
         }
@@ -931,7 +931,7 @@ public class GameBoardPanel extends JPanel {
             redPlayerGamePieces[i].setPipLocation(25);
         }
         for(int i = 12; i < 15; i++) {
-            redPlayerGamePieces[i].setXYCoordinate((pointLocationOrderedCounterClockwise[18][0] + pointLocationOrderedCounterClockwise[19][0]) / 2, pointLocationOrderedCounterClockwise[0][1] + numberOfRedPiecesOnPoint[0] * PIECE_DIAMETER );
+            redPlayerGamePieces[i].setXYCoordinate((pointLocationOrderedCounterClockwise[18][0] + pointLocationOrderedCounterClockwise[19][0]) / 2, (-10) + pointLocationOrderedCounterClockwise[0][1] + numberOfRedPiecesOnPoint[0] * PIECE_DIAMETER );
             numberOfRedPiecesOnPoint[0]++;
             redPlayerGamePieces[i].setPipLocation(0);
         }
@@ -972,7 +972,7 @@ public class GameBoardPanel extends JPanel {
             bluePlayerGamePieces[i].setPipLocation(0);
         }
         for(int i = 12; i < 15; i++) {
-            bluePlayerGamePieces[i].setXYCoordinate(((pointLocationOrderedCounterClockwise[6][0] + pointLocationOrderedCounterClockwise[7][0]) /2 ), pointLocationOrderedCounterClockwise[25][1] - numberOfBluePiecesOnPoint[25] * PIECE_DIAMETER);
+            bluePlayerGamePieces[i].setXYCoordinate(((pointLocationOrderedCounterClockwise[6][0] + pointLocationOrderedCounterClockwise[7][0]) /2 ), 10 + pointLocationOrderedCounterClockwise[25][1] - numberOfBluePiecesOnPoint[25] * PIECE_DIAMETER);
             numberOfBluePiecesOnPoint[25]++;
             bluePlayerGamePieces[i].setPipLocation(25);
         }
