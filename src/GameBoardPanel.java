@@ -349,6 +349,8 @@ public class GameBoardPanel extends JPanel {
                         cheatRed();
                     }else if(userInputModel.getUserInput().equals("cheatblue")){
                         cheatBlue();
+                    }else if(userInputModel.getUserInput().equals("cheatmid")){
+                        cheatMid();
                     }else if(checkPossibleMoveIndex(userInputModel.getUserInput().toUpperCase())){
                         gameDice.invalidateDice(possibleMoves[selectedMove].diceNumber);
                         if(userInputModel.getTurn()==RED_TURN){
@@ -817,7 +819,7 @@ public class GameBoardPanel extends JPanel {
             bluePlayerGamePieces[i].setPipLocation(4);
         }
         for(int i = 6; i < 9; i++) {
-            bluePlayerGamePieces[i].setXYCoordinate((pointLocationOrderedCounterClockwise[18][0] + pointLocationOrderedCounterClockwise[19][0]) / 2, pointLocationOrderedCounterClockwise[25][1] - numberOfBluePiecesOnPoint[25] * PIECE_DIAMETER);
+            bluePlayerGamePieces[i].setXYCoordinate((pointLocationOrderedCounterClockwise[6][0] + pointLocationOrderedCounterClockwise[7][0]) / 2, pointLocationOrderedCounterClockwise[25][1] - numberOfBluePiecesOnPoint[25] * PIECE_DIAMETER);
             numberOfBluePiecesOnPoint[25]++;
             bluePlayerGamePieces[i].setPipLocation(25);
         }
@@ -890,6 +892,22 @@ public class GameBoardPanel extends JPanel {
             bluePlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[0][0], pointLocationOrderedCounterClockwise[0][1]+numberOfBluePiecesOnPoint[0] * (PIECE_DIAMETER / 3));
             numberOfBluePiecesOnPoint[0]++;
             bluePlayerGamePieces[i].setPipLocation(0);
+        }
+        repaint();
+    }
+    public void cheatMid() {
+        for (int i = 0; i < 26; i++) {
+            numberOfBluePiecesOnPoint[i] = 0;
+        }
+        for(int i = 0; i < 12; i++) {
+            bluePlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[0][0], pointLocationOrderedCounterClockwise[0][1] + numberOfBluePiecesOnPoint[0] * (PIECE_DIAMETER / 3));
+            numberOfBluePiecesOnPoint[0]++;
+            bluePlayerGamePieces[i].setPipLocation(0);
+        }
+        for(int i = 12; i < 15; i++) {
+            bluePlayerGamePieces[i].setXYCoordinate(((pointLocationOrderedCounterClockwise[6][0] + pointLocationOrderedCounterClockwise[7][0]) /2 ), pointLocationOrderedCounterClockwise[25][1] - numberOfBluePiecesOnPoint[25] * PIECE_DIAMETER);
+            numberOfBluePiecesOnPoint[25]++;
+            bluePlayerGamePieces[i].setPipLocation(25);
         }
         repaint();
     }
