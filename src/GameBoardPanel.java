@@ -11,8 +11,6 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Line2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
 import javax.swing.*;
 import exceptions.*;
 
@@ -35,10 +33,7 @@ public class GameBoardPanel extends JPanel {
     private int movesLeftThisTurn;
     private final static int TWO_SECONDS = 2000;
     private Timer timer;
-
-    private int red = numberOfRedPiecesOnPoint[25];
-    private int blue = numberOfBluePiecesOnPoint[0];
-
+    private int numberOfMatchesPlayed;
 
     private class move{
         public int from;
@@ -671,7 +666,7 @@ public class GameBoardPanel extends JPanel {
                 possibleMoves[numberOfPossibleMoves]=new move(25,25-gameDice.getDiceTwo(),2,false);
                 generateBlueSecondMoves();
             }else if (!gameDice.rollDouble()&&numberOfRedPiecesOnPoint[25-gameDice.getDiceTwo()]==1&&gameDice.getDiceTwoValid()){
-                possibleMoves[numberOfPossibleMoves]=new move(25,gameDice.getDiceTwo(),2,true);
+                possibleMoves[numberOfPossibleMoves]=new move(25,25-gameDice.getDiceTwo(),2,true);
                 generateBlueSecondMoves();
             }
         }else{
@@ -966,7 +961,6 @@ public class GameBoardPanel extends JPanel {
         repaint();
     }
 
-
     public void cheatRed() {
         for(int i = 0; i < 26; i++) {
             numberOfRedPiecesOnPoint[i] = 0;
@@ -990,6 +984,7 @@ public class GameBoardPanel extends JPanel {
         }
         repaint();
     }
+
     public void cheatMid() {
         for (int i = 0; i < 26; i++) {
             numberOfBluePiecesOnPoint[i] = 0;
@@ -1007,7 +1002,6 @@ public class GameBoardPanel extends JPanel {
         repaint();
     }
 
-
     public int getOtherDice(int d){
         if(d==1){
             return gameDice.getDiceTwo();
@@ -1015,6 +1009,7 @@ public class GameBoardPanel extends JPanel {
             return gameDice.getDiceOne();
         }
     }
+
     public Boolean getOtherDiceValid(int d){
         if(d==1){
             return gameDice.getDiceTwoValid();
@@ -1025,6 +1020,8 @@ public class GameBoardPanel extends JPanel {
 
     public Boolean checkDuplicateMoves(move m1, move m2){
         if(m1.from==m2.from&&m1.to2==m2.to2&&!(m1.hit1||m2.hit1)){
+            return true;
+        }else if(m1.from==m2.from2&&m1.to==m2.to2&&m1.from2==m2.from&&m1.to2==m2.to){
             return true;
         }
         return false;
