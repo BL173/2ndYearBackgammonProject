@@ -27,8 +27,6 @@ public class DefaultUserInputModel implements UserInputModel{
         propertyChangeSupport.firePropertyChange("winner", oldWinner, winner);
     }
 
-
-
     public DefaultUserInputModel(){
         propertyChangeSupport = new PropertyChangeSupport(this);
     }
@@ -98,8 +96,4 @@ public class DefaultUserInputModel implements UserInputModel{
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         propertyChangeSupport.addPropertyChangeListener(listener);
     }
-   /* @Override
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        propertyChangeSupport.removePropertyChangeListener(listener);
-    }*/
 }
