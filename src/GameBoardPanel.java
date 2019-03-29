@@ -869,8 +869,36 @@ public class GameBoardPanel extends JPanel {
             userInputModel.setTurn(RED_TURN);
         }
     }
-
     public void cheat() {
+        for(int i = 0; i < 26; i++) {
+            numberOfBluePiecesOnPoint[i] = 0;
+            numberOfRedPiecesOnPoint[i] = 0;
+        }
+        for(int i = 0; i < 13; i++) {
+            bluePlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[0][0], pointLocationOrderedCounterClockwise[0][1]+numberOfBluePiecesOnPoint[0] * (PIECE_DIAMETER / 3));
+            numberOfBluePiecesOnPoint[0]++;
+            bluePlayerGamePieces[i].setPipLocation(0);
+        }
+        for(int i = 13; i < 15; i++) {
+            bluePlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[1][0], pointLocationOrderedCounterClockwise[1][1]+numberOfBluePiecesOnPoint[1] * PIECE_DIAMETER);
+            numberOfBluePiecesOnPoint[1]++;
+            bluePlayerGamePieces[i].setPipLocation(1);
+        }
+        for(int i = 0; i < 13; i++) {
+            redPlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[25][0], pointLocationOrderedCounterClockwise[25][1] - numberOfRedPiecesOnPoint[25] * (PIECE_DIAMETER / 3));
+            numberOfRedPiecesOnPoint[25]++;
+            redPlayerGamePieces[i].setPipLocation(25);
+        }
+        for(int i = 13; i < 15; i++) {
+            redPlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[24][0], pointLocationOrderedCounterClockwise[24][1] - numberOfRedPiecesOnPoint[24] * PIECE_DIAMETER);
+            numberOfRedPiecesOnPoint[24]++;
+            redPlayerGamePieces[i].setPipLocation(24);
+        }
+        repaint();
+
+    }
+
+    public void oldCheat() {
         for(int i = 0; i < 26; i++) {
             numberOfBluePiecesOnPoint[i] = 0;
             numberOfRedPiecesOnPoint[i] = 0;
