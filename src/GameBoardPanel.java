@@ -823,7 +823,7 @@ public class GameBoardPanel extends JPanel {
             numberOfRedPiecesOnPoint[i] = 0;
         }
         for(int i = 0; i < 13; i++) {
-            bluePlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[0][0], pointLocationOrderedCounterClockwise[0][1]+numberOfBluePiecesOnPoint[0] * (PIECE_DIAMETER / 3));
+            bluePlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[0][0], pointLocationOrderedCounterClockwise[0][1]+numberOfBluePiecesOnPoint[0] * PIECE_DIAMETER/3);
             numberOfBluePiecesOnPoint[0]++;
             bluePlayerGamePieces[i].setPipLocation(0);
         }
@@ -833,7 +833,7 @@ public class GameBoardPanel extends JPanel {
             bluePlayerGamePieces[i].setPipLocation(1);
         }
         for(int i = 0; i < 13; i++) {
-            redPlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[25][0], pointLocationOrderedCounterClockwise[25][1] - numberOfRedPiecesOnPoint[25] * (PIECE_DIAMETER / 3));
+            redPlayerGamePieces[i].setXYCoordinate(pointLocationOrderedCounterClockwise[25][0], pointLocationOrderedCounterClockwise[25][1] - numberOfRedPiecesOnPoint[25] * PIECE_DIAMETER / 3);
             numberOfRedPiecesOnPoint[25]++;
             redPlayerGamePieces[i].setPipLocation(25);
         }
