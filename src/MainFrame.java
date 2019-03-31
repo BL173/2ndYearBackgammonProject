@@ -13,8 +13,6 @@ Written by: Brian Leahy 17372896,
 
 
 public class MainFrame extends JFrame{
-    //private static final int FRAME_WIDTH = 800;
-    //private static final int FRAME_HEIGHT = 600;
     private String userInput;
     DefaultUserInputModel userInputModel = new DefaultUserInputModel();
     JPanel commandPanel = new CommandPanel(userInputModel);
