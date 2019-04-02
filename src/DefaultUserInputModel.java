@@ -16,6 +16,8 @@ public class DefaultUserInputModel implements UserInputModel{
     private String redPlayerName;
     private String bluePlayerName;
     private String winner = " ";
+    private int matchLength;
+    private Score matchScore = new Score (0,0);
 
     public String getWinner() {
         return winner;
@@ -95,5 +97,23 @@ public class DefaultUserInputModel implements UserInputModel{
     @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         propertyChangeSupport.addPropertyChangeListener(listener);
+    }
+
+    public int getMatchLength() {
+        return matchLength;
+    }
+
+    public void setMatchLength(int matchLength) {
+        int oldNum = this.matchLength;
+        this.matchLength = matchLength;
+        propertyChangeSupport.firePropertyChange("matchLength", oldNum, matchLength);
+    }
+
+    public Score getMatchScore() {
+        return matchScore;
+    }
+
+    public void setMatchScore(Score matchScore) {
+        this.matchScore = matchScore;
     }
 }

@@ -6,4 +6,5 @@ Written by: Brian Leahy 17372896,
             Gearoid Lynch 17459176
  */
 public class InvalidInputException extends RuntimeException{
+
 }

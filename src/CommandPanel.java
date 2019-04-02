@@ -5,6 +5,8 @@ Written by: Brian Leahy 17372896,
             Gearoid Lynch 17459176
  */
 
+import exceptions.InvalidInputException;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,6 +25,9 @@ public class CommandPanel extends JPanel{
     private DefaultUserInputModel userInputModel;
     private boolean bluePlayerInputCheck = false;
     private boolean redPlayerInputCheck = true;
+    private int matchLength;
+    private Score matchScore = new Score (0,0);
+    private Boolean newGameCheck =true;
 
     public String getUserInput() {
         return userInput;
@@ -37,8 +42,19 @@ public class CommandPanel extends JPanel{
             if (userInput.equals("quit")) {
                 System.exit(0);
             }else if(userInput.equals("new game")||userInput.equals("newgame")) {
-                userInputModel.setInfoPanelOutput("Please enter player one name: ");
-                redPlayerInputCheck = true;
+                userInputModel.setInfoPanelOutput("How many Points would you like to play to? \n");
+                newGameCheck = true;
+            }else if(newGameCheck==true){
+                try{
+                    matchLength = Integer.parseInt(userInput);
+                    userInputModel.setInfoPanelOutput("Please enter player one name: ");
+                    userInputModel.setMatchLength(matchLength);
+                    redPlayerInputCheck = true;
+                    newGameCheck=false;
+                }catch(java.lang.NumberFormatException e){
+                    userInputModel.setInfoPanelOutput("Invalid input. Please enter a positive integer.");
+                    throw new InvalidInputException();
+                }
             }else if(redPlayerInputCheck == true) {
                 userInputModel.setRedPlayerName(userName);
                 userInputModel.setInfoPanelOutput("Welcome " + userInputModel.getRedPlayerName() + ", you are the red player\nPlease enter player two name: ");
