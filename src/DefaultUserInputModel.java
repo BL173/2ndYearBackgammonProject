@@ -18,6 +18,7 @@ public class DefaultUserInputModel implements UserInputModel{
     private String winner = " ";
     private int matchLength;
     private Score matchScore = new Score (0,0);
+    private Boolean matchOver = false;
 
     public String getWinner() {
         return winner;
@@ -114,6 +115,13 @@ public class DefaultUserInputModel implements UserInputModel{
     }
 
     public void setMatchScore(Score matchScore) {
+        Score oldScore =this.matchScore;
         this.matchScore = matchScore;
+        if(matchScore.getRedScore()==matchLength){
+            setWinner("red");
+        }else if(matchScore.getBlueScore()==matchLength){
+            setWinner("blue");
+        }
+        propertyChangeSupport.firePropertyChange("matchLength", oldScore, matchScore);
     }
 }

@@ -37,6 +37,9 @@ public class GameBoardPanel extends JPanel {
     private int numberOfMatchesPlayed =0;
     private Boolean newMatch = false;
     private Score matchScore = new Score (0,0);
+    private Boolean matchOver = false;
+    private int matchValue =1;
+
     public void setNewMatch(Boolean newMatch) {
         this.newMatch = newMatch;
     }
@@ -51,9 +54,10 @@ public class GameBoardPanel extends JPanel {
         Rectangle middleBox = new Rectangle(444, 0, 74, 627);
         g2.draw(middleBox);
 
-        if(newGame==true){
+        if(newGame==true||newMatch==true){
             initialiseGameBoard(g, redPlayerGamePieces,bluePlayerGamePieces);
             newGame = false;
+            newMatch=false;
         }
 
 
@@ -350,9 +354,19 @@ public class GameBoardPanel extends JPanel {
                     }
 
                 }else if("turn".equals(evt.getPropertyName()) && numberOfRedPiecesOnPoint[25] == 15){
-                    userInputModel.setWinner("red");
+                    matchScore.setRedScore(matchScore.getRedScore()+matchValue);
+                    userInputModel.setMatchScore(matchScore);
+                    setNewMatch(true);
+                    userInputModel.setInfoPanelOutput("newmatch");
+                    //userInputModel.setTurn(BLUE_TURN);
+                    //userInputModel.setWinner("red");
                 }else if("turn".equals(evt.getPropertyName()) && numberOfBluePiecesOnPoint[0] == 15){
-                    userInputModel.setWinner("blue");
+                    matchScore.setBlueScore(matchScore.getBlueScore()+matchValue);
+                    userInputModel.setMatchScore(matchScore);
+                    setNewMatch(true);
+                    userInputModel.setInfoPanelOutput("newmatch");
+                    //userInputModel.setTurn(RED_TURN);
+                    //userInputModel.setWinner("blue");
                 }else if ("bluePlayerName".equals(evt.getPropertyName()) && !userInputModel.getBluePlayerName().equals("")){
                     gameDice.startDice();
                     repaint();

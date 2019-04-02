@@ -27,6 +27,7 @@ public class CommandPanel extends JPanel{
     private boolean redPlayerInputCheck = true;
     private int matchLength;
     private Score matchScore = new Score (0,0);
+    private Boolean matchOver = false;
     private Boolean newGameCheck =true;
 
     public String getUserInput() {
@@ -42,13 +43,15 @@ public class CommandPanel extends JPanel{
             if (userInput.equals("quit")) {
                 System.exit(0);
             }else if(userInput.equals("new game")||userInput.equals("newgame")) {
-                userInputModel.setInfoPanelOutput("How many Points would you like to play to? \n");
+                userInputModel.setInfoPanelOutput("How many points would you like to play to?");
                 newGameCheck = true;
             }else if(newGameCheck==true){
                 try{
                     matchLength = Integer.parseInt(userInput);
-                    userInputModel.setInfoPanelOutput("Please enter player one name: ");
+                    userInputModel.setInfoPanelOutput("Match Length: "+matchLength);
+                    userInputModel.setInfoPanelOutput("\n\nPlease enter player one name: ");
                     userInputModel.setMatchLength(matchLength);
+                    userInputModel.setMatchScore(new Score(0,0));
                     redPlayerInputCheck = true;
                     newGameCheck=false;
                 }catch(java.lang.NumberFormatException e){
@@ -67,7 +70,6 @@ public class CommandPanel extends JPanel{
                     userInputModel.setInfoPanelOutput("Welcome " + userName + ", you are the blue player");
                     userInputModel.setBluePlayerName(userName);
                     bluePlayerInputCheck = false;
-                    //gameDice.startDice();
                     userInputModel.setUserInput("newgame");
                 }
 
