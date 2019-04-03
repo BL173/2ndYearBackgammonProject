@@ -25,15 +25,22 @@ public class InfoPanel extends JPanel{
     JScrollPane previousTurns = new JScrollPane(previousInputs);
     private DefaultUserInputModel userInputModel;
 
+
     public InfoPanel(DefaultUserInputModel userInputModel) {
         GridLayout infoLayout = new GridLayout(2, 2);
-        previousInputs.append("Please enter player one name: \n");
+        previousInputs.append("How many points would you like to play to?\n");
         this.userInputModel =userInputModel;
         this.userInputModel.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 if("infoPanelOutput".equals(evt.getPropertyName()) && userInputModel.getInfoPanelOutput().startsWith("PM")&&!userInputModel.getInfoPanelOutput().equals("")){
                     possibleTurns.setText(userInputModel.getInfoPanelOutput().substring(2) + "\n");
+                }else if("infoPanelOutput".equals(evt.getPropertyName()) &&userInputModel.getInfoPanelOutput().equals("How many points would you like to play to?")){
+                    previousInputs.setText(userInputModel.getInfoPanelOutput() + "\n");
+                }else if("infoPanelOutput".equals(evt.getPropertyName()) &&userInputModel.getInfoPanelOutput().equals("newmatch")){
+                    possibleTurns.setText("");
+                    previousInputs.setText("Match Score: "+userInputModel.getMatchScore().getRedScore()+" / "+userInputModel.getMatchScore().getBlueScore());
+                    previousInputs.append("\nType next to play the next match.\n");
                 }else if("infoPanelOutput".equals(evt.getPropertyName()) &&!userInputModel.getInfoPanelOutput().equals("")){
                     previousInputs.append(userInputModel.getInfoPanelOutput() + "\n");
                 }

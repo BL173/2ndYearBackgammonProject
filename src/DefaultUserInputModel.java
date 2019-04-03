@@ -16,6 +16,9 @@ public class DefaultUserInputModel implements UserInputModel{
     private String redPlayerName;
     private String bluePlayerName;
     private String winner = " ";
+    private int matchLength;
+    private Score matchScore = new Score (0,0);
+    private Boolean matchOver = false;
 
     public String getWinner() {
         return winner;
@@ -64,11 +67,16 @@ public class DefaultUserInputModel implements UserInputModel{
         int oldTurn = turn;
         turn = newTurn;
         propertyChangeSupport.firePropertyChange("turn", oldTurn, infoPanelOutput);
-        if(turn==0){
-            setInfoPanelOutput(redPlayerName + "'s Turn\n");
-        }else if(turn==1){
-            setInfoPanelOutput(bluePlayerName + "'s Turn\n");
+        if(!matchOver){
+            if(turn==0){
+                setInfoPanelOutput(redPlayerName + "'s Turn\n");
+            }else if(turn==1){
+                setInfoPanelOutput(bluePlayerName + "'s Turn\n");
+            }
+        }else{
+            matchOver=false;
         }
+
     }
 
 
@@ -95,5 +103,40 @@ public class DefaultUserInputModel implements UserInputModel{
     @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         propertyChangeSupport.addPropertyChangeListener(listener);
+    }
+
+    public int getMatchLength() {
+        return matchLength;
+    }
+
+    public void setMatchLength(int matchLength) {
+        int oldNum = this.matchLength;
+        this.matchLength = matchLength;
+        propertyChangeSupport.firePropertyChange("matchLength", oldNum, matchLength);
+    }
+
+    public Score getMatchScore() {
+        return matchScore;
+    }
+
+    public void setMatchScore(Score matchScore) {
+        Score oldScore =this.matchScore;
+        this.matchScore = matchScore;
+        if(matchScore.getRedScore()==matchLength){
+            setWinner("red");
+        }else if(matchScore.getBlueScore()==matchLength){
+            setWinner("blue");
+        }
+        propertyChangeSupport.firePropertyChange("matchLength", oldScore, matchScore);
+    }
+
+    public Boolean getMatchOver() {
+        return matchOver;
+    }
+
+    public void setMatchOver(Boolean matchOver) {
+        Boolean old = this.matchOver;
+        this.matchOver = matchOver;
+        propertyChangeSupport.firePropertyChange("matchOver", old, matchOver);
     }
 }
