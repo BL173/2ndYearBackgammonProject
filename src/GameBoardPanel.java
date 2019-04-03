@@ -57,12 +57,8 @@ public class GameBoardPanel extends JPanel {
         if(newGame==true||newMatch==true){
             initialiseGameBoard(g, redPlayerGamePieces,bluePlayerGamePieces);
             newGame = false;
-            newMatch=false;
+            //newMatch=false;
         }
-
-
-
-
 
         // all the diagonals on the top of the board going down right
         for(int i = 0; i < 13; i++){
@@ -144,7 +140,6 @@ public class GameBoardPanel extends JPanel {
             g2.drawString("16", 253, 602);
             g2.drawString("17", 327, 602);
             g2.drawString("18", 401, 602);
-
 
             g2.drawString("19", 549, 602);
             g2.drawString("20", 623, 602);
@@ -285,8 +280,10 @@ public class GameBoardPanel extends JPanel {
                     if(userInputModel.getUserInput().equals("newgame")){
                         setNewGame(true);
                         repaint();
-                    }
-                    else if(userInputModel.getUserInput().equals("cheat")) {
+                    }else if(newMatch==true&&newGame!=true){
+                        newMatch =false;
+                        gameDice.startDice();
+                    }else if(userInputModel.getUserInput().equals("cheat")) {
                         if(userInputModel.getTurn()==RED_TURN) {
                             userInputModel.setInfoPanelOutput("Cheat has been activated");
                             cheat();
