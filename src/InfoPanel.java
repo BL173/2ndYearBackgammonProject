@@ -39,7 +39,8 @@ public class InfoPanel extends JPanel{
                     previousInputs.setText(userInputModel.getInfoPanelOutput() + "\n");
                 }else if("infoPanelOutput".equals(evt.getPropertyName()) &&userInputModel.getInfoPanelOutput().equals("newmatch")){
                     possibleTurns.setText("");
-                    previousInputs.setText("Type next to play the next match.\n");
+                    previousInputs.setText("Match Score: "+userInputModel.getMatchScore().getRedScore()+" / "+userInputModel.getMatchScore().getBlueScore());
+                    previousInputs.append("\nType next to play the next match.\n");
                 }else if("infoPanelOutput".equals(evt.getPropertyName()) &&!userInputModel.getInfoPanelOutput().equals("")){
                     previousInputs.append(userInputModel.getInfoPanelOutput() + "\n");
                 }
