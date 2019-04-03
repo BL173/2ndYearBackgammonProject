@@ -67,11 +67,16 @@ public class DefaultUserInputModel implements UserInputModel{
         int oldTurn = turn;
         turn = newTurn;
         propertyChangeSupport.firePropertyChange("turn", oldTurn, infoPanelOutput);
-        if(turn==0){
-            setInfoPanelOutput(redPlayerName + "'s Turn\n");
-        }else if(turn==1){
-            setInfoPanelOutput(bluePlayerName + "'s Turn\n");
+        if(!matchOver){
+            if(turn==0){
+                setInfoPanelOutput(redPlayerName + "'s Turn\n");
+            }else if(turn==1){
+                setInfoPanelOutput(bluePlayerName + "'s Turn\n");
+            }
+        }else{
+            matchOver=false;
         }
+
     }
 
 
@@ -123,5 +128,15 @@ public class DefaultUserInputModel implements UserInputModel{
             setWinner("blue");
         }
         propertyChangeSupport.firePropertyChange("matchLength", oldScore, matchScore);
+    }
+
+    public Boolean getMatchOver() {
+        return matchOver;
+    }
+
+    public void setMatchOver(Boolean matchOver) {
+        Boolean old = this.matchOver;
+        this.matchOver = matchOver;
+        propertyChangeSupport.firePropertyChange("matchOver", old, matchOver);
     }
 }

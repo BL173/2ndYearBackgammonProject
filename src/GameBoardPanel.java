@@ -358,15 +358,15 @@ public class GameBoardPanel extends JPanel {
                     userInputModel.setMatchScore(matchScore);
                     setNewMatch(true);
                     userInputModel.setInfoPanelOutput("newmatch");
-                    //userInputModel.setTurn(BLUE_TURN);
-                    //userInputModel.setWinner("red");
+                    userInputModel.setMatchOver(true);
+
                 }else if("turn".equals(evt.getPropertyName()) && numberOfBluePiecesOnPoint[0] == 15){
                     matchScore.setBlueScore(matchScore.getBlueScore()+matchValue);
                     userInputModel.setMatchScore(matchScore);
                     setNewMatch(true);
                     userInputModel.setInfoPanelOutput("newmatch");
-                    //userInputModel.setTurn(RED_TURN);
-                    //userInputModel.setWinner("blue");
+                    userInputModel.setMatchOver(true);
+
                 }else if ("bluePlayerName".equals(evt.getPropertyName()) && !userInputModel.getBluePlayerName().equals("")){
                     gameDice.startDice();
                     repaint();
