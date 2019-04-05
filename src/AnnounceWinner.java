@@ -63,18 +63,6 @@ public class AnnounceWinner extends JFrame {
         ActionListener inputListener = new Listener();
         userInputField.addActionListener(inputListener);
 
-        /*
-        restartGame = new JButton("Restart Game");
-        restartGame.addActionListener(this);
-        exitGame = new JButton("Exit Game");
-        exitGame.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                System.exit(0);
-            }
-        });
-        */
-
         if(totalBlueWins == totalRedWins) {
             try {
                 image = ImageIO.read(this.getClass().getResource("draw.png"));
@@ -100,10 +88,6 @@ public class AnnounceWinner extends JFrame {
 
 
         JLabel img = new JLabel(new ImageIcon(image));
-        /*
-        add(exitGame, BorderLayout.PAGE_END);
-        add(restartGame, BorderLayout.CENTER);
-        */
         add(restartLabel, BorderLayout.LINE_START);
         add(userInputField, BorderLayout.CENTER);
         add(img, BorderLayout.PAGE_START);
