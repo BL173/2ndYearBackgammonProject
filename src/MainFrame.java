@@ -35,11 +35,11 @@ public class MainFrame extends JFrame{
             public void propertyChange(PropertyChangeEvent evt) {
                 if("winner".equals(evt.getPropertyName()) && !(userInputModel.getWinner() == " ")){
                     if(userInputModel.getWinner() == "red"){
-                        JFrame announceWinner = new AnnounceWinner("red");
+                        JFrame announceWinner = new AnnounceWinner("red", userInputModel.getTotalBlueWins(), userInputModel.getTotalRedWins());
                         announceWinner.setVisible(true);
                         CloseFrame();
                     }else if(userInputModel.getWinner() == "blue") {
-                        JFrame announceWinner = new AnnounceWinner("blue");
+                        JFrame announceWinner = new AnnounceWinner("blue", userInputModel.getTotalBlueWins(), userInputModel.getTotalRedWins());
                         announceWinner.setVisible(true);
                         CloseFrame();
                     }

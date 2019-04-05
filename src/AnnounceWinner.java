@@ -50,7 +50,7 @@ public class AnnounceWinner extends JFrame {
         }
     }
 
-    public AnnounceWinner(String x) throws HeadlessException {
+    public AnnounceWinner(String winner, int totalBlueWins, int totalRedWins) throws HeadlessException {
         winnerFrame = new JFrame("Backgammon");
         JPanel announcePanel = new JPanel();
         setSize(900, 700);
@@ -75,18 +75,26 @@ public class AnnounceWinner extends JFrame {
         });
         */
 
-        if (x.equals("red")) {
-            //if red wins
+        if(totalBlueWins == totalRedWins) {
             try {
-                image = ImageIO.read(this.getClass().getResource("red.png"));
+                image = ImageIO.read(this.getClass().getResource("draw.png"));
             } catch (IOException e) {
                 System.out.println("Could not find the image");
             }
-        } else if (x.equals("blue")) {
-            try {
-                image = ImageIO.read(this.getClass().getResource("blue.png"));
-            } catch (IOException e) {
-                System.out.println("Could not find the image");
+        }else{
+            if (winner.equals("red")) {
+                //if red wins
+                try {
+                    image = ImageIO.read(this.getClass().getResource("red.png"));
+                } catch (IOException e) {
+                    System.out.println("Could not find the image");
+                }
+            } else if (winner.equals("blue")) {
+                try {
+                    image = ImageIO.read(this.getClass().getResource("blue.png"));
+                } catch (IOException e) {
+                    System.out.println("Could not find the image");
+                }
             }
         }
 

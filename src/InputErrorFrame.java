@@ -6,6 +6,12 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.IOException;
 
+/*
+Team: Jives
+Written by: Brian Leahy 17372896,
+            Oscar Byrne Carty 17430786,
+            Gearoid Lynch 17459176
+ */
 
 public class InputErrorFrame extends JFrame{
 
@@ -23,7 +29,6 @@ public class InputErrorFrame extends JFrame{
         setLocationRelativeTo(null);
         setVisible(true);
         setResizable(false);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         errorPanel.setLayout(new BorderLayout());
 
         try {

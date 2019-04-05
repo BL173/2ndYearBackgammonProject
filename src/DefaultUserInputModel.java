@@ -19,6 +19,8 @@ public class DefaultUserInputModel implements UserInputModel{
     private int matchLength;
     private Score matchScore = new Score (0,0);
     private Boolean matchOver = false;
+    private int totalBlueWins = 0;
+    private int totalRedWins = 0;
 
     public String getWinner() {
         return winner;
@@ -139,4 +141,16 @@ public class DefaultUserInputModel implements UserInputModel{
         this.matchOver = matchOver;
         propertyChangeSupport.firePropertyChange("matchOver", old, matchOver);
     }
+
+    public int getTotalBlueWins() {
+        return totalBlueWins;
+    }
+
+    public int getTotalRedWins() {
+        return totalRedWins;
+    }
+
+    public void blueWon() { totalBlueWins++;}
+
+    public void redWon() { totalRedWins++;}
 }
