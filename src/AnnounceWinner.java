@@ -50,7 +50,7 @@ public class AnnounceWinner extends JFrame {
         }
     }
 
-    public AnnounceWinner(String winner, int totalBlueWins, int totalRedWins) throws HeadlessException {
+    public AnnounceWinner(String winner) throws HeadlessException {
         winnerFrame = new JFrame("Backgammon");
         JPanel announcePanel = new JPanel();
         setSize(900, 700);
@@ -63,28 +63,22 @@ public class AnnounceWinner extends JFrame {
         ActionListener inputListener = new Listener();
         userInputField.addActionListener(inputListener);
 
-        if(totalBlueWins == totalRedWins) {
+
+        if (winner.equals("red")) {
+            //if red wins
             try {
-                image = ImageIO.read(this.getClass().getResource("draw.png"));
+                image = ImageIO.read(this.getClass().getResource("red.png"));
             } catch (IOException e) {
                 System.out.println("Could not find the image");
             }
-        }else{
-            if (winner.equals("red")) {
-                //if red wins
-                try {
-                    image = ImageIO.read(this.getClass().getResource("red.png"));
-                } catch (IOException e) {
-                    System.out.println("Could not find the image");
-                }
-            } else if (winner.equals("blue")) {
-                try {
-                    image = ImageIO.read(this.getClass().getResource("blue.png"));
-                } catch (IOException e) {
-                    System.out.println("Could not find the image");
-                }
+        } else if (winner.equals("blue")) {
+            try {
+                image = ImageIO.read(this.getClass().getResource("blue.png"));
+            } catch (IOException e) {
+                System.out.println("Could not find the image");
             }
         }
+
 
 
         JLabel img = new JLabel(new ImageIcon(image));

@@ -356,7 +356,6 @@ public class GameBoardPanel extends JPanel {
                     setNewMatch(true);
                     userInputModel.setInfoPanelOutput("newmatch");
                     userInputModel.setMatchOver(true);
-                    userInputModel.redWon();
 
                 }else if("turn".equals(evt.getPropertyName()) && numberOfBluePiecesOnPoint[0] == 15){
                     matchScore.setBlueScore(matchScore.getBlueScore()+matchValue);
@@ -364,7 +363,6 @@ public class GameBoardPanel extends JPanel {
                     setNewMatch(true);
                     userInputModel.setInfoPanelOutput("newmatch");
                     userInputModel.setMatchOver(true);
-                    userInputModel.blueWon();
 
                 }else if ("bluePlayerName".equals(evt.getPropertyName()) && !userInputModel.getBluePlayerName().equals("")){
                     gameDice.startDice();
@@ -977,6 +975,8 @@ public class GameBoardPanel extends JPanel {
             return true;
         return false;
     }
+
+
 
 
 }
