@@ -42,9 +42,9 @@ public class GameBoardPanel extends JPanel {
     private int doublingCube = 1;
     //for the cube ownership, 0 means the red owns the cube, 2 means the blue owns it, and 1 is either player can use it
     private int cubeOwner = 1;
-    private int oneAwayDoublingCheck = 1;
     private boolean firstTimeCheck = true;
-    private boolean oneLess = true;
+    private boolean oneLess = false;
+
 
     public void setNewMatch(Boolean newMatch) {
         this.newMatch = newMatch;
@@ -123,6 +123,8 @@ public class GameBoardPanel extends JPanel {
         g2.draw(doublingCubeArea);
 
         g2.drawString("" + doublingCube, 1010, 300);
+        g2.drawString("doubling", 990, 278);
+        g2.drawString("cube", 1000, 322);
 
         Rectangle gameScore = new Rectangle(972, 345, 80, 25);
         g2.draw(gameScore);
@@ -289,18 +291,19 @@ public class GameBoardPanel extends JPanel {
                         setNewGame(true);
                         repaint();
 
-                    }
-                    else if (userInputModel.getUserInput().equals("double") && doubleCheck() == true){
-                        if(userInputModel.getTurn()== RED_TURN && cubeOwner <= 1){
-                            userInputModel.setInfoPanelOutput("double has been offered by red, do you wish to accept blue?");
+                    }else if(newMatch==true&&newGame!=true){
+                        newMatch =false;
+                        gameDice.startDice();
+                    }else if (userInputModel.getUserInput().equals("double") && doubleCheck() == true) {
+                        if (userInputModel.getTurn() == RED_TURN && cubeOwner <= 1) {
+                            userInputModel.setInfoPanelOutput("double has been offered by red,\n do you wish to accept blue?");
+                            doubling();
 
                         }
-                        if(userInputModel.getTurn() == BLUE_TURN && cubeOwner >= 1)
-                        {
-                            userInputModel.setInfoPanelOutput("double has been offered by blue, do you wish to accept red?");
+                        if (userInputModel.getTurn() == BLUE_TURN && cubeOwner >= 1) {
+                            userInputModel.setInfoPanelOutput("double has been offered by blue,\n do you wish to accept red?");
                         }
-                    }
-                    else if(userInputModel.getUserInput().equals("cheat")) {
+                    }else if(userInputModel.getUserInput().equals("cheat")) {
                         if(userInputModel.getTurn()==RED_TURN) {
                             userInputModel.setInfoPanelOutput("Cheat has been activated");
                             cheat();
@@ -372,6 +375,7 @@ public class GameBoardPanel extends JPanel {
                     userInputModel.setMatchScore(matchScore);
                     oneLessCheck();
                     doublingCube = 1;
+                    numberOfMatchesPlayed++;
                     setNewMatch(true);
                     userInputModel.setInfoPanelOutput("newmatch");
                     userInputModel.setMatchOver(true);
@@ -381,6 +385,7 @@ public class GameBoardPanel extends JPanel {
                     userInputModel.setMatchScore(matchScore);
                     oneLessCheck();
                     doublingCube = 1;
+                    numberOfMatchesPlayed++;
                     setNewMatch(true);
                     userInputModel.setInfoPanelOutput("newmatch");
                     userInputModel.setMatchOver(true);
@@ -1001,7 +1006,7 @@ public class GameBoardPanel extends JPanel {
         if(doublingCube == 64)
             return false;
 
-        if(oneLess == false)
+        if(oneLess == true)
         {
             return false;
         }
@@ -1012,9 +1017,9 @@ public class GameBoardPanel extends JPanel {
     private  void oneLessCheck() {
         if (firstTimeCheck == true && (matchLength - matchScore.getBlueScore() == 1 || matchLength - matchScore.getRedScore() == 1)) {
             firstTimeCheck = false;
-            oneLess = false;
-        } else {
             oneLess = true;
+        } else {
+            oneLess = false;
         }
 
     }
