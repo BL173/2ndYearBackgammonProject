@@ -48,12 +48,12 @@ public class CommandPanel extends JPanel{
             }else if(newGameCheck==true){
                 try{
                     matchLength = Integer.parseInt(userInput);
+                    newGameCheck=false;
                     userInputModel.setInfoPanelOutput("Match Length: "+matchLength);
                     userInputModel.setInfoPanelOutput("\n\nPlease enter player one name: ");
                     userInputModel.setMatchLength(matchLength);
                     userInputModel.setMatchScore(new Score(0,0));
                     redPlayerInputCheck = true;
-                    newGameCheck=false;
                 }catch(java.lang.NumberFormatException e){
                     userInputModel.setInfoPanelOutput("Invalid input. Please enter a positive integer.");
                     throw new InvalidInputException();

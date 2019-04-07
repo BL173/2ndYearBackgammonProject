@@ -19,6 +19,9 @@ public class DefaultUserInputModel implements UserInputModel{
     private int matchLength;
     private Score matchScore = new Score (0,0);
     private Boolean matchOver = false;
+    private int totalBlueWins = 0;
+    private int totalRedWins = 0;
+    private int match;
 
     public String getWinner() {
         return winner;
@@ -67,11 +70,16 @@ public class DefaultUserInputModel implements UserInputModel{
         int oldTurn = turn;
         turn = newTurn;
         propertyChangeSupport.firePropertyChange("turn", oldTurn, infoPanelOutput);
-        if(turn==0){
-            setInfoPanelOutput(redPlayerName + "'s Turn\n");
-        }else if(turn==1){
-            setInfoPanelOutput(bluePlayerName + "'s Turn\n");
+        if(!matchOver){
+            if(turn==0){
+                setInfoPanelOutput(redPlayerName + "'s Turn\n");
+            }else if(turn==1){
+                setInfoPanelOutput(bluePlayerName + "'s Turn\n");
+            }
+        }else{
+            matchOver=false;
         }
+
     }
 
 
@@ -124,4 +132,17 @@ public class DefaultUserInputModel implements UserInputModel{
         }
         propertyChangeSupport.firePropertyChange("matchLength", oldScore, matchScore);
     }
+
+    public Boolean getMatchOver() {
+        return matchOver;
+    }
+
+    public void setMatchOver(Boolean matchOver) {
+        Boolean old = this.matchOver;
+        this.matchOver = matchOver;
+        propertyChangeSupport.firePropertyChange("matchOver", old, matchOver);
+    }
+
+
+
 }

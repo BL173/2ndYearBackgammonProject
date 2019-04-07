@@ -63,12 +63,8 @@ public class GameBoardPanel extends JPanel {
         if(newGame==true||newMatch==true){
             initialiseGameBoard(g, redPlayerGamePieces,bluePlayerGamePieces);
             newGame = false;
-            newMatch=false;
+            //newMatch=false;
         }
-
-
-
-
 
         // all the diagonals on the top of the board going down right
         for(int i = 0; i < 13; i++){
@@ -152,7 +148,6 @@ public class GameBoardPanel extends JPanel {
             g2.drawString("16", 253, 602);
             g2.drawString("17", 327, 602);
             g2.drawString("18", 401, 602);
-
 
             g2.drawString("19", 549, 602);
             g2.drawString("20", 623, 602);
@@ -293,6 +288,7 @@ public class GameBoardPanel extends JPanel {
                     if(userInputModel.getUserInput().equals("newgame")){
                         setNewGame(true);
                         repaint();
+
                     }
                     else if (userInputModel.getUserInput().equals("double") && doubleCheck() == true){
                         if(userInputModel.getTurn()== RED_TURN && cubeOwner <= 1){
@@ -378,8 +374,8 @@ public class GameBoardPanel extends JPanel {
                     doublingCube = 1;
                     setNewMatch(true);
                     userInputModel.setInfoPanelOutput("newmatch");
-                    //userInputModel.setTurn(BLUE_TURN);
-                    //userInputModel.setWinner("red");
+                    userInputModel.setMatchOver(true);
+
                 }else if("turn".equals(evt.getPropertyName()) && numberOfBluePiecesOnPoint[0] == 15){
                     matchScore.setBlueScore(matchScore.getBlueScore()+matchValue * doublingCube);
                     userInputModel.setMatchScore(matchScore);
@@ -387,8 +383,8 @@ public class GameBoardPanel extends JPanel {
                     doublingCube = 1;
                     setNewMatch(true);
                     userInputModel.setInfoPanelOutput("newmatch");
-                    //userInputModel.setTurn(RED_TURN);
-                    //userInputModel.setWinner("blue");
+                    userInputModel.setMatchOver(true);
+
                 }else if ("bluePlayerName".equals(evt.getPropertyName()) && !userInputModel.getBluePlayerName().equals("")){
                     gameDice.startDice();
                     repaint();
@@ -1027,6 +1023,8 @@ public class GameBoardPanel extends JPanel {
         {
             doublingCube *= 2;
         }
+
+
 
 
 }

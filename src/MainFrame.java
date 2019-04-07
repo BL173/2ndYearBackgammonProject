@@ -30,6 +30,7 @@ public class MainFrame extends JFrame{
         add(commandPanel, BorderLayout.PAGE_END);
         add(gameBoardPanel, BorderLayout.CENTER);
         add(infoPanel, BorderLayout.LINE_START);
+
         this.userInputModel.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
@@ -53,5 +54,6 @@ public class MainFrame extends JFrame{
     public void CloseFrame() {
         super.dispose();
     }
+
 
 }
