@@ -38,7 +38,7 @@ public class GameBoardPanel extends JPanel {
     private Boolean newMatch = false;
     private Score matchScore = new Score (0,0);
     private Boolean matchOver = false;
-    private int matchValue =1;
+    //private int matchValue =1;
     private int doublingCube = 1;
     //for the cube ownership, 0 means the red owns the cube, 2 means the blue owns it, and 1 is either player can use it
     private int cubeOwner = 1;
@@ -368,7 +368,7 @@ public class GameBoardPanel extends JPanel {
                     }
 
                 }else if("turn".equals(evt.getPropertyName()) && numberOfRedPiecesOnPoint[25] == 15){
-                    matchScore.setRedScore(matchScore.getRedScore()+matchValue * doublingCube);
+                    matchScore.setRedScore(matchScore.getRedScore()+matchValue() * doublingCube);
                     userInputModel.setMatchScore(matchScore);
                     oneLessCheck();
                     doublingCube = 1;
@@ -377,7 +377,7 @@ public class GameBoardPanel extends JPanel {
                     userInputModel.setMatchOver(true);
 
                 }else if("turn".equals(evt.getPropertyName()) && numberOfBluePiecesOnPoint[0] == 15){
-                    matchScore.setBlueScore(matchScore.getBlueScore()+matchValue * doublingCube);
+                    matchScore.setBlueScore(matchScore.getBlueScore()+matchValue() * doublingCube);
                     userInputModel.setMatchScore(matchScore);
                     oneLessCheck();
                     doublingCube = 1;
@@ -1019,12 +1019,15 @@ public class GameBoardPanel extends JPanel {
 
     }
 
-        private void doubling()
-        {
-            doublingCube *= 2;
+    private void doubling() {
+        doublingCube *= 2;
+    }
+
+    public int matchValue(){
+        int matchValue = 1;
+        if((numberOfBluePiecesOnPoint[0]==15&&numberOfRedPiecesOnPoint[25]==0)||(numberOfBluePiecesOnPoint[0]==0&&numberOfRedPiecesOnPoint[25]==15)){
+            matchValue = 2;
         }
-
-
-
-
+        return matchValue;
+    }
 }
