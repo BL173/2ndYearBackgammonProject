@@ -44,14 +44,16 @@ public class GameBoardPanel extends JPanel {
     private int cubeOwner = 1;
     private boolean firstTimeCheck = true;
     private boolean oneLess = false;
-
+    private boolean currentlyDoubling = false;
 
     public void setNewMatch(Boolean newMatch) {
         this.newMatch = newMatch;
+        cubeOwner = 1;
     }
 
     public void setNewGame(boolean newGame) {
         this.newGame = newGame;
+        cubeOwner = 1;
     }
 
     public void paintComponent(Graphics g) {
@@ -128,6 +130,8 @@ public class GameBoardPanel extends JPanel {
 
         Rectangle gameScore = new Rectangle(972, 345, 80, 25);
         g2.draw(gameScore);
+
+        g2.drawString("" + numberOfMatchesPlayed, 1010, 363);
 
         if(userInputModel.getTurn()==BLUE_TURN){
             g2.drawString("12", 34, 25);
@@ -287,21 +291,64 @@ public class GameBoardPanel extends JPanel {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 if("userInput".equals(evt.getPropertyName()) && !userInputModel.getUserInput().equals("")){
-                    if(userInputModel.getUserInput().equals("newgame")){
+                    if(currentlyDoubling == true) {
+                        currentlyDoubling = false;
+                        if(userInputModel.getUserInput().equals("y")){
+                            doubling();
+                            userInputModel.setInfoPanelOutput("Cube has been doubled");
+
+                            if(userInputModel.getTurn() == RED_TURN){
+                                cubeOwner = 2;
+                            }else{
+                                cubeOwner = 0;
+                            }
+                        }else if(userInputModel.getUserInput().equals("n")){
+                            if(userInputModel.getTurn() == RED_TURN){
+                                matchScore.setRedScore(matchScore.getRedScore()+doublingCube);
+                                userInputModel.setMatchScore(matchScore);
+                                oneLessCheck();
+                                doublingCube = 1;
+                                numberOfMatchesPlayed++;
+                                setNewMatch(true);
+                                userInputModel.setInfoPanelOutput("newmatch");
+                                userInputModel.setMatchOver(true);
+                            }else{
+                                matchScore.setBlueScore(matchScore.getBlueScore()+doublingCube);
+                                userInputModel.setMatchScore(matchScore);
+                                oneLessCheck();
+                                doublingCube = 1;
+                                numberOfMatchesPlayed++;
+                                setNewMatch(true);
+                                userInputModel.setInfoPanelOutput("newmatch");
+                                userInputModel.setMatchOver(true);
+                            }
+                        }else{
+                            userInputModel.setInfoPanelOutput("Please enter y or n");
+                            currentlyDoubling = true;
+                        }
+                        repaint();
+                    }else if(userInputModel.getUserInput().equals("newgame")){
                         setNewGame(true);
                         repaint();
 
                     }else if(newMatch==true&&newGame!=true){
                         newMatch =false;
                         gameDice.startDice();
-                    }else if (userInputModel.getUserInput().equals("double") && doubleCheck() == true) {
-                        if (userInputModel.getTurn() == RED_TURN && cubeOwner <= 1) {
-                            userInputModel.setInfoPanelOutput("double has been offered by red,\n do you wish to accept blue?");
-                            doubling();
-
+                    }else if (userInputModel.getUserInput().equals("double")) {
+                        if(doubleCheck() == false)
+                        {
+                            userInputModel.setInfoPanelOutput("Double is not allowed at this time");
                         }
-                        if (userInputModel.getTurn() == BLUE_TURN && cubeOwner >= 1) {
-                            userInputModel.setInfoPanelOutput("double has been offered by blue,\n do you wish to accept red?");
+                        else if (userInputModel.getTurn() == RED_TURN && cubeOwner <= 1) {
+                            userInputModel.setInfoPanelOutput("Double has been offered by "+ userInputModel.getRedPlayerName() +",\ndo you wish to accept " + userInputModel.getBluePlayerName() + "?\nPlease enter y or n.");
+                            currentlyDoubling = true;
+                        }
+                        else if (userInputModel.getTurn() == BLUE_TURN && cubeOwner >= 1) {
+                            userInputModel.setInfoPanelOutput("Double has been offered by " + userInputModel.getBluePlayerName()+",\ndo you wish to accept "+ userInputModel.getRedPlayerName() + "?\nPlease enter y or n.");
+                            currentlyDoubling = true;
+                        }
+                        else{
+                            userInputModel.setInfoPanelOutput("You do not own the cube currently");
                         }
                     }else if(userInputModel.getUserInput().equals("cheat")) {
                         if(userInputModel.getTurn()==RED_TURN) {

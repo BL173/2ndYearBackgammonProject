@@ -125,9 +125,9 @@ public class DefaultUserInputModel implements UserInputModel{
     public void setMatchScore(Score matchScore) {
         Score oldScore =this.matchScore;
         this.matchScore = matchScore;
-        if(matchScore.getRedScore()==matchLength){
+        if(matchScore.getRedScore()>=matchLength){
             setWinner("red");
-        }else if(matchScore.getBlueScore()==matchLength){
+        }else if(matchScore.getBlueScore()>=matchLength){
             setWinner("blue");
         }
         propertyChangeSupport.firePropertyChange("matchLength", oldScore, matchScore);
