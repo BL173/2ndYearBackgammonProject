@@ -114,6 +114,7 @@ public class CommandPanel extends JPanel{
         resultArea.append("quit -- exit program\n");
         resultArea.append("newgame -- start new game\n");
         resultArea.append("cheat -- moves all pieces to cheat position\n");
+        resultArea.append("double -- offer the doubling cube\n");
 
         add(commandLabel, BorderLayout.LINE_START);
         add(commandInputField, BorderLayout.CENTER);

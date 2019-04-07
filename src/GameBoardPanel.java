@@ -39,6 +39,12 @@ public class GameBoardPanel extends JPanel {
     private Score matchScore = new Score (0,0);
     private Boolean matchOver = false;
     private int matchValue =1;
+    private int doublingCube = 1;
+    //for the cube ownership, 0 means the red owns the cube, 2 means the blue owns it, and 1 is either player can use it
+    private int cubeOwner = 1;
+    private int oneAwayDoublingCheck = 1;
+    private boolean firstTimeCheck = true;
+    private boolean oneLess = true;
 
     public void setNewMatch(Boolean newMatch) {
         this.newMatch = newMatch;
@@ -119,6 +125,8 @@ public class GameBoardPanel extends JPanel {
 
         Rectangle doublingCubeArea = new Rectangle(972, 258, 80, 81);
         g2.draw(doublingCubeArea);
+
+        g2.drawString("" + doublingCube, 1010, 300);
 
         Rectangle gameScore = new Rectangle(972, 345, 80, 25);
         g2.draw(gameScore);
@@ -286,6 +294,16 @@ public class GameBoardPanel extends JPanel {
                         setNewGame(true);
                         repaint();
                     }
+                    else if (userInputModel.getUserInput().equals("double") && doubleCheck() == true){
+                        if(userInputModel.getTurn()== RED_TURN && cubeOwner <= 1){
+                            userInputModel.setInfoPanelOutput("double has been offered by red, do you wish to accept blue?");
+
+                        }
+                        if(userInputModel.getTurn() == BLUE_TURN && cubeOwner >= 1)
+                        {
+                            userInputModel.setInfoPanelOutput("double has been offered by blue, do you wish to accept red?");
+                        }
+                    }
                     else if(userInputModel.getUserInput().equals("cheat")) {
                         if(userInputModel.getTurn()==RED_TURN) {
                             userInputModel.setInfoPanelOutput("Cheat has been activated");
@@ -354,15 +372,19 @@ public class GameBoardPanel extends JPanel {
                     }
 
                 }else if("turn".equals(evt.getPropertyName()) && numberOfRedPiecesOnPoint[25] == 15){
-                    matchScore.setRedScore(matchScore.getRedScore()+matchValue);
+                    matchScore.setRedScore(matchScore.getRedScore()+matchValue * doublingCube);
                     userInputModel.setMatchScore(matchScore);
+                    oneLessCheck();
+                    doublingCube = 1;
                     setNewMatch(true);
                     userInputModel.setInfoPanelOutput("newmatch");
                     //userInputModel.setTurn(BLUE_TURN);
                     //userInputModel.setWinner("red");
                 }else if("turn".equals(evt.getPropertyName()) && numberOfBluePiecesOnPoint[0] == 15){
-                    matchScore.setBlueScore(matchScore.getBlueScore()+matchValue);
+                    matchScore.setBlueScore(matchScore.getBlueScore()+matchValue * doublingCube);
                     userInputModel.setMatchScore(matchScore);
+                    oneLessCheck();
+                    doublingCube = 1;
                     setNewMatch(true);
                     userInputModel.setInfoPanelOutput("newmatch");
                     //userInputModel.setTurn(RED_TURN);
@@ -978,6 +1000,33 @@ public class GameBoardPanel extends JPanel {
             return true;
         return false;
     }
+
+    private boolean doubleCheck(){
+        if(doublingCube == 64)
+            return false;
+
+        if(oneLess == false)
+        {
+            return false;
+        }
+
+        else return true;
+    }
+
+    private  void oneLessCheck() {
+        if (firstTimeCheck == true && (matchLength - matchScore.getBlueScore() == 1 || matchLength - matchScore.getRedScore() == 1)) {
+            firstTimeCheck = false;
+            oneLess = false;
+        } else {
+            oneLess = true;
+        }
+
+    }
+
+        private void doubling()
+        {
+            doublingCube *= 2;
+        }
 
 
 }
