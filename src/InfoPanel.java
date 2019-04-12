@@ -1,73 +1,51 @@
-/*
-Team: Jives
-Written by: Brian Leahy 17372896,
-            Oscar Byrne Carty 17430786,
-            Gearoid Lynch 17459176
- */
-
 import javax.swing.*;
+import javax.swing.text.DefaultCaret;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.FlowLayout;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
+public class InfoPanel extends JPanel implements InfoPanelAPI {
 
-public class InfoPanel extends JPanel{
-    private static final int INPUT_FIELD_WIDTH = 10;
-    private JLabel possibleLabel = new JLabel("Possible Turns");
-    JTextArea possibleTurns = new JTextArea(10, 25);
-    JScrollPane p = new JScrollPane(possibleTurns);
-    //private String userInput;
-    private JLabel infoLabel = new JLabel("Game Info\n");
-    JTextArea previousInputs = new JTextArea(10, 25);
-    JScrollPane previousTurns = new JScrollPane(previousInputs);
-    private DefaultUserInputModel userInputModel;
+    private static final long serialVersionUID = 1L;
+    private static final int TEXT_AREA_HEIGHT = 40;
+    private static final int CHARACTER_WIDTH = 47;
+    private static final int FONT_SIZE = 12;
 
+    private final JTextArea textArea;
+    private String allInfo = "", latestInfo = "";
 
-    public InfoPanel(DefaultUserInputModel userInputModel) {
-        GridLayout infoLayout = new GridLayout(2, 2);
-        previousInputs.append("How many points would you like to play to?\n");
-        this.userInputModel =userInputModel;
-        this.userInputModel.addPropertyChangeListener(new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                if("infoPanelOutput".equals(evt.getPropertyName()) && userInputModel.getInfoPanelOutput().startsWith("PM")&&!userInputModel.getInfoPanelOutput().equals("")){
-                    possibleTurns.setText(userInputModel.getInfoPanelOutput().substring(2) + "\n");
-                }else if("infoPanelOutput".equals(evt.getPropertyName()) &&userInputModel.getInfoPanelOutput().equals("How many points would you like to play to?")){
-                    previousInputs.setText(userInputModel.getInfoPanelOutput() + "\n");
-                }else if("infoPanelOutput".equals(evt.getPropertyName()) &&userInputModel.getInfoPanelOutput().equals("newmatch")){
-                    possibleTurns.setText("");
-                    //previousInputs.setText("Match Score: "+userInputModel.getMatchScore().getRedScore()+" / "+userInputModel.getMatchScore().getBlueScore());
-                    previousInputs.setText("\nType any key and hit enter to play the next match.\n");
-                }else if("infoPanelOutput".equals(evt.getPropertyName()) &&!userInputModel.getInfoPanelOutput().equals("")){
-                    previousInputs.append(userInputModel.getInfoPanelOutput() + "\n");
-                }
+    InfoPanel() {
+        textArea  = new JTextArea(TEXT_AREA_HEIGHT, CHARACTER_WIDTH);
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        DefaultCaret caret = (DefaultCaret)textArea.getCaret();
+        textArea.setEditable(false);
+        textArea.setFont(new Font("monospaced", Font.PLAIN, FONT_SIZE));
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+        setLayout(new BorderLayout());
+        add(scrollPane, BorderLayout.CENTER);
+    }
 
-            }
-        });
+    public void addText(String text) {
+        textArea.setText(textArea.getText()+"\n"+text);
+        allInfo = allInfo + text;
+        latestInfo = latestInfo + text;
+    }
 
+    public void clear() {
+        textArea.setText("");
+    }
 
+    @Override
+    public String getAllInfo() {
+        return allInfo;
+    }
 
-        infoLayout.setHgap(-50);
-        infoLayout.setVgap(10);
-
-        setLayout(infoLayout);
-        add(possibleLabel);
-        Dimension sizePossible = possibleLabel.getPreferredSize();
-        possibleLabel.setBounds(10, 10, sizePossible.width, sizePossible.height);
-        add(p);
-        possibleTurns.setEditable(false);
-        setVisible(true);
-
-        add(infoLabel);
-
-        infoLabel.setVisible(true);
-        infoLabel.setPreferredSize(new Dimension(10, 10));
-        add(previousTurns);
-        previousInputs.setEditable(false);
-
+    @Override
+    public String getLatestInfo() {
+        String text = latestInfo;
+        latestInfo = "";
+        return text;
     }
 
 }

@@ -1,59 +1,78 @@
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import javax.swing.JTextField;
-/*
-Team: Jives
-Written by: Brian Leahy 17372896,
-            Oscar Byrne Carty 17430786,
-            Gearoid Lynch 17459176
- */
-public class Players {
-    private String playerName;
-    private int playerColour;
-    private DefaultUserInputModel userInputModel;
-    private String userInput;
+import java.util.ArrayList;
+import java.util.Iterator;
 
+public class Players implements Iterable<Player>, Iterator<Player> {
+    // Players creates and groups two Players
 
-    Players(String playerName, int playerColour){
-        this.playerName = playerName;
-        this.playerColour = playerColour;
+    public static int NUM_PLAYERS = 2;
+
+    private ArrayList<Player> players;
+    private int currentPlayer;
+    private Iterator<Player> iterator;
+
+    Players() {
+        players = new ArrayList<Player>();
+        players.add(new Player(0,"RED", new Color(255,51,51)));
+        players.add(new Player(1,"GREEN",Color.GREEN));
+        currentPlayer = 0;
     }
 
-    //private static final int INPUT_FIELD_WIDTH = 15;
-    //private JTextField commandInputField;
-
-
-
-   /*public Players(DefaultUserInputModel userInputModel){
-       this.userInputModel = userInputModel;
-       this.userInputModel.addPropertyChangeListener(new PropertyChangeListener() {
-           @Override
-           public void propertyChange(PropertyChangeEvent evt) {
-               if ("playerName".equals(evt.getPropertyName())){
-                   //User input changed
-                   setPlayerName(userInputModel.getPlayerName());
-               }
-           }
-       });
-    }*/
-
-
-
-
-    public void setPlayerName(String playerName){
-        this.playerName = playerName;
+    public void setCurrentAccordingToDieRoll() {
+        if (players.get(0).getDice().getDie(0) > players.get(1).getDice().getDie(0)) {
+            currentPlayer = 0;
+        } else {
+            currentPlayer = 1;
+        }
     }
 
-    public void setPlayerColour(int playerColour){
-        this.playerColour = playerColour;
+    public Player getCurrent() {
+        return players.get(currentPlayer);
     }
 
-    public String getPlayerName(){
-        return playerName;
+    public void advanceCurrentPlayer() {
+        currentPlayer++;
+        if (currentPlayer == NUM_PLAYERS) {
+            currentPlayer = 0;
+        }
     }
 
+    public Player get(int id) {
+        return players.get(id);
+    }
+
+    public boolean isEqualDice() {
+        return players.get(0).getDice().getDie(0) == players.get(1).getDice().getDie(0);
+    }
+
+    public Dice getOneDieFromEachPlayer() {
+        return new Dice(get(0).getDice().getDie(0),get(1).getDice().getDie(0));
+    }
+
+    public boolean hasNext() {
+        return iterator.hasNext();
+    }
+
+    public Player next() {
+        return iterator.next();
+    }
+
+    public Player getOpposingPlayer(Player player) {
+        if (player.getId()==0) {
+            return players.get(1);
+        } else {
+            return players.get(0);
+        }
+    }
+
+    public void reset() {
+        for (int i=0; i<Backgammon.NUM_PLAYERS; i++) {
+            players.get(i).reset();
+        }
+    }
+
+    public Iterator<Player> iterator() {
+        iterator = players.iterator();
+        return iterator;
+    }
 }

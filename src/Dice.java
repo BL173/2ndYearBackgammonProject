@@ -1,111 +1,38 @@
+class Dice {
+    // Dice holds the details for two dice
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.Random;
-/*
-Team: Jives
-Written by: Brian Leahy 17372896,
-            Oscar Byrne Carty 17430786,
-            Gearoid Lynch 17459176
- */
-public class Dice {
+    private static final int NUM_DICE = 2;
 
-    private DefaultUserInputModel userInputModel;
-    private Boolean firstTurn=true;
-    private int diceOne;
-    private Boolean diceOneValid=true;
-    private int diceTwo;
-    private Boolean diceTwoValid=true;
+    private int[] numbers;
 
-    public int getDiceOne() {
-        return diceOne;
+    Dice() {
+        numbers = new int[]{1, 1};
     }
 
-    public int getDiceTwo() {
-        return diceTwo;
-    }
-
-    public Boolean getDiceOneValid() {
-        return diceOneValid;
-    }
-
-    public Boolean getDiceTwoValid() {
-        return diceTwoValid;
-    }
-
-    public void invalidateDice(int d) {
-        if(!rollDouble()){
-            if(d==1){
-                diceOneValid=false;
-            }else if(d==2){
-                diceTwoValid=false;
-            }
-        }
-    }
-
-    public Boolean rollDouble(){
-        if(diceOne==diceTwo){
-            return true;
-        }
-        return false;
-    }
-
-    public Dice(DefaultUserInputModel userInputModel) {
-        this.userInputModel = userInputModel;
-
-        this.userInputModel.addPropertyChangeListener(new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                if ("turn".equals(evt.getPropertyName())&&firstTurn==false){
-                    //turn changed
-                    rollDice();
-                }
-            }
-        });
+    Dice(int firstValue, int secondValue) {
+        numbers = new int[]{firstValue, secondValue};
     }
 
     public void rollDice() {
-
-        Random rand = new Random();
-        diceOne = (rand.nextInt(6)) + 1;
-        diceTwo = (rand.nextInt(6)) + 1;
-        if (userInputModel.getTurn()==0){
-          userInputModel.setInfoPanelOutput(userInputModel.getRedPlayerName()+ " rolls:");
-        }else{
-            userInputModel.setInfoPanelOutput(userInputModel.getBluePlayerName()+ " rolls:");
+        for (int i=0; i<NUM_DICE; i++) {
+            numbers[i] = 1 + (int) (Math.random() * 6);
         }
-        userInputModel.setInfoPanelOutput("Dice One: " + diceOne);
-        userInputModel.setInfoPanelOutput("Dice Two: " + diceTwo);
-        diceOneValid=true;
-        diceTwoValid=true;
     }
 
-    public void startDice() {
-        firstTurn=true;
-        Random rand = new Random();
-
-        diceOne = (rand.nextInt(6)) + 1;
-        diceTwo = (rand.nextInt(6)) + 1;
-
-
-        userInputModel.setInfoPanelOutput("\n"+userInputModel.getRedPlayerName()+" rolls: " + diceOne);
-        userInputModel.setInfoPanelOutput(userInputModel.getBluePlayerName()+" rolls: " + diceTwo);
-
-        if(diceOne > diceTwo) {
-            userInputModel.setInfoPanelOutput(userInputModel.getRedPlayerName()+ " goes first:");
-            userInputModel.setTurn(0);
-        }
-        else if(diceOne < diceTwo) {
-            userInputModel.setInfoPanelOutput(userInputModel.getBluePlayerName()+ " goes first:");
-            userInputModel.setTurn(1);
-        }
-        else {
-            userInputModel.setInfoPanelOutput("Since both rolls are equal, we roll again:\n");
-            startDice();
-        }
-        firstTurn=false;
-        diceOneValid=true;
-        diceTwoValid=true;
+    public int getDie(int index) {
+        return numbers[index];
     }
+
+    public boolean isDouble() {
+        return numbers[0] == numbers[1];
+    }
+
+    public String getDieAsString(int index) {
+        return "[" + numbers[index] + "]";
+    }
+
+   public String toString() {
+      return "[" + numbers[0] + "," + numbers[1] + "]";
+   }
 
 }
