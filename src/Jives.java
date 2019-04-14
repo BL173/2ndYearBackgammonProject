@@ -28,11 +28,37 @@ public class Jives implements BotAPI {
 
     public String getCommand(Plays possiblePlays) {
         // Add your code here
-        return "1";
+        int[] playWeights= new int[possiblePlays.number()];
+        for(int i=0;i<playWeights.length;i++){
+            Play play = possiblePlays.get(i);
+            playWeights[i]=1;
+            for(int j=0;j<play.numberOfMoves();j++){
+                Move move = play.moves.get(j);
+                if(move.isHit()){
+                    playWeights[i]+=2;
+                }
+            }
+        }
+        return getBiggestWeight(playWeights);
     }
 
     public String getDoubleDecision() {
         // Add your code here
         return "n";
+    }
+
+    private String getBiggestWeight(int weights[]){
+        int biggestWeight=0;
+        Integer biggestWeightPosition=0;
+        for(int i=0;i<weights.length;i++){
+            if(weights[i]>biggestWeight){
+                biggestWeight=weights[i];
+                biggestWeightPosition=i;
+            }
+        }
+        //adjust for starting from 1 instead of zero
+        biggestWeightPosition+=1;
+        String biggestWeightString =biggestWeightPosition.toString();
+        return biggestWeightString;
     }
 }
