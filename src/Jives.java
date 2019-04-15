@@ -35,8 +35,9 @@ public class Jives implements BotAPI {
             for(int j=0;j<play.numberOfMoves();j++){
                 Move move = play.moves.get(j);
                 if(move.isHit()){
-                    playWeights[i]+=2;
+                    playWeights[i]+=hitWeight(move);
                 }
+                playWeights[i]+=stackWeight(move);
             }
         }
         return getBiggestWeight(playWeights);
@@ -63,6 +64,35 @@ public class Jives implements BotAPI {
     }
 
     private int hitWeight(Move move){
-        return 0;
+        int toPip = move.getToPip();
+        int weight;
+        if(toPip<6){
+            weight = 0;
+        }else if(toPip<13){
+            weight = 1;
+        }else if(toPip<19){
+            weight = 2;
+        }else{
+            weight =3;
+        }
+        return weight;
+    }
+
+    private int stackWeight(Move move){
+        int toPip = move.getToPip();
+        int fromPip = move.getFromPip();
+        int numCheckersOnFrom = board.getNumCheckers(0,fromPip);
+        int numCheckersOnTo = board.getNumCheckers(0,toPip);
+        int weight=0;
+        if(toPip<6 && numCheckersOnTo==1){
+            weight = 3;
+        }else if(toPip<13&& numCheckersOnTo==1){
+            weight = 3;
+        }else if(toPip<19&& numCheckersOnTo==1){
+            weight = 1;
+        }else if(numCheckersOnTo==1 &&numCheckersOnFrom!=2){
+            weight =1;
+        }
+        return weight;
     }
 }
