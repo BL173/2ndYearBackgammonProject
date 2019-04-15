@@ -61,4 +61,8 @@ public class Jives implements BotAPI {
         String biggestWeightString =biggestWeightPosition.toString();
         return biggestWeightString;
     }
+
+    private int hitWeight(Move move){
+        return 0;
+    }
 }
