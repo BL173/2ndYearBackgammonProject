@@ -84,15 +84,34 @@ public class Jives implements BotAPI {
         int numCheckersOnFrom = board.getNumCheckers(0,fromPip);
         int numCheckersOnTo = board.getNumCheckers(0,toPip);
         int weight=0;
-        if(toPip<6 && numCheckersOnTo==1){
-            weight = 3;
-        }else if(toPip<13&& numCheckersOnTo==1){
-            weight = 3;
-        }else if(toPip<19&& numCheckersOnTo==1){
-            weight = 1;
-        }else if(numCheckersOnTo==1 &&numCheckersOnFrom!=2){
-            weight =1;
+        if(contactCheck()){
+            if(toPip<6 && numCheckersOnTo==1){
+                weight = 3;
+            }else if(toPip<13&& numCheckersOnTo==1){
+                weight = 3;
+            }else if(toPip<19&& numCheckersOnTo==1){
+                weight = 1;
+            }else if(numCheckersOnTo==1 &&numCheckersOnFrom!=2){
+                weight =1;
+            }
         }
         return weight;
+    }
+
+    private Boolean contactCheck(){
+        int lastOpponentPip= 0;
+        for(int i=0;i<26;i++){
+            if(board.getNumCheckers(1,i)>0){
+                lastOpponentPip=25-i;
+            }
+        }
+
+        for(int j=lastOpponentPip;j<26;j++){
+            if(board.getNumCheckers(0,j)>0){
+                return true;
+            }
+        }
+
+        return false;
     }
 }
