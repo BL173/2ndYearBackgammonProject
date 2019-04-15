@@ -84,12 +84,10 @@ public class Jives implements BotAPI {
         int numCheckersOnFrom = board.getNumCheckers(me.getId(),fromPip);
         int numCheckersOnTo = board.getNumCheckers(me.getId(),toPip);
         int weight=0;
-        /*TODO
-         *  Might be an idea to weight moves differently based
-         */
+
         if(contactCheck()){
             if(toPip<6 && numCheckersOnTo==1){
-                weight = 4;
+                weight = 3;
             }else if(toPip<13&& numCheckersOnTo==1){
                 weight = 2;
             }else if(toPip<19&& numCheckersOnTo==1){
