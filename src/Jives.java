@@ -36,6 +36,8 @@ public class Jives implements BotAPI {
                 Move move = play.moves.get(j);
                 if(move.isHit()){
                     playWeights[i]+=hitWeight(move);
+                }else if(move.getToPip()==0){
+                    playWeights[i]+=bearOffWeight(move);
                 }
                 playWeights[i]+=stackWeight(move);
             }
@@ -114,5 +116,18 @@ public class Jives implements BotAPI {
         }
 
         return false;
+    }
+
+    private int bearOffWeight(Move move){
+        int fromPip = move.getFromPip();
+        int numCheckersOnFrom = board.getNumCheckers(me.getId(),fromPip);
+        int weight=0;
+
+        if(contactCheck()&&numCheckersOnFrom!=2){
+            weight = 5;
+        }else{
+            weight = 3;
+        }
+        return weight;
     }
 }
