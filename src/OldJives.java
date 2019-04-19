@@ -29,6 +29,8 @@ public class OldJives implements BotAPI {
                 Move move = play.moves.get(j);
                 if(move.isHit()){
                     playWeights[i]+=hitWeight(move);
+                }else if(move.getToPip()==0){
+                    playWeights[i]+=bearOffWeight(move);
                 }
                 playWeights[i]+=stackWeight(move);
             }
@@ -77,16 +79,18 @@ public class OldJives implements BotAPI {
         int numCheckersOnFrom = board.getNumCheckers(me.getId(),fromPip);
         int numCheckersOnTo = board.getNumCheckers(me.getId(),toPip);
         int weight=0;
+
         if(contactCheck()){
             if(toPip<6 && numCheckersOnTo==1){
                 weight = 3;
             }else if(toPip<13&& numCheckersOnTo==1){
-                weight = 3;
+                weight = 2;
             }else if(toPip<19&& numCheckersOnTo==1){
                 weight = 1;
             }else if(numCheckersOnTo==1 &&numCheckersOnFrom!=2){
                 weight =1;
             }
+
         }
         return weight;
     }
@@ -106,5 +110,18 @@ public class OldJives implements BotAPI {
         }
 
         return false;
+    }
+
+    private int bearOffWeight(Move move){
+        int fromPip = move.getFromPip();
+        int numCheckersOnFrom = board.getNumCheckers(me.getId(),fromPip);
+        int weight=0;
+
+        if(contactCheck()&&numCheckersOnFrom!=2){
+            weight = 5;
+        }else{
+            weight = 3;
+        }
+        return weight;
     }
 }

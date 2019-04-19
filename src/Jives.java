@@ -71,11 +71,11 @@ public class Jives implements BotAPI {
         if(toPip<6){
             weight = 0;
         }else if(toPip<13){
-            weight = 1;
-        }else if(toPip<19){
             weight = 2;
+        }else if(toPip<19){
+            weight = 3;
         }else{
-            weight =3;
+            weight =4;
         }
         return weight;
     }
@@ -89,13 +89,16 @@ public class Jives implements BotAPI {
 
         if(contactCheck()){
             if(toPip<6 && numCheckersOnTo==1){
-                weight = 3;
+                weight = 4;
             }else if(toPip<13&& numCheckersOnTo==1){
-                weight = 2;
+                weight = 3;
             }else if(toPip<19&& numCheckersOnTo==1){
-                weight = 1;
+                weight = 2;
             }else if(numCheckersOnTo==1 &&numCheckersOnFrom!=2){
                 weight =1;
+            }
+            if(numCheckersOnFrom>3&&numCheckersOnTo>0){
+                weight+=1;
             }
         }
         return weight;
