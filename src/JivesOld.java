@@ -1,11 +1,4 @@
-/*
-*   Team Jives
-*   Brian Leahy
-*   Oscar Byrne Carty
-*   Gearoid Lynch
-*/
-
-public class Jives implements BotAPI {
+public class JivesOld implements BotAPI {
 
     private PlayerAPI me, opponent;
     private BoardAPI board;
@@ -13,7 +6,7 @@ public class Jives implements BotAPI {
     private MatchAPI match;
     private InfoPanelAPI info;
 
-    public Jives(PlayerAPI me, PlayerAPI opponent, BoardAPI board, CubeAPI cube, MatchAPI match, InfoPanelAPI info) {
+    public JivesOld(PlayerAPI me, PlayerAPI opponent, BoardAPI board, CubeAPI cube, MatchAPI match, InfoPanelAPI info) {
         this.me = me;
         this.opponent = opponent;
         this.board = board;
@@ -36,8 +29,6 @@ public class Jives implements BotAPI {
                 Move move = play.moves.get(j);
                 if(move.isHit()){
                     playWeights[i]+=hitWeight(move);
-                }else if(move.getToPip()==0){
-                    playWeights[i]+=bearOffWeight(move);
                 }
                 playWeights[i]+=stackWeight(move);
             }
@@ -86,12 +77,11 @@ public class Jives implements BotAPI {
         int numCheckersOnFrom = board.getNumCheckers(me.getId(),fromPip);
         int numCheckersOnTo = board.getNumCheckers(me.getId(),toPip);
         int weight=0;
-
         if(contactCheck()){
             if(toPip<6 && numCheckersOnTo==1){
                 weight = 3;
             }else if(toPip<13&& numCheckersOnTo==1){
-                weight = 2;
+                weight = 3;
             }else if(toPip<19&& numCheckersOnTo==1){
                 weight = 1;
             }else if(numCheckersOnTo==1 &&numCheckersOnFrom!=2){
@@ -116,18 +106,5 @@ public class Jives implements BotAPI {
         }
 
         return false;
-    }
-
-    private int bearOffWeight(Move move){
-        int fromPip = move.getFromPip();
-        int numCheckersOnFrom = board.getNumCheckers(me.getId(),fromPip);
-        int weight=0;
-
-        if(contactCheck()&&numCheckersOnFrom!=2){
-            weight = 5;
-        }else{
-            weight = 3;
-        }
-        return weight;
     }
 }
