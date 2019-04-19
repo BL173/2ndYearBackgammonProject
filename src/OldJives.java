@@ -1,4 +1,4 @@
-public class JivesOld implements BotAPI {
+public class OldJives implements BotAPI {
 
     private PlayerAPI me, opponent;
     private BoardAPI board;
@@ -6,7 +6,7 @@ public class JivesOld implements BotAPI {
     private MatchAPI match;
     private InfoPanelAPI info;
 
-    public JivesOld(PlayerAPI me, PlayerAPI opponent, BoardAPI board, CubeAPI cube, MatchAPI match, InfoPanelAPI info) {
+    public OldJives(PlayerAPI me, PlayerAPI opponent, BoardAPI board, CubeAPI cube, MatchAPI match, InfoPanelAPI info) {
         this.me = me;
         this.opponent = opponent;
         this.board = board;
@@ -16,7 +16,7 @@ public class JivesOld implements BotAPI {
     }
 
     public String getName() {
-        return "Jives"; // must match the class name
+        return "OldJives"; // must match the class name
     }
 
     public String getCommand(Plays possiblePlays) {
