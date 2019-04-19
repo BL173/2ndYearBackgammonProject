@@ -1,4 +1,4 @@
-public class JivesOld implements BotAPI {
+public class OldJives implements BotAPI {
 
     private PlayerAPI me, opponent;
     private BoardAPI board;
@@ -6,7 +6,7 @@ public class JivesOld implements BotAPI {
     private MatchAPI match;
     private InfoPanelAPI info;
 
-    public JivesOld(PlayerAPI me, PlayerAPI opponent, BoardAPI board, CubeAPI cube, MatchAPI match, InfoPanelAPI info) {
+    public OldJives(PlayerAPI me, PlayerAPI opponent, BoardAPI board, CubeAPI cube, MatchAPI match, InfoPanelAPI info) {
         this.me = me;
         this.opponent = opponent;
         this.board = board;
@@ -16,7 +16,7 @@ public class JivesOld implements BotAPI {
     }
 
     public String getName() {
-        return "Jives"; // must match the class name
+        return "OldJives"; // must match the class name
     }
 
     public String getCommand(Plays possiblePlays) {
@@ -29,6 +29,8 @@ public class JivesOld implements BotAPI {
                 Move move = play.moves.get(j);
                 if(move.isHit()){
                     playWeights[i]+=hitWeight(move);
+                }else if(move.getToPip()==0){
+                    playWeights[i]+=bearOffWeight(move);
                 }
                 playWeights[i]+=stackWeight(move);
             }
@@ -77,16 +79,18 @@ public class JivesOld implements BotAPI {
         int numCheckersOnFrom = board.getNumCheckers(me.getId(),fromPip);
         int numCheckersOnTo = board.getNumCheckers(me.getId(),toPip);
         int weight=0;
+
         if(contactCheck()){
             if(toPip<6 && numCheckersOnTo==1){
                 weight = 3;
             }else if(toPip<13&& numCheckersOnTo==1){
-                weight = 3;
+                weight = 2;
             }else if(toPip<19&& numCheckersOnTo==1){
                 weight = 1;
             }else if(numCheckersOnTo==1 &&numCheckersOnFrom!=2){
                 weight =1;
             }
+
         }
         return weight;
     }
@@ -106,5 +110,18 @@ public class JivesOld implements BotAPI {
         }
 
         return false;
+    }
+
+    private int bearOffWeight(Move move){
+        int fromPip = move.getFromPip();
+        int numCheckersOnFrom = board.getNumCheckers(me.getId(),fromPip);
+        int weight=0;
+
+        if(contactCheck()&&numCheckersOnFrom!=2){
+            weight = 5;
+        }else{
+            weight = 3;
+        }
+        return weight;
     }
 }
