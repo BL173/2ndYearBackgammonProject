@@ -5,6 +5,8 @@ public class OldJives implements BotAPI {
     private CubeAPI cube;
     private MatchAPI match;
     private InfoPanelAPI info;
+    private double thresholdForDoubling = 60;
+    private double thresholdForAcceptingDouble = 35;
 
     public OldJives(PlayerAPI me, PlayerAPI opponent, BoardAPI board, CubeAPI cube, MatchAPI match, InfoPanelAPI info) {
         this.me = me;
@@ -35,12 +37,39 @@ public class OldJives implements BotAPI {
                 playWeights[i]+=stackWeight(move);
             }
         }
+        if (getWinPercentage()>thresholdForDoubling && (!cube.isOwned() || cube.getOwnerId()==me.getId())){
+            return "double";
+        }
         return getBiggestWeight(playWeights);
     }
 
     public String getDoubleDecision() {
-        // Add your code here
+        if (getWinPercentage()>thresholdForAcceptingDouble){
+            return"y";
+        }
         return "n";
+    }
+
+    public double getWinPercentage(){
+        int NUMBER_OF_PIPS_ON_BOARD = 26;
+        double myCollectiveDistance = 0;
+        double opponentsCollectiveDistance = 0;
+        double chanceOfWinning;
+
+        for(int i = 0; i < NUMBER_OF_PIPS_ON_BOARD; i++){
+            myCollectiveDistance += i * board.getNumCheckers(me.getId(), i);
+            opponentsCollectiveDistance += i * board.getNumCheckers(opponent.getId(), i);
+        }
+
+        chanceOfWinning = (opponentsCollectiveDistance / (opponentsCollectiveDistance + myCollectiveDistance)) * 100;
+        return chanceOfWinning;
+    }
+
+    private Boolean opponentBearOffCheck(){
+        if(board.getNumCheckers(opponent.getId(), 0)>0){
+            return true;
+        }
+        return false;
     }
 
     private String getBiggestWeight(int weights[]){
