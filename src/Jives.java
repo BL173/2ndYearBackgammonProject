@@ -13,7 +13,7 @@ public class Jives implements BotAPI {
     private MatchAPI match;
     private InfoPanelAPI info;
     private double thresholdForDoubling = 57;
-    private double thresholdForAcceptingDouble = 35;
+    private double thresholdForAcceptingDouble = 38;
     private double upperThresholdForDoubling = 85;
 
 
@@ -31,7 +31,6 @@ public class Jives implements BotAPI {
     }
 
     public String getCommand(Plays possiblePlays) {
-        // Add your code here
         int[] playWeights= new int[possiblePlays.number()];
         for(int i=0;i<playWeights.length;i++){
             Play play = possiblePlays.get(i);
@@ -52,6 +51,7 @@ public class Jives implements BotAPI {
             return "double";
         }
         checkHomeBoard();
+
         return getBiggestWeight(playWeights);
 
     }
@@ -62,6 +62,33 @@ public class Jives implements BotAPI {
         }
         return "n";
     }
+
+    private int checkPrime(int id){
+        int NUMBER_OF_PIPS_ON_BOARD = 26;
+        int LONGEST_POSSIBLE_PRIME = 7;
+        int longestPrime = 1;
+        int longestPrimeTemp = 1;
+
+        if(contactCheck() == true){
+            for(int i=1; i < NUMBER_OF_PIPS_ON_BOARD-1; i++){
+                if(board.getNumCheckers(id, i) > 1){
+
+                    longestPrimeTemp = 1;
+                    for(int j=1; j < LONGEST_POSSIBLE_PRIME; j++){
+                        if((i+j < 25) && (board.getNumCheckers(id, i + j) > 1)){
+                            longestPrimeTemp++;
+                        }
+                        else break;
+                    }
+                    if(longestPrimeTemp > longestPrime){
+                        longestPrime = longestPrimeTemp;
+                    }
+                }
+            }
+        }
+        return longestPrime;
+    }
+
 
     public double getWinPercentage(){
         int NUMBER_OF_PIPS_ON_BOARD = 26;
@@ -74,11 +101,22 @@ public class Jives implements BotAPI {
             opponentsCollectiveDistance += i * board.getNumCheckers(opponent.getId(), i);
         }
 
-        chanceOfWinning = (opponentsCollectiveDistance / (opponentsCollectiveDistance + myCollectiveDistance)) * 100;
-        System.out.println("Chance of Jives winning: "+chanceOfWinning);
 
+        chanceOfWinning = (opponentsCollectiveDistance / (opponentsCollectiveDistance + myCollectiveDistance)) * 100;
+
+        if(checkPrime(opponent.getId()) >5 ){
+            chanceOfWinning -= 5;
+        }else if(checkPrime(opponent.getId()) == 5){
+            chanceOfWinning -= 2;
+        }
+        if(checkPrime(me.getId()) > 5){
+            chanceOfWinning += 5;
+        }else if(checkPrime(me.getId()) == 5){
+            chanceOfWinning += 2;
+        }
         return chanceOfWinning;
     }
+
 
     public Boolean checkHomeBoard(){
         int NUMBER_OF_PIPS_ON_BOARD = 26;
@@ -109,6 +147,7 @@ public class Jives implements BotAPI {
         }
         return false;
     }
+
 
     private String getBiggestWeight(int weights[]){
         int biggestWeight=0;

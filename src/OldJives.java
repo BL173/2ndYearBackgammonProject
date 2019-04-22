@@ -1,3 +1,10 @@
+/*
+ *   Team OldJives
+ *   Brian Leahy
+ *   Oscar Byrne Carty
+ *   Gearoid Lynch
+ */
+
 public class OldJives implements BotAPI {
 
     private PlayerAPI me, opponent;
@@ -7,7 +14,8 @@ public class OldJives implements BotAPI {
     private InfoPanelAPI info;
     private double thresholdForDoubling = 57;
     private double thresholdForAcceptingDouble = 35;
-    private double upperThresholdForDoubling = 80;
+    private double upperThresholdForDoubling = 85;
+
 
     public OldJives(PlayerAPI me, PlayerAPI opponent, BoardAPI board, CubeAPI cube, MatchAPI match, InfoPanelAPI info) {
         this.me = me;
@@ -38,19 +46,50 @@ public class OldJives implements BotAPI {
                 playWeights[i]+=stackWeight(move);
             }
         }
-        if (getWinPercentage()>thresholdForDoubling &&(!cube.isOwned() || cube.getOwnerId()==me.getId())){
+        if (!onePointFromWinning()&&getWinPercentage()>thresholdForDoubling /*&& getWinPercentage()<upperThresholdForDoubling */&&(!cube.isOwned() || cube.getOwnerId()==me.getId())){
+            return "double";
+        }else if (!onePointFromWinning()&&opponentOnePointFromWinning()&&(!cube.isOwned() || cube.getOwnerId()==me.getId())){
             return "double";
         }
         checkHomeBoard();
+
         return getBiggestWeight(playWeights);
+
     }
 
     public String getDoubleDecision() {
-        if (getWinPercentage()>thresholdForAcceptingDouble){
+        if (getWinPercentage()>thresholdForAcceptingDouble||onePointFromWinning()||opponentOnePointFromWinning()){
             return"y";
         }
         return "n";
     }
+
+    private int checkPrime(int id){
+        int NUMBER_OF_PIPS_ON_BOARD = 26;
+        int LONGEST_POSSIBLE_PRIME = 7;
+        int longestPrime = 1;
+        int longestPrimeTemp = 1;
+
+        if(contactCheck() == true){
+            for(int i=1; i < NUMBER_OF_PIPS_ON_BOARD-1; i++){
+                if(board.getNumCheckers(id, i) > 1){
+
+                    longestPrimeTemp = 1;
+                    for(int j=1; j < LONGEST_POSSIBLE_PRIME; j++){
+                        if((i+j < 25) && (board.getNumCheckers(id, i + j) > 1)){
+                            longestPrimeTemp++;
+                        }
+                        else break;
+                    }
+                    if(longestPrimeTemp > longestPrime){
+                        longestPrime = longestPrimeTemp;
+                    }
+                }
+            }
+        }
+        return longestPrime;
+    }
+
 
     public double getWinPercentage(){
         int NUMBER_OF_PIPS_ON_BOARD = 26;
@@ -63,11 +102,22 @@ public class OldJives implements BotAPI {
             opponentsCollectiveDistance += i * board.getNumCheckers(opponent.getId(), i);
         }
 
-        chanceOfWinning = (opponentsCollectiveDistance / (opponentsCollectiveDistance + myCollectiveDistance)) * 100;
-        System.out.println("Chance of OldJives winning: "+chanceOfWinning);
 
+        chanceOfWinning = (opponentsCollectiveDistance / (opponentsCollectiveDistance + myCollectiveDistance)) * 100;
+
+        if(checkPrime(opponent.getId()) >5 ){
+            chanceOfWinning -= 5;
+        }else if(checkPrime(opponent.getId()) == 5){
+            chanceOfWinning -= 2;
+        }
+        if(checkPrime(me.getId()) > 5){
+            chanceOfWinning += 5;
+        }else if(checkPrime(me.getId()) == 5){
+            chanceOfWinning += 2;
+        }
         return chanceOfWinning;
     }
+
 
     public Boolean checkHomeBoard(){
         int NUMBER_OF_PIPS_ON_BOARD = 26;
@@ -98,6 +148,7 @@ public class OldJives implements BotAPI {
         }
         return false;
     }
+
 
     private String getBiggestWeight(int weights[]){
         int biggestWeight=0;
@@ -181,6 +232,19 @@ public class OldJives implements BotAPI {
             weight = 3;
         }
         return weight;
+    }
+
+    private Boolean onePointFromWinning(){
+        if(me.getScore()==match.getLength()-1){
+            return true;
+        }
+        return false;
+    }
+    private Boolean opponentOnePointFromWinning(){
+        if(opponent.getScore()==match.getLength()-1){
+            return true;
+        }
+        return false;
     }
 
 }
