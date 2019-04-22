@@ -42,7 +42,7 @@ public class Backgammon {
             }
         }
         if (args.length < NUM_PLAYERS + 1) {
-            match.setLength(10);
+            match.setLength(50);
         } else {
             match.setLength(Integer.parseInt(args[2]));
         }
