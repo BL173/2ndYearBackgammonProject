@@ -111,7 +111,7 @@ public class Jives implements BotAPI {
             }else if(toPip<19&& numCheckersOnTo==1){
                 weight = 2;
             }else if(numCheckersOnTo==1 &&numCheckersOnFrom!=2){
-                weight =1;
+                weight =2;
             }
             if(numCheckersOnFrom>3&&numCheckersOnTo>0){
                 weight+=1;
