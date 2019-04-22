@@ -47,6 +47,7 @@ public class Jives implements BotAPI {
         if (getWinPercentage()>thresholdForDoubling && (!cube.isOwned() || cube.getOwnerId()==me.getId())){
             return "double";
         }
+        checkHomeBoard();
         return getBiggestWeight(playWeights);
     }
 
