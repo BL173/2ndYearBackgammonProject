@@ -7,6 +7,7 @@ public class OldJives implements BotAPI {
     private InfoPanelAPI info;
     private double thresholdForDoubling = 57;
     private double thresholdForAcceptingDouble = 35;
+    private double upperThresholdForDoubling = 80;
 
     public OldJives(PlayerAPI me, PlayerAPI opponent, BoardAPI board, CubeAPI cube, MatchAPI match, InfoPanelAPI info) {
         this.me = me;
@@ -37,9 +38,10 @@ public class OldJives implements BotAPI {
                 playWeights[i]+=stackWeight(move);
             }
         }
-        if (getWinPercentage()>thresholdForDoubling && (!cube.isOwned() || cube.getOwnerId()==me.getId())){
+        if (getWinPercentage()>thresholdForDoubling &&(!cube.isOwned() || cube.getOwnerId()==me.getId())){
             return "double";
         }
+        checkHomeBoard();
         return getBiggestWeight(playWeights);
     }
 
@@ -54,7 +56,7 @@ public class OldJives implements BotAPI {
         int NUMBER_OF_PIPS_ON_BOARD = 26;
         double myCollectiveDistance = 0;
         double opponentsCollectiveDistance = 0;
-        double chanceOfWinning;
+        double chanceOfWinning = 0;
 
         for(int i = 0; i < NUMBER_OF_PIPS_ON_BOARD; i++){
             myCollectiveDistance += i * board.getNumCheckers(me.getId(), i);
@@ -62,8 +64,33 @@ public class OldJives implements BotAPI {
         }
 
         chanceOfWinning = (opponentsCollectiveDistance / (opponentsCollectiveDistance + myCollectiveDistance)) * 100;
+        System.out.println("Chance of OldJives winning: "+chanceOfWinning);
+
         return chanceOfWinning;
     }
+
+    public Boolean checkHomeBoard(){
+        int NUMBER_OF_PIPS_ON_BOARD = 26;
+        int[] myPiecesOn = new int[NUMBER_OF_PIPS_ON_BOARD];
+        int[] opponentsPiecesOn = new int[NUMBER_OF_PIPS_ON_BOARD];
+        int combinationOfPieces = 0;
+
+        for(int i = 0; i < NUMBER_OF_PIPS_ON_BOARD; i++){
+            myPiecesOn[i] = board.getNumCheckers(me.getId(), i);
+            opponentsPiecesOn[i] = board.getNumCheckers(opponent.getId(), i);
+        }
+        for(int i = 0; i < 7; i++){
+            combinationOfPieces += myPiecesOn[i] + opponentsPiecesOn[i];
+
+            if(combinationOfPieces == 30){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
 
     private Boolean opponentBearOffCheck(){
         if(board.getNumCheckers(opponent.getId(), 0)>0){
@@ -155,4 +182,5 @@ public class OldJives implements BotAPI {
         }
         return weight;
     }
+
 }

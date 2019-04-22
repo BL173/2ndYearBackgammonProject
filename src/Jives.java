@@ -14,6 +14,8 @@ public class Jives implements BotAPI {
     private InfoPanelAPI info;
     private double thresholdForDoubling = 57;
     private double thresholdForAcceptingDouble = 35;
+    private double upperThresholdForDoubling = 85;
+
 
     public Jives(PlayerAPI me, PlayerAPI opponent, BoardAPI board, CubeAPI cube, MatchAPI match, InfoPanelAPI info) {
         this.me = me;
@@ -44,15 +46,18 @@ public class Jives implements BotAPI {
                 playWeights[i]+=stackWeight(move);
             }
         }
-        if (getWinPercentage()>thresholdForDoubling && (!cube.isOwned() || cube.getOwnerId()==me.getId())){
+        if (!onePointFromWinning()&&getWinPercentage()>thresholdForDoubling /*&& getWinPercentage()<upperThresholdForDoubling */&&(!cube.isOwned() || cube.getOwnerId()==me.getId())){
+            return "double";
+        }else if (!onePointFromWinning()&&opponentOnePointFromWinning()&&(!cube.isOwned() || cube.getOwnerId()==me.getId())){
             return "double";
         }
         checkHomeBoard();
         return getBiggestWeight(playWeights);
+
     }
 
     public String getDoubleDecision() {
-        if (getWinPercentage()>thresholdForAcceptingDouble){
+        if (getWinPercentage()>thresholdForAcceptingDouble||onePointFromWinning()||opponentOnePointFromWinning()){
             return"y";
         }
         return "n";
@@ -187,6 +192,19 @@ public class Jives implements BotAPI {
             weight = 3;
         }
         return weight;
+    }
+
+    private Boolean onePointFromWinning(){
+        if(me.getScore()==match.getLength()-1){
+            return true;
+        }
+        return false;
+    }
+    private Boolean opponentOnePointFromWinning(){
+        if(opponent.getScore()==match.getLength()-1){
+            return true;
+        }
+        return false;
     }
 
 }
