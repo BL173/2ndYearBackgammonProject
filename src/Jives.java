@@ -51,6 +51,10 @@ public class Jives implements BotAPI {
     }
 
     public String getDoubleDecision() {
+
+        if(checkHomeBoard() == true) {
+            return "n";
+        }
         if (getWinPercentage()>thresholdForAcceptingDouble){
             return"y";
         }
@@ -61,7 +65,7 @@ public class Jives implements BotAPI {
         int NUMBER_OF_PIPS_ON_BOARD = 26;
         double myCollectiveDistance = 0;
         double opponentsCollectiveDistance = 0;
-        double chanceOfWinning;
+        double chanceOfWinning = 0;
 
         for(int i = 0; i < NUMBER_OF_PIPS_ON_BOARD; i++){
             myCollectiveDistance += i * board.getNumCheckers(me.getId(), i);
@@ -73,6 +77,29 @@ public class Jives implements BotAPI {
 
         return chanceOfWinning;
     }
+
+    public Boolean checkHomeBoard(){
+        int NUMBER_OF_PIPS_ON_BOARD = 26;
+        int[] myPiecesOn = new int[NUMBER_OF_PIPS_ON_BOARD];
+        int[] opponentsPiecesOn = new int[NUMBER_OF_PIPS_ON_BOARD];
+        int combinationOfPieces = 0;
+
+        for(int i = 0; i < NUMBER_OF_PIPS_ON_BOARD; i++){
+            myPiecesOn[i] = board.getNumCheckers(me.getId(), i);
+            opponentsPiecesOn[i] = board.getNumCheckers(opponent.getId(), i);
+        }
+        for(int i = 0; i < 7; i++){
+            combinationOfPieces += myPiecesOn[i] + opponentsPiecesOn[i];
+
+            if(combinationOfPieces == 30){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
 
     private Boolean opponentBearOffCheck(){
         if(board.getNumCheckers(opponent.getId(), 0)>0){
