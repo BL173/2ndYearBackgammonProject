@@ -9,7 +9,10 @@ public class Backgammon {
 
     public static final int NUM_PLAYERS = 2;
     public static final boolean CHEAT_ALLOWED = false;
-    private static final int DELAY = 0501;  // in milliseconds
+
+
+
+    private static final int DELAY = 0050;  // in milliseconds
 
     private static final String[] ALL_BOT_NAMES = {"Jives","OldJives"};
 
@@ -43,7 +46,7 @@ public class Backgammon {
             }
         }
         if (args.length < NUM_PLAYERS + 1) {
-            match.setLength(10);
+            match.setLength(50);
         } else {
             match.setLength(Integer.parseInt(args[2]));
         }
