@@ -5,7 +5,7 @@ public class OldJives implements BotAPI {
     private CubeAPI cube;
     private MatchAPI match;
     private InfoPanelAPI info;
-    private double thresholdForDoubling = 60;
+    private double thresholdForDoubling = 57;
     private double thresholdForAcceptingDouble = 35;
 
     public OldJives(PlayerAPI me, PlayerAPI opponent, BoardAPI board, CubeAPI cube, MatchAPI match, InfoPanelAPI info) {
