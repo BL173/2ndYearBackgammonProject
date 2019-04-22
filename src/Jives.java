@@ -57,10 +57,7 @@ public class Jives implements BotAPI {
     }
 
     public String getDoubleDecision() {
-
-        if(checkHomeBoard() == true) {
-            return "y";
-        }else if (getWinPercentage()>thresholdForAcceptingDouble){
+        if (getWinPercentage()>thresholdForAcceptingDouble){
             return"y";
         }
         return "n";
