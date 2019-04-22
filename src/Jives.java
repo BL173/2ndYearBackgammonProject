@@ -47,7 +47,9 @@ public class Jives implements BotAPI {
     }
 
     public String getDoubleDecision() {
-
+        if(checkHomeBoard() == true){
+            return "n";
+        }
         return "n";
     }
 
@@ -61,10 +63,34 @@ public class Jives implements BotAPI {
             opponentsCollectiveDistance += i * board.getNumCheckers(opponent.getId(), i);
         }
 
+
         double chanceOfWinning = (opponentsCollectiveDistance / (opponentsCollectiveDistance + myCollectiveDistance)) * 100;
         System.out.println(chanceOfWinning);
         return chanceOfWinning;
     }
+
+    public Boolean checkHomeBoard(){
+        int NUMBER_OF_PIPS_ON_BOARD = 26;
+        int[] myPiecesOn = new int[NUMBER_OF_PIPS_ON_BOARD];
+        int[] opponentsPiecesOn = new int[NUMBER_OF_PIPS_ON_BOARD];
+        int combinationOfPieces = 0;
+
+        for(int i = 0; i < NUMBER_OF_PIPS_ON_BOARD; i++){
+            myPiecesOn[i] = board.getNumCheckers(me.getId(), i);
+            opponentsPiecesOn[i] = board.getNumCheckers(opponent.getId(), i);
+        }
+        for(int i = 0; i < 7; i++){
+            combinationOfPieces += myPiecesOn[i] + opponentsPiecesOn[i];
+
+            if(combinationOfPieces == 30){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
 
     private String getBiggestWeight(int weights[]){
         int biggestWeight=0;
