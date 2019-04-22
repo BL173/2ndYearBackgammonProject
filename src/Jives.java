@@ -42,6 +42,8 @@ public class Jives implements BotAPI {
                 playWeights[i]+=stackWeight(move);
             }
         }
+
+        checkPrime(opponent.getId());
         getWinPercentage();
         return getBiggestWeight(playWeights);
     }
@@ -50,6 +52,34 @@ public class Jives implements BotAPI {
 
         return "n";
     }
+
+    private int checkPrime(int id){
+        int NUMBER_OF_PIPS_ON_BOARD = 26;
+        int LONGEST_POSSIBLE_PRIME = 7;
+        int longestPrime = 1;
+        int longestPrimeTemp = 1;
+
+        if(contactCheck() == true){
+            for(int i=1; i < NUMBER_OF_PIPS_ON_BOARD-1; i++){
+                if(board.getNumCheckers(id, i) > 1){
+
+                    longestPrimeTemp = 1;
+                    for(int j=1; j < LONGEST_POSSIBLE_PRIME; j++){
+                        if((i+j < 25) && (board.getNumCheckers(id, i + j) > 1)){
+                            longestPrimeTemp++;
+                        }
+                        else break;
+                    }
+                    if(longestPrimeTemp > longestPrime){
+                        longestPrime = longestPrimeTemp;
+                    }
+                }
+            }
+        }
+        System.out.println(longestPrime);
+        return longestPrime;
+    }
+
 
     public double getWinPercentage(){
         int NUMBER_OF_PIPS_ON_BOARD = 26;
@@ -62,9 +92,21 @@ public class Jives implements BotAPI {
         }
 
         double chanceOfWinning = (opponentsCollectiveDistance / (opponentsCollectiveDistance + myCollectiveDistance)) * 100;
+
+        if(checkPrime(opponent.getId()) >5 ){
+            chanceOfWinning -= 5;
+        }else if(checkPrime(opponent.getId()) == 5){
+            chanceOfWinning -= 2;
+        }
+        if(checkPrime(me.getId()) > 5){
+            chanceOfWinning += 5;
+        }else if(checkPrime(me.getId()) == 5){
+            chanceOfWinning += 2;
+        }
         System.out.println(chanceOfWinning);
         return chanceOfWinning;
     }
+
 
     private String getBiggestWeight(int weights[]){
         int biggestWeight=0;
