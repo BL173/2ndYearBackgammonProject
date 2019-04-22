@@ -12,6 +12,8 @@ public class Jives implements BotAPI {
     private CubeAPI cube;
     private MatchAPI match;
     private InfoPanelAPI info;
+    private double thresholdForDoubling = 60;
+    private double thresholdForAcceptingDouble = 35;
 
     public Jives(PlayerAPI me, PlayerAPI opponent, BoardAPI board, CubeAPI cube, MatchAPI match, InfoPanelAPI info) {
         this.me = me;
@@ -42,13 +44,19 @@ public class Jives implements BotAPI {
                 playWeights[i]+=stackWeight(move);
             }
         }
-        getWinPercentage();
+        if (getWinPercentage()>thresholdForDoubling && (!cube.isOwned() || cube.getOwnerId()==me.getId())){
+            return "double";
+        }
         return getBiggestWeight(playWeights);
     }
 
     public String getDoubleDecision() {
-        if(checkHomeBoard() == true){
+
+        if(checkHomeBoard() == true) {
             return "n";
+        }
+        if (getWinPercentage()>thresholdForAcceptingDouble){
+            return"y";
         }
         return "n";
     }
@@ -57,15 +65,16 @@ public class Jives implements BotAPI {
         int NUMBER_OF_PIPS_ON_BOARD = 26;
         double myCollectiveDistance = 0;
         double opponentsCollectiveDistance = 0;
+        double chanceOfWinning = 0;
 
         for(int i = 0; i < NUMBER_OF_PIPS_ON_BOARD; i++){
             myCollectiveDistance += i * board.getNumCheckers(me.getId(), i);
             opponentsCollectiveDistance += i * board.getNumCheckers(opponent.getId(), i);
         }
 
+        chanceOfWinning = (opponentsCollectiveDistance / (opponentsCollectiveDistance + myCollectiveDistance)) * 100;
+        System.out.println("Chance of Jives winning: "+chanceOfWinning);
 
-        double chanceOfWinning = (opponentsCollectiveDistance / (opponentsCollectiveDistance + myCollectiveDistance)) * 100;
-        System.out.println(chanceOfWinning);
         return chanceOfWinning;
     }
 
@@ -91,6 +100,13 @@ public class Jives implements BotAPI {
     }
 
 
+
+    private Boolean opponentBearOffCheck(){
+        if(board.getNumCheckers(opponent.getId(), 0)>0){
+            return true;
+        }
+        return false;
+    }
 
     private String getBiggestWeight(int weights[]){
         int biggestWeight=0;
@@ -175,4 +191,5 @@ public class Jives implements BotAPI {
         }
         return weight;
     }
+
 }
