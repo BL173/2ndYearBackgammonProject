@@ -42,12 +42,28 @@ public class Jives implements BotAPI {
                 playWeights[i]+=stackWeight(move);
             }
         }
+        getWinPercentage();
         return getBiggestWeight(playWeights);
     }
 
     public String getDoubleDecision() {
-        // Add your code here
+
         return "n";
+    }
+
+    public double getWinPercentage(){
+        int NUMBER_OF_PIPS_ON_BOARD = 26;
+        double myCollectiveDistance = 0;
+        double opponentsCollectiveDistance = 0;
+
+        for(int i = 0; i < NUMBER_OF_PIPS_ON_BOARD; i++){
+            myCollectiveDistance += i * board.getNumCheckers(me.getId(), i);
+            opponentsCollectiveDistance += i * board.getNumCheckers(opponent.getId(), i);
+        }
+
+        double chanceOfWinning = (opponentsCollectiveDistance / (opponentsCollectiveDistance + myCollectiveDistance)) * 100;
+        System.out.println(chanceOfWinning);
+        return chanceOfWinning;
     }
 
     private String getBiggestWeight(int weights[]){
